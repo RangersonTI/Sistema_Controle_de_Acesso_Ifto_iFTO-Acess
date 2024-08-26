@@ -16,7 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from controle_ifto.views import view_prototipo
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('prototipo_esp32/cadHistoricoAcesso/', view_prototipo.cadHistoricoAceso),
+    path('prototipo_esp32/validarAcesso/', view_prototipo.validarAcesso)
 ]
