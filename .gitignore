@@ -1,2 +1,3 @@
 venv
 controle_ifto/migrations
+controle_ifto/dados_conexao.json
