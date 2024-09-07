@@ -3,20 +3,18 @@ import json
 
 def validarAcesso(value_rfid):
     cursor,conexao_mysql = conexao()
-    
-    
-    
+
 
 def cadHistoricoAceso(request):
     return
 
-def cadPessoa(nome_pessoa):
+def cadPessoa(nome_pessoa,rfid):
     
     cursor,conexao_mysql = conexao()
     
-    command_sql = "INSERT INTO Pessoa(nome) VALUE(%s)"
-    val = (nome_pessoa,)
-       
+    command_sql = "INSERT INTO Pessoa(nome, cod_rfid) VALUE(%s,%s)"
+    val = (nome_pessoa,rfid,)
+
     try:
         cursor.execute(command_sql, val)
         conexao_mysql.commit()
@@ -27,10 +25,10 @@ def cadPessoa(nome_pessoa):
         conexao_mysql.close()
         cursor.close()
         
-def buscarRfidVinculado():
+#def buscarRfidVinculado():
     
         
-def histori():
+#def histori():
     
         
 def cadRFID(rfid):
@@ -100,10 +98,12 @@ def lerJSON():
 #rfid = "2E 4V VF YI"
 
 
-#nomes = ["Sandra Costa", "Luis Felipe", "Israel Filho", "Rangerson Clmente", "Allan Dutra", "Eduardo Cardoso", "Alisson TI"]
-#
-#for nome in nomes:
-#    cadPessoa(nome)
+nome_rfids = [{'nome' : "Sandra Costa", 'rfid' : 2}, 
+         {'nome' : "Luis Felipe", 'rfid' : 4},
+]
+
+for nome_rfid in nome_rfids:
+    cadPessoa(nome_rfid['nome'],nome_rfid['rfid'])
 
 #rfids = ["W2 F4 5A QQ", "14 K8 80 00", "12 76 9A SX", "1C 5A 66 7Y", "2W 9U 7A PL", "Z3 R1 DA WY", "2E 4V VF YI"]
 #
