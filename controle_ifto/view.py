@@ -3,7 +3,26 @@ import json
 
 def validarAcesso(value_rfid):
     cursor,conexao_mysql = conexao()
-
+    mysql_resultado = ""
+    
+    command_sql = """SELECT P.id,P.nome, rfid.rfid_value FROM Pessoa AS P
+                     INNER JOIN rfid ON P.cod_rfid = rfid.id 
+                     WHERE rfid_value = %s;"""
+    val(value_rfid)
+    
+    try:
+        cursor.execute(command_sql,val)
+        conexao_mysql.commit()
+        mysql_resultado = conexao_mysql.fetchall()
+        
+    except Exception as ex:
+        print(f"Erro: {ex}")
+        conexao_mysql.close()
+        cursor.close()
+        
+    for result in mysql_resultado:
+        print(result)
+        
 
 def cadHistoricoAceso(request):
     return
@@ -98,19 +117,21 @@ def lerJSON():
 #rfid = "2E 4V VF YI"
 
 
-nome_rfids = [{'nome' : "Sandra Costa", 'rfid' : 2}, 
-         {'nome' : "Luis Felipe", 'rfid' : 4},
-]
-
-for nome_rfid in nome_rfids:
-    cadPessoa(nome_rfid['nome'],nome_rfid['rfid'])
+#nome_rfids = [
+#]
+#
+#for nome_rfid in nome_rfids:
+#    cadPessoa(nome_rfid['nome'],nome_rfid['rfid'])
 
 #rfids = ["W2 F4 5A QQ", "14 K8 80 00", "12 76 9A SX", "1C 5A 66 7Y", "2W 9U 7A PL", "Z3 R1 DA WY", "2E 4V VF YI"]
 #
 #for rfid in rfids:
 #    cadRFID(rfid)
 
-#papel_pessoa = ["Aluno", "Professor", "Tecnico Administrativo", "Visitante"]
+#papel_pessoa = ["Tecnico Administrativo"]
 #
 #for papel in papel_pessoa:
 #    cadPapelPessoa(papel)
+
+rfid = "1C 5A 66 7Y"
+validarAcesso(rfid)
