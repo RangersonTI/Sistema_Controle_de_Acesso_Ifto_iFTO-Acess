@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'controle_acesso.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'controle_acesso_ifto',
+        'USER':'tcc',
+        'PASSWORD' : 'Tcc2024*',
+        'HOST':'192.168.1.104',
+        'PORT': '3306',
     }
 }
 

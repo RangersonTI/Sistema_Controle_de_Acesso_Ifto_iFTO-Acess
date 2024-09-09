@@ -1,38 +1,59 @@
 import mysql.connector as mysql
+from datetime import datetime
+
 import json
 
 def validarAcesso(value_rfid):
+
     cursor,conexao_mysql = conexao()
-    mysql_resultado = ""
-    
-    command_sql = """SELECT P.id,P.nome, rfid.rfid_value FROM Pessoa AS P
-                     INNER JOIN rfid ON P.cod_rfid = rfid.id 
-                     WHERE rfid_value = %s;"""
-    val(value_rfid)
-    
+    command_sql = """SELECT P.id,P.nome, P.sobrenome, rfid.tag_rfid_value FROM gerenciar_controle_ifto_pessoa AS P
+                    INNER JOIN gerenciar_controle_ifto_rfid as Rfid ON P.id = Rfid.id
+                    WHERE rfid.rfid_value = %s;
+                    """
+    values = (value_rfid,)
+    mysql_resultado = None
+
     try:
-        cursor.execute(command_sql,val)
-        conexao_mysql.commit()
-        mysql_resultado = conexao_mysql.fetchall()
-        
+        cursor.execute(command_sql,values)
+        mysql_resultado = cursor.fetchall()
+
     except Exception as ex:
         print(f"Erro: {ex}")
+
+    finally:
         conexao_mysql.close()
         cursor.close()
-        
+
     for result in mysql_resultado:
         print(result)
-        
 
-def cadHistoricoAceso(request):
-    return
 
-def cadPessoa(nome_pessoa,rfid):
+def cadHistoricoAceso(cod_rfid,cod_pessoa,funcao_pessoadata_acesso):
     
     cursor,conexao_mysql = conexao()
+    command_sql = """ INSERT INTO gerenciar_controle_ifto_historico_acesso_campus(cod_rfid_id, cod_pessoa_id, funcao_pessoa_id, data_acesso) 
+                       VALUES (%s,%s,%s,%s)
+                  """
+
+    values = (cod_rfid,cod_pessoa,funcao_pessoadata_acesso,)
     
-    command_sql = "INSERT INTO Pessoa(nome, cod_rfid) VALUE(%s,%s)"
-    val = (nome_pessoa,rfid,)
+    try:
+        cursor.execute(command_sql,values)
+        conexao_mysql.commit()
+
+    except Exception as ex:
+        print(f"Erro: {ex}")
+
+    finally:
+        conexao_mysql.close()
+        cursor.close()
+
+def cadPessoa(nome, sobrenome,cpf,data_nasc, idade, vinculado):
+
+    cursor,conexao_mysql = conexao()
+
+    command_sql = "INSERT INTO gerenciar_controle_ifto_pessoa(nome, sobrenome, cpf, data_nascimento,idade,vinculado) VALUE(%s,%s,%s,%s,%s,%s)"
+    val = (nome,sobrenome,cpf,data_nasc,idade,vinculado)
 
     try:
         cursor.execute(command_sql, val)
@@ -43,7 +64,7 @@ def cadPessoa(nome_pessoa,rfid):
         print(f"Erro: {ex}")
         conexao_mysql.close()
         cursor.close()
-        
+
 #def buscarRfidVinculado():
     
         
@@ -133,5 +154,14 @@ def lerJSON():
 #for papel in papel_pessoa:
 #    cadPapelPessoa(papel)
 
-rfid = "1C 5A 66 7Y"
-validarAcesso(rfid)
+#rfid = "1C 5A 66 7Y"
+#validarAcesso(rfid)
+
+#nome = "Daniely"
+#sobrenome = "Santos"
+#cpf = "845.174.449-93"
+#data_nasc = '2004-09-15'
+#idade = 20
+#vinculado = False
+#
+#cadPessoa(nome, sobrenome,cpf,data_nasc, idade, vinculado)
