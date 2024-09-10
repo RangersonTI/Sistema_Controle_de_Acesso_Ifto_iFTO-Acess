@@ -5,27 +5,30 @@ import json
 
 def validarAcesso(value_rfid):
 
-    cursor,conexao_mysql = conexao()
-    command_sql = """SELECT P.id,P.nome, P.sobrenome, rfid.tag_rfid_value FROM gerenciar_controle_ifto_pessoa AS P
-                    INNER JOIN gerenciar_controle_ifto_rfid as Rfid ON P.id = Rfid.id
-                    WHERE rfid.rfid_value = %s;
-                    """
-    values = (value_rfid,)
-    mysql_resultado = None
+    #cursor,conexao_mysql = conexao()
+    #command_sql = """SELECT P.id,P.nome, P.sobrenome, rfid.tag_rfid_value FROM gerenciar_controle_ifto_pessoa AS P
+    #                INNER JOIN gerenciar_controle_ifto_rfid as Rfid ON P.id = Rfid.id
+    #                WHERE rfid.rfid_value = %s;
+    #                """
+    #values = (value_rfid,)
+    mysql_resultado = (1,"Sandra Neto", "AT 48 E6 72")
+    tag_encontrada = (value_rfid in mysql_resultado)
+    
+    if(tag_encontrada):
+        cadHistoricoAceso()
+    #try:
+    #    cursor.execute(command_sql,values)
+    #    mysql_resultado = cursor.fetchall()
+#
+    #except Exception as ex:
+    #    print(f"Erro: {ex}")
+#
+    #finally:
+    #    conexao_mysql.close()
+    #    cursor.close()
 
-    try:
-        cursor.execute(command_sql,values)
-        mysql_resultado = cursor.fetchall()
-
-    except Exception as ex:
-        print(f"Erro: {ex}")
-
-    finally:
-        conexao_mysql.close()
-        cursor.close()
-
-    for result in mysql_resultado:
-        print(result)
+    #for result in mysql_resultado:
+    #    print(result)
 
 
 def cadHistoricoAceso(cod_rfid,cod_pessoa,funcao_pessoadata_acesso):
@@ -165,3 +168,5 @@ def lerJSON():
 #vinculado = False
 #
 #cadPessoa(nome, sobrenome,cpf,data_nasc, idade, vinculado)
+
+validarAcesso("")

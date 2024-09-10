@@ -7,7 +7,7 @@ class Status_rfid(models.Model):
 
 class Papel_pessoa(models.Model):
     descricao = models.CharField(max_length=25)
-    
+
 class CorRFID_Funcao(models.Model):
     corRFID = models.CharField(max_length=15)
     cod_cargo = models.OneToOneField(Papel_pessoa, on_delete=models.PROTECT)
@@ -25,9 +25,9 @@ class Pessoa(models.Model):
     sobrenome = models.CharField(max_length=35)
     cpf = models.CharField(max_length=14, unique=True)
     data_nascimento = models.DateField()
-    idade = models.IntegerField()
+    idade = models.IntegerField(null=True)
     cod_Papel_pessoa = models.ForeignKey(Papel_pessoa, on_delete=models.PROTECT)
-    cod_Rfid = models.OneToOneField(Rfid, on_delete=models.PROTECT)
+    cod_Rfid = models.OneToOneField(Rfid, on_delete=models.PROTECT, null=True)
     vinculado = models.BooleanField()
 
 class Usuario_sistema(models.Model):
@@ -42,4 +42,3 @@ class Historico_acesso_campus(models.Model):
     cod_pessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT)
     funcao_pessoa = models.ForeignKey(Papel_pessoa, on_delete=models.PROTECT)
     data_acesso = models.DateTimeField(auto_now_add=True)
-    
