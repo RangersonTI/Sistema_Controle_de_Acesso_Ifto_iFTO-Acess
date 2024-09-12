@@ -12,7 +12,6 @@ def validarAcesso(value_rfid):
                     """
     values = (value_rfid,)
 
-
     try:
         cursor.execute(command_sql,values)
         mysql_resultado = cursor.fetchall()
@@ -23,17 +22,18 @@ def validarAcesso(value_rfid):
     finally:
         conexao_mysql.close()
         cursor.close()
-    print(mysql_resultado)
 
     if mysql_resultado:
         if(value_rfid == mysql_resultado[0][5]):
             cod_pessoa = mysql_resultado[0][0]                      # Referente à coluna Pessoa.id
             cod_funcao_pessoa = mysql_resultado[0][3]               # Referente à coluna Pessoa.cod_Papel_pessoa_id
             cod_rfid = mysql_resultado[0][4]                        # Referente à coluna Pessoa.cod_Rfid_id
-            #data_acesso = datetime.now()
-            #print(data_acesso)
+            
+            print(mysql_resultado[0][0])
+            print(mysql_resultado[0][4])
+            print(mysql_resultado[0][3])
 
-            CadastroHistoricoAcesso(cod_pessoa, cod_funcao_pessoa, cod_rfid)
+            CadastroHistoricoAcesso(cod_pessoa, cod_rfid, cod_funcao_pessoa )
     else:
         if(VerificarRFID(value_rfid)):
             print("RFID não vinculado")
@@ -44,8 +44,8 @@ def validarAcesso(value_rfid):
 def VerificarRFID(value_rfid):
     
     cursor,conexao_mysql = conexao()
-    command_sql = "SELECT * FROM gerenciar_contrle_ifto_rfid WHERE tag_value_rfid = %s;"
-    values = (value_rfid)
+    command_sql = "SELECT * FROM gerenciar_controle_ifto_rfid WHERE tag_rfid_value = %s;"
+    values = (value_rfid,)
     
     try:
         cursor.execute(command_sql,values)
@@ -58,22 +58,20 @@ def VerificarRFID(value_rfid):
         conexao_mysql.close()
         cursor.close()
 
-    print(mysql_resultado)
-
-    if(mysql_resultado):
+    if mysql_resultado:
         return True
     
     return False
 
 def CadastroHistoricoAcesso(cod_pessoa,cod_rfid,cod_funcao_pessoa):
-    
+
     cursor,conexao_mysql = conexao()
     command_sql = """ INSERT INTO gerenciar_controle_ifto_historico_acesso_campus(cod_rfid_id, cod_pessoa_id, funcao_pessoa_id, data_acesso)
                        VALUES (%s,%s,%s,now());
                   """
 
     values = (cod_rfid,cod_pessoa,cod_funcao_pessoa)
-    
+
     try:
         cursor.execute(command_sql,values)
         conexao_mysql.commit()
@@ -84,6 +82,8 @@ def CadastroHistoricoAcesso(cod_pessoa,cod_rfid,cod_funcao_pessoa):
     finally:
         conexao_mysql.close()
         cursor.close()
+        
+    print("Historico de acesso salvo :)")
 
 def conexao():
 
@@ -95,18 +95,20 @@ def conexao():
         password= dados['password'],
         database= dados['database'],
     )
-    
+
     cursor = conexao_mysql.cursor()
-    
+
     return cursor,conexao_mysql
 
 def lerJSON():
     with open("controle_ifto/dados_conexao.json",encoding='utf-8') as atributo_conexao:
         dados = json.load(atributo_conexao)
-        
+
     return dados
 
-rfid = "A4 R5 TT 12"
+#rfid = "A4 R5 TT 12"
+rfid = "B4 R5 2Q WW"
+#rfid = "F3 TA W1 45"
 
 validarAcesso(rfid)
 
