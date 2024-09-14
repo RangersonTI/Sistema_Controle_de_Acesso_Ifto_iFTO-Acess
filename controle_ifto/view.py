@@ -1,6 +1,5 @@
 import mysql.connector as mysql
 from django.http import JsonResponse
-from datetime import datetime
 
 import json
 
