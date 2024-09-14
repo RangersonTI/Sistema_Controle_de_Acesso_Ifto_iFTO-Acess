@@ -64,7 +64,6 @@ def VerificarRFID(value_rfid):
     return False
 
 def CadastroHistoricoAcesso(cod_pessoa,cod_rfid,cod_funcao_pessoa):
-
     cursor,conexao_mysql = conexao()
     command_sql = """ INSERT INTO gerenciar_controle_ifto_historico_acesso_campus(cod_rfid_id, cod_pessoa_id, funcao_pessoa_id, data_acesso)
                        VALUES (%s,%s,%s,now());
@@ -109,8 +108,8 @@ def lerJSON():
 #rfid = "A4 R5 TT 12"
 rfid = "B4 R5 2Q WW"
 #rfid = "F3 TA W1 45"
-
-validarAcesso(rfid)
+#
+#validarAcesso(rfid)
 
 
 
