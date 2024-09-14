@@ -33,7 +33,7 @@ def validarAcesso(value_rfid):
             #data_acesso = datetime.now()
             #print(data_acesso)
 
-            CadastroHistoricoAcesso(cod_pessoa, cod_funcao_pessoa, cod_rfid)
+            cadastroHistoricoAcesso(cod_pessoa, cod_funcao_pessoa, cod_rfid)
     else:
         if(VerificarRFID(value_rfid)):
             print("RFID não vinculado")
@@ -65,7 +65,7 @@ def VerificarRFID(value_rfid):
     
     return False
 
-def CadastroHistoricoAcesso(cod_pessoa,cod_rfid,cod_funcao_pessoa):
+def cadastroHistoricoAcesso(cod_pessoa,cod_rfid,cod_funcao_pessoa):
     
     cursor,conexao_mysql = conexao()
     command_sql = """ INSERT INTO gerenciar_controle_ifto_historico_acesso_campus(cod_rfid_id, cod_pessoa_id, funcao_pessoa_id, data_acesso)
@@ -106,9 +106,9 @@ def lerJSON():
         
     return dados
 
-rfid = "A4 R5 TT 12"
-
-validarAcesso(rfid)
+#rfid = "A4 R5 TT 12"
+#
+#validarAcesso(rfid)
 
 
 

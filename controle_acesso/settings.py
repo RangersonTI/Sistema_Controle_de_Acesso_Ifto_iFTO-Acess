@@ -80,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'controle_acesso_ifto',
         'USER':'root',
-        'PASSWORD' : '',
+        'PASSWORD' : 'macro01',
         'HOST':'127.0.0.1',
         'PORT': '3306',
     }
