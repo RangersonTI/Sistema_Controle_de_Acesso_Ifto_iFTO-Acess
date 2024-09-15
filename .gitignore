@@ -4,3 +4,5 @@ controle_ifto/dados_conexao.json
 controle_ifto/_pycache_/
 controle_ifto/migrations/
 controle_acesso/settings.py
+controle_acesso/_pycache_/
+gerenciar_controle_ifto/_pycache_/
