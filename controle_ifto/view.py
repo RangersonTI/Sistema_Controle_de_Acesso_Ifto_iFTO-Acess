@@ -1,45 +1,55 @@
 import mysql.connector as mysql
 from django.http import JsonResponse
-
+from django.views.decorators.csrf import csrf_exempt
 import json
 
-def validarAcesso(value_rfid):
+@csrf_exempt
+def validarAcesso(request):
+    
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            print(f"Dados: {data}")
+        except json.JSONDecodeError as ex:
+            print(f"Erro: {ex}")
+            return JsonResponse({"Status" : "Não deu :("})
+    return JsonResponse({"Status" : "Deu certo :)"})
 
-    cursor,conexao_mysql = conexao()
-    command_sql = """ SELECT P.id,P.nome, P.sobrenome, P.cod_Papel_pessoa_id, P.cod_Rfid_id, Rfid.tag_rfid_value FROM gerenciar_controle_ifto_pessoa AS P
-                      INNER JOIN gerenciar_controle_ifto_rfid as Rfid ON P.cod_Rfid_id = Rfid.id
-                      WHERE Rfid.tag_rfid_value = %s;
-                    """
-    values = (value_rfid,)
-
-    try:
-        cursor.execute(command_sql,values)
-        mysql_resultado = cursor.fetchall()
-
-    except Exception as ex:
-        print(f"Erro: {ex}")
-
-    finally:
-        conexao_mysql.close()
-        cursor.close()
-
-    if mysql_resultado:
-        if(value_rfid == mysql_resultado[0][5]):
-            cod_pessoa = mysql_resultado[0][0]                      # Referente à coluna Pessoa.id
-            cod_funcao_pessoa = mysql_resultado[0][3]               # Referente à coluna Pessoa.cod_Papel_pessoa_id
-            cod_rfid = mysql_resultado[0][4]                        # Referente à coluna Pessoa.cod_Rfid_id
-            
-            print(mysql_resultado[0][0])
-            print(mysql_resultado[0][4])
-            print(mysql_resultado[0][3])
-
-            CadastroHistoricoAcesso(cod_pessoa, cod_rfid, cod_funcao_pessoa )
-    else:
-        if(VerificarRFID(value_rfid)):
-            print("RFID não vinculado")
-        else:
-            print("RFID inválido")
-
+    #cursor,conexao_mysql = conexao()
+    #command_sql = """ SELECT P.id,P.nome, P.sobrenome, P.cod_Papel_pessoa_id, P.cod_Rfid_id, Rfid.tag_rfid_value FROM gerenciar_controle_ifto_pessoa AS P
+    #                  INNER JOIN gerenciar_controle_ifto_rfid as Rfid ON P.cod_Rfid_id = Rfid.id
+    #                  WHERE Rfid.tag_rfid_value = %s;
+    #                """
+    #values = (value_rfid,)
+#
+    #try:
+    #    cursor.execute(command_sql,values)
+    #    mysql_resultado = cursor.fetchall()
+#
+    #except Exception as ex:
+    #    print(f"Erro: {ex}")
+#
+    #finally:
+    #    conexao_mysql.close()
+    #    cursor.close()
+#
+    #if mysql_resultado:
+    #    if(value_rfid == mysql_resultado[0][5]):
+    #        cod_pessoa = mysql_resultado[0][0]                      # Referente à coluna Pessoa.id
+    #        cod_funcao_pessoa = mysql_resultado[0][3]               # Referente à coluna Pessoa.cod_Papel_pessoa_id
+    #        cod_rfid = mysql_resultado[0][4]                        # Referente à coluna Pessoa.cod_Rfid_id
+    #        
+    #        print(mysql_resultado[0][0])
+    #        print(mysql_resultado[0][4])
+    #        print(mysql_resultado[0][3])
+#
+    #        CadastroHistoricoAcesso(cod_pessoa, cod_rfid, cod_funcao_pessoa )
+    #else:
+    #    if(VerificarRFID(value_rfid)):
+    #        print("RFID não vinculado")
+    #    else:
+    #        print("RFID inválido")
+#
 
 def VerificarRFID(value_rfid):
     
@@ -64,6 +74,7 @@ def VerificarRFID(value_rfid):
     return False
 
 def CadastroHistoricoAcesso(cod_pessoa,cod_rfid,cod_funcao_pessoa):
+
     cursor,conexao_mysql = conexao()
     command_sql = """ INSERT INTO gerenciar_controle_ifto_historico_acesso_campus(cod_rfid_id, cod_pessoa_id, funcao_pessoa_id, data_acesso)
                        VALUES (%s,%s,%s,now());
@@ -108,8 +119,6 @@ def lerJSON():
 #rfid = "A4 R5 TT 12"
 rfid = "B4 R5 2Q WW"
 #rfid = "F3 TA W1 45"
-#
-#validarAcesso(rfid)
 
 
 
@@ -215,4 +224,3 @@ rfid = "B4 R5 2Q WW"
 #vinculado = False
 #
 #cadPessoa(nome, sobrenome,cpf,data_nasc, idade, vinculado)
-
