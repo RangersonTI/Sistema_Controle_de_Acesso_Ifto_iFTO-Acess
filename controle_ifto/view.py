@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 
 @csrf_exempt
-def validarAcesso(request):
+def ValidarAcesso(request):
     
     if request.method == 'POST':
         try:
@@ -12,7 +12,7 @@ def validarAcesso(request):
             print(f"Dados: {data}")
         except json.JSONDecodeError as ex:
             print(f"Erro: {ex}")
-            return JsonResponse({"Status" : "Não deu :("})
+            return JsonResponse({"Status" : "Nao deu :("})
     return JsonResponse({"Status" : "Deu certo :)"})
 
     #cursor,conexao_mysql = conexao()

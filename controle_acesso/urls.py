@@ -21,5 +21,5 @@ from controle_ifto import view as view_prototipo
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('prototipo_esp32/cadHistoricoAcesso/', view_prototipo.CadastroHistoricoAcesso),
-    path('prototipo_esp32/validarAcesso/', view_prototipo.validarAcesso)
+    path('prototipo_esp32/validarAcesso/', view_prototipo.ValidarAcesso)
 ]
