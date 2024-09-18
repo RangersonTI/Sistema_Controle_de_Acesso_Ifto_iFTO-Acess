@@ -5,6 +5,7 @@ import json
 
 @csrf_exempt
 def ValidarAcesso(request):
+    data=""
     
     if request.method == 'POST':
         try:
