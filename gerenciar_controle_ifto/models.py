@@ -13,10 +13,10 @@ class Rfid(models.Model):
     tag_rfid_value = models.CharField(max_length=12, unique=True)
     cod_corRFID_funcao = models.ForeignKey(CorRFID_Funcao, on_delete=models.PROTECT)
     data_cadastro = models.DateTimeField(auto_now_add=True,editable=False)
-    data_desativacao = models.DateTimeField()
+    data_desativacao = models.DateTimeField(null="True")
     vinculado = models.BooleanField()
     ativo = models.BooleanField()
-    motivo_desativacao = models.CharField(max_length=30)
+    motivo_desativacao = models.CharField(max_length=30, null="True")
 
 class Pessoa(models.Model):
     nome = models.CharField(max_length=20)
