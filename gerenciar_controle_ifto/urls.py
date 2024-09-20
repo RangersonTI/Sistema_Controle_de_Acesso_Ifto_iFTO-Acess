@@ -1,7 +1,9 @@
 from django.urls import path, include
-from gerenciar_controle_ifto.view import pessoa,rfid
+from gerenciar_controle_ifto.view import pessoa,rfid,home
 
 urlpatterns = [
-    path('cadastrar_rfid/', rfid.cadastrarRFID),
-    path('editarRFID/', rfid.editarRFID),
+    path('', home.home),
+    path('cadastrarTagRfid/', rfid.cadastrarRFID),
+    path('editarTagRfid/', rfid.editarRFID),
+    path('listarTagRfid/', rfid.listarRFID)
 ]

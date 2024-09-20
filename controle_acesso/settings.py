@@ -56,7 +56,7 @@ ROOT_URLCONF = 'controle_acesso.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,23 +75,23 @@ WSGI_APPLICATION = 'controle_acesso.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.mysql',
-#        'NAME': 'controle_acesso_ifto',
-#        'USER':'root',
-#        'PASSWORD' : '',
-#        'HOST':'127.0.0.1',
-#        'PORT': '3306',
-#    }
-#}
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'controle_acesso_ifto',
+        'USER':'tcc',
+        'PASSWORD' : 'Tcc2024*',
+        'HOST':'127.0.0.1',
+        'PORT': '3306',
     }
 }
+
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': 'controle_acesso_ifto',
+#    }
+#}
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 

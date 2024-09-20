@@ -1,10 +1,22 @@
 from django.shortcuts import render
 
 def cadastrarRFID(request):
-    return render('pessoa/cadastrarRfid.html')
+    context = {
+        'title' : 'Cadastro de Rfid'
+    }
+    
+    return render(request, 'rfid/cadastrarRfid.html',context)
 
 def editarRFID(request):
-    return render('pessoa/editarRfid.html')
+    context = {
+        'title' : 'Editar Rfid'
+    }
+    
+    return render(request, 'rfid/editarRfid.html', context)
 
 def listarRFID(request):
-    return render('pessoa/listarRfid.html')
+    context = {
+        'title' : 'Listar Rfid'
+    }
+    
+    return render(request, 'rfid/listarRfid.html', context)
