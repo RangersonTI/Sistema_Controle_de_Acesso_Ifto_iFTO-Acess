@@ -41,7 +41,7 @@ def ValidarAcesso(request):
                 cod_pessoa = mysql_resultado[0][0]                      # Referente à coluna Pessoa.id
                 cod_funcao_pessoa = mysql_resultado[0][3]               # Referente à coluna Pessoa.cod_Papel_pessoa_id
                 cod_rfid = mysql_resultado[0][4]                        # Referente à coluna Pessoa.cod_Rfid_id
-                
+
                 print(mysql_resultado[0][0])
                 print(mysql_resultado[0][4])
                 print(mysql_resultado[0][3])
@@ -60,8 +60,8 @@ def ValidarAcesso(request):
 """
     Codigos de Status para a Validacao e Cadastro de Acesso
     
-    save_Acess : Historico de acesso salvo :)
-    erro_to_save_acess : Erro ao registrar acesso
+    save_Acess : Historico de acesso salvo... Liberado :)
+    erro_to_save_acess : Erro ao registrar o acesso
     rfid_unidentified: RFID nao vinculado
     rfid_not_found : RFID invalido
 
@@ -72,7 +72,7 @@ def VerificarRFID(value_rfid):
     cursor,conexao_mysql = conexao()
     command_sql = "SELECT * FROM gerenciar_controle_ifto_rfid WHERE tag_rfid_value = %s;"
     values = (value_rfid,)
-    
+
     try:
         cursor.execute(command_sql,values)
         mysql_resultado = cursor.fetchall()
@@ -108,8 +108,8 @@ def CadastroHistoricoAcesso(cod_pessoa,cod_rfid,cod_funcao_pessoa):
     finally:
         conexao_mysql.close()
         cursor.close()
-        
-    return("save_Acess")
+
+    return("save_acess")
 
 def conexao():
 
