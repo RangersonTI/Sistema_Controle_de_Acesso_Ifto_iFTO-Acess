@@ -1,0 +1,28 @@
+{% include "base/cabecalho.html" %}
+<aside>
+    <header></header>
+    <nav>
+        <ul>
+            <li><a href="{% url "homepage" %}">Inicio</a></li>
+            <li><a href="#">Cadastros</a>
+                <ul>
+                    <li><a href="{% url "cadastro_pessoa" %}">Pessoas</a></li>
+                    <li><a href="{% url "cadastro_tagRfid" %}">Tags RFID</a></li>
+                    <li><a href="{% url "cadastro_funcao" %}">Funcao</a></li>
+                    <li><a href="{% url "cadastro_corRfid" %}">Cor RFID</a></li>
+                    <li><a href="{% url "cadastro_usuario" %}">Usuarios</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Visualização</a>
+                <ul>
+                    <li><a href="{% url "visualizar_pessoa" %}"></a></li>
+                    <li><a href="{% url "visualizar_tagRfid" %}"></a></li>
+                    <li><a href="{% url "visualizar_funcao" %}"></a></li>
+                    <li><a href="{% url "visualizar_corRfid" %}"></a></li>
+                    <li><a href="{% url "visualizar_usuario" %}"></a></li>
+                </ul>
+            </li>
+            <li><a href="{% url "historico_acesso_ifto" %}">Histórico de Acesso</a></li>
+        </ul>
+    </nav>
+</aside>

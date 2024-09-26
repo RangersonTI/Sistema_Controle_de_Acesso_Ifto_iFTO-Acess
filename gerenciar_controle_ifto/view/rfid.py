@@ -5,18 +5,18 @@ def cadastrarRFID(request):
         'title' : 'Cadastro de Rfid'
     }
     
-    return render(request, 'rfid/cadastrarRfid.html',context)
+    return render(request, 'pages/rfid/cadastrarRfid.html',context)
 
 def editarRFID(request):
     context = {
         'title' : 'Editar Rfid'
     }
     
-    return render(request, 'rfid/editarRfid.html', context)
+    return render(request, 'pages/rfid/editarRfid.html', context)
 
 def listarRFID(request):
     context = {
         'title' : 'Listar Rfid'
     }
     
-    return render(request, 'rfid/listarRfid.html', context)
+    return render(request, 'pages/rfid/listarRfid.html', context)
