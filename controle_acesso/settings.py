@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'controle_ifto',
     'gerenciar_controle_ifto',
+    'bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -79,10 +80,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'controle_acesso_ifto',
-        'USER':'tcc',
-        'PASSWORD' : 'Tcc2024*',
+        'USER':'root',
+        'PASSWORD' : 'wrede',
         'HOST':'127.0.0.1',
-        'PORT': '3306',
+        'PORT': '3377',
     }
 }
 

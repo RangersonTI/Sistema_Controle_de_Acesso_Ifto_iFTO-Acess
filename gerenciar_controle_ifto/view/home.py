@@ -1,4 +1,8 @@
 from django.shortcuts import render
 
 def home(request):
-    return render(request, 'homepage.html')
+    context = {
+        'title' : 'Inicío'
+    }
+    
+    return render(request, 'pages/homepage.html', context)

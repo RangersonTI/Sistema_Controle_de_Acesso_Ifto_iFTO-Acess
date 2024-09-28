@@ -1,5 +1,6 @@
 import mysql.connector as mysql
 from django.http import JsonResponse
+from django.shortcuts import render
 
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -54,8 +55,8 @@ def ValidarAcesso(request):
                 else:
                     return JsonResponse({"Status" : "rfid_not_found"})
                     
-        return JsonResponse({"Status" : "VOCÊ NAO POSSUI ACESSO A ESTA PÁGINA"})
-    return JsonResponse({"Status" : "VOCÊ NAO POSSUI ACESSO A ESTA PÁGINA"})
+        return render(request, 'no_acess.html', {'title': 'Acesso Negado', 'mensagem':'Você não possui autorização para acessar esta página'})
+    return render(request, 'no_acess.html', {'title': 'Acesso Negado', 'mensagem':'Você não possui autorização para acessar esta página'})
 
 """
     Codigos de Status para a Validacao e Cadastro de Acesso
