@@ -1,30 +1,57 @@
 {% include "base/cabecalho.html" %}
 
-<div class="flex-shrink-0 p-3" style="width: 280px;">
-    <ul class="list-unstyled ps-0">
-        <li class="mb-1"><a href="{% url "homepage" %}">Inicio</a></li>
-        <li class="mb-1"><a href="#">Cadastros</a>
-            <div class="collapse show" id="home-collapse">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                    <li><a href="{% url "cadastro_pessoa" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Pessoas</a></li>
-                    <li><a href="{% url "cadastro_tagRfid" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Tags RFID</a></li>
-                    <li><a href="{% url "cadastro_funcao" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Funcao</a></li>
-                    <li><a href="{% url "cadastro_corRfid" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cor RFID</a></li>
-                    <li><a href="{% url "cadastro_usuario" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Usuarios</a></li>
-                </ul>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{% url "homepage" %}">iFTO Acess</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#conteudoNavbarSuportado" aria-controls="conteudoNavbarSuportado" aria-expanded="false" aria-label="Alterna navegação">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
+      <ul class="navbar-nav mr-auto">
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Cadastros
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a href="{% url "cadastro_pessoa" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Pessoas</a></li>
+            <li><a href="{% url "cadastro_tagRfid" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Tags RFID</a></li>
+            <li><a href="{% url "cadastro_funcao" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Funcao</a></li>
+            <li><a href="{% url "cadastro_corRfid" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cor RFID</a></li>
+            <li><a href="{% url "cadastro_usuario" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Usuarios</a></li>
+          </div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Visualização
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="{% url "visualizar_pessoa" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Pessoas</a></li>
+                <li><a href="{% url "visualizar_tagRfid" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Tags RFID</a></li>
+                <li><a href="{% url "visualizar_funcao" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Função</a></li>
+                <li><a href="{% url "visualizar_corRfid" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cor RFID</a></li>
+                <li><a href="{% url "visualizar_usuario" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Usuarios</a></li>
             </div>
         </li>
-        <li class="mb-1"><a href="#">Visualização</a>
-            <div class="collapse show" id="home-collapse">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                    <li><a href="{% url "visualizar_pessoa" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Pessoas</a></li>
-                    <li><a href="{% url "visualizar_tagRfid" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Tags RFID</a></li>
-                    <li><a href="{% url "visualizar_funcao" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Função</a></li>
-                    <li><a href="{% url "visualizar_corRfid" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cor RFID</a></li>
-                    <li><a href="{% url "visualizar_usuario" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Usuarios</a></li>
-                </ul>
-            </div>
+
+        <li class="nav-item active"></li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url "historico_acesso_ifto" %}">
+                    Histórico de Acesso
+                </a>
+              </li>
         </li>
-        <li class="mb-1"><a href="{% url "historico_acesso_ifto" %}">Histórico de Acesso</a></li>
-    </ul>
-</div>
+        
+
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Desativado</a>
+        </li>
+
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+      </form>
+    </div>
+  </nav>

@@ -1,3 +1,18 @@
 body{
-    background-color: rgb(148, 214, 148);
+    background-color: rgb(148, 214, 148) !important;
 }
+
+/*   Arquivo: base/menu.html   */
+
+#menu_de_navegacao{
+    background-color: rgb(71, 172, 75) !important;
+}
+    #usuario_logado{
+        font-size: 20px !important;
+    }
+
+nav{
+    width: 500px !important;
+}
+
+/*                             */

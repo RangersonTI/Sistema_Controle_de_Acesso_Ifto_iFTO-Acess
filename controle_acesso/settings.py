@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'controle_ifto',
     'gerenciar_controle_ifto',
-    'bootstrap5',
 ]
 
 MIDDLEWARE = [

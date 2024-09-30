@@ -2,5 +2,7 @@ LINUX - dev
 
 pip install django
 pip install mysql-connector-python
+pip install mysqlclient
+pip install django-bootstrap-v5
 
 Em caso de erro ao install o 'mysqlclient', execute "sudo apt-get install python3-dev default-libmysqlclient-dev build-essential"
