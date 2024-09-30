@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap'); /*  Fonte: JerSey15    */
+
+#nav_bar_navegation_iftoAcess{
+    background-color: #47AC4B !important;
+}
+    #nav_bar_navegation_iftoAcess_brand{
+        width: auto !important;
+        align-items: center !important;
+        font-family: "Jersey 25", sans-serif;
+        font-size: 40px;
+        color: black;
+    }

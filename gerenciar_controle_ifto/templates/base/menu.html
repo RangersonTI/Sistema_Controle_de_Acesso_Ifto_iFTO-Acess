@@ -1,25 +1,29 @@
 {% include "base/cabecalho.html" %}
+{% load static %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="{% url "homepage" %}">iFTO Acess</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" id="nav_bar_navegation_iftoAcess">
+    <div id="nav_bar_navegation_iftoAcess_brand">
+        <a class="navbar-brand" href="{% url "homepage" %}">
+            <img src="{% static "images/nome_sys/iFTOAcess.svg" %}">
+        </a>
+    </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#conteudoNavbarSuportado" aria-controls="conteudoNavbarSuportado" aria-expanded="false" aria-label="Alterna navegação">
       <span class="navbar-toggler-icon"></span>
     </button>
   
     <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
       <ul class="navbar-nav mr-auto">
-
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Cadastros
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a href="{% url "cadastro_pessoa" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Pessoas</a></li>
-            <li><a href="{% url "cadastro_tagRfid" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Tags RFID</a></li>
-            <li><a href="{% url "cadastro_funcao" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Funcao</a></li>
-            <li><a href="{% url "cadastro_corRfid" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cor RFID</a></li>
-            <li><a href="{% url "cadastro_usuario" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Usuarios</a></li>
-          </div>
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Cadastros
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% url "cadastro_pessoa" %}">Pessoas</a>
+                <a class="dropdown-item" href="{% url "cadastro_tagRfid" %}">Tags RFID</a>
+                <a class="dropdown-item" href="{% url "cadastro_funcao" %}">Funcao</a>
+                <a class="dropdown-item" href="{% url "cadastro_corRfid" %}">Cor RFID</a>
+                <a class="dropdown-item" href="{% url "cadastro_usuario" %}">Usuarios</a>
+            </div>
         </li>
 
         <li class="nav-item dropdown">
@@ -27,11 +31,11 @@
                 Visualização
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a href="{% url "visualizar_pessoa" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Pessoas</a></li>
-                <li><a href="{% url "visualizar_tagRfid" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Tags RFID</a></li>
-                <li><a href="{% url "visualizar_funcao" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Função</a></li>
-                <li><a href="{% url "visualizar_corRfid" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Cor RFID</a></li>
-                <li><a href="{% url "visualizar_usuario" %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Usuarios</a></li>
+                <a class="dropdown-item" href="{% url "visualizar_pessoa" %}">Pessoas</a>
+                <a class="dropdown-item" href="{% url "visualizar_tagRfid" %}">Tags RFID</a>
+                <a class="dropdown-item" href="{% url "visualizar_funcao" %}">Função</a>
+                <a class="dropdown-item" href="{% url "visualizar_corRfid" %}">Cor RFID</a>
+                <a class="dropdown-item" href="{% url "visualizar_usuario" %}">Usuarios</a>
             </div>
         </li>
 
