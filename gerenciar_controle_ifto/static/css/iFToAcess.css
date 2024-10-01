@@ -25,11 +25,13 @@ body{
 
 #div_form_cad_rfid{
     background-color: #E8E8E8;
-    width: 40%;
+    min-width: 800px;
+    width: 45%;
 }
 
     #formulario_cadastro_rfid{
-        width: 90% !important;
+        width: 700px;
+        max-width: 90% !important;
     }
         #botao_salvar_rfid:hover{
             background-color: #316033;
