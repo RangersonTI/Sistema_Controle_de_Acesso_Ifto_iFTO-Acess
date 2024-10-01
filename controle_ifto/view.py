@@ -7,14 +7,14 @@ import json
 
 @csrf_exempt
 def ValidarAcesso(request):
-    
+
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
             value_rfid = data['tag_rfid_value']
             cod_esp32 = data['cod_esp32']
             print(f"Dados: {value_rfid} e {cod_esp32}")
-            
+
         except json.JSONDecodeError as ex:
             print(f"Erro: {ex}")
             return JsonResponse({"Status" : "Nao deu :("})

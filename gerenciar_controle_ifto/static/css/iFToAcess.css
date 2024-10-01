@@ -1,4 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap'); /*  Fonte: JerSey15    */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap'); /*    Fonte: Instrument Sans    */
+
+body{
+    align-items: center ;
+}
 
 #nav_bar_navegation_iftoAcess{
     background-color: #47AC4B !important;
@@ -10,3 +15,22 @@
         font-size: 40px;
         color: black;
     }
+
+/*  Cadastro de RFID   */
+#h1_title_cad_rfid{
+    font-family: "Instrument Sans", sans-serif !important;
+    font-size: 40px !important;
+    font-weight: 700;
+}
+
+#div_form_cad_rfid{
+    background-color: #E8E8E8;
+    width: 40%;
+}
+
+    #formulario_cadastro_rfid{
+        width: 90% !important;
+    }
+        #botao_salvar_rfid:hover{
+            background-color: #316033;
+        }
