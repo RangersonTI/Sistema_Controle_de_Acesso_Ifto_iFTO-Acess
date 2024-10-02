@@ -1,59 +1,63 @@
 {% include "base/menu.html" %}
 
 <br><br><br>
-
-<center>
+<div id="align_cadastros">
     <h1 id="h1_title_cad_rfid">Cadastro de Tags RFID</h1>
 
     <svg width="920" height="5" viewBox="0 0 920 1" fill="none" xmlns="http://www.w3.org/2000/svg">
         <line y1="1" x2="920" y2="1" stroke="black"/>
     </svg>
     <br><br>
-</center>
 
-<div id="div_form_cad_rfid">
-    <form id="formulario_cadastro_rfid">
-        <br><br>
+    <div id="div_form_cad_rfid">
+        <form method="POST" id="formulario_cadastro_rfid">
+            {% csrf_token %}
+            <br><br>
 
-        <div class="form-group row">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Tag RFID:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="tag_rfid_value" placeholder="Ex.: A4 71 EV V7">
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label for="cod_corRfid" class="col-sm-2 col-form-label">Cor:</label>
-            <div class="col-sm-10">
-                <select class="form-control" name="cod_corRfid">
-                    <option value="vermelho">Vermelho</option>
-                    <option value="verde">Verde</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <div class="col-sm-2">Ativo:</div>
+            <div class="form-group row">
+                <label for="tag_rfid_value" class="col-sm-2 col-form-label">Tag RFID:</label>
                 <div class="col-sm-10">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="gridCheck1">
+                <input type="text" class="form-control" name="tag_rfid_value" id="tag_rfid_value" placeholder="Ex.: A4 71 EV V7" required>
                 </div>
             </div>
-        </div>
 
-        <div class="form-group row">
-            <label for="data_desativacao" class="col-sm-2 col-form-label">Data de desativação:</label>
-            <div class="col-sm-10">
-              <input type="datetime-local" class="form-control" id="data_desativacao">
+            <div class="form-group row">
+                <label for="cod_corRfid" class="col-sm-2 col-form-label">Cor:</label>
+                <div class="col-sm-10">
+                    <select class="form-control" name="cod_corRfid" required>
+                        {% for cor in cores %}
+                            <option value="{{ cor.id }}"> {{ cor.descricao }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label for="motivo_desativacao">Motivo de desativação:</label>
-            <textarea class="form-control" name="motivo_desativacao" id="motivo_desativacao" placeholder="Inorme o motivo da desativação"></textarea>
-        </div>
-        <button type="submit" id="botao_salvar_rfid" class="btn btn-success">Salvar</button>
-        
-        <br><br>
-    </form>
+            <div class="form-group row">
+                <div class="col-sm-2">Ativo:</div>
+                    <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="gridCheck1" name="rfid_ativo">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="data_desativacao" class="col-sm-2 col-form-label">Data de desativação:</label>
+                <div class="col-sm-10">
+                <input type="datetime-local" class="form-control" name="data_desativacao" id="data_desativacao">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="motivo_desativacao">Motivo de desativação:</label>
+                <textarea class="form-control" name="motivo_desativacao" id="motivo_desativacao" placeholder="Inorme o motivo da desativação"></textarea>
+            </div>
+
+            <div class="botao_salvar_rfid">
+                <button type="submit" class="btn btn-success">Salvar</button>
+            </div>
+            
+            <br><br>
+        </form>
+    </div>
 </div>

@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap'); /*  Fonte: JerSey15    */
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap'); /*    Fonte: Instrument Sans    */
 
-body{
-    align-items: center ;
+html{
+    display: inline-block !important;
+    align-self: center !important;
 }
 
 #nav_bar_navegation_iftoAcess{
@@ -16,23 +17,34 @@ body{
         color: black;
     }
 
-/*  Cadastro de RFID   */
-#h1_title_cad_rfid{
-    font-family: "Instrument Sans", sans-serif !important;
-    font-size: 40px !important;
-    font-weight: 700;
+/*  Cadastro de RFID, Funcao, Pessoa,    */
+
+#align_cadastros{
+    background-color:aqua !important;
+    align-content: center !important;
 }
 
-#div_form_cad_rfid{
+#h1_title_cad_rfid, #h1_title_cad_funcao, #h1_title_cad_corRfid{
+    font-family: "Instrument Sans", sans-serif !important;
+    font-size: 40px !important;
+    font-weight: 700 !important;
+}
+
+#div_form_cad_rfid, #div_form_cad_Funcao, #div_form_cad_corRfid{
     background-color: #E8E8E8;
     min-width: 800px;
     width: 45%;
 }
 
-    #formulario_cadastro_rfid{
+    #formulario_cadastro_rfid, #formulario_cadastro_Funcao, #formulario_cadastro_corRfid{
         width: 700px;
         max-width: 90% !important;
     }
-        #botao_salvar_rfid:hover{
+        #botao_salvar_rfid, #botao_salvar_Funcao, #botao_salvar_corRfid{
+            background-color: rgb(87, 66, 42);
+            font-weight: 700 !important;
+            align-content: left !important;
+        }
+        #botao_salvar_rfid:hover, #botao_salvar_Funcao:hover, #botao_salvar_corRfid:hover button{
             background-color: #316033;
         }

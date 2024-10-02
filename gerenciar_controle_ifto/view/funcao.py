@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect
+from gerenciar_controle_ifto.models import Papel_pessoa
 
 def cadastrarFuncao(request):
     
@@ -6,6 +8,17 @@ def cadastrarFuncao(request):
         'title' : 'Cadastro de Função',
         'nome_usuario_logado' : 'Rangerson'
     }
+    
+    if request.method == 'POST':
+        descricao = request.POST.get('descricao_funcao')
+        
+        if descricao == None:
+            return HttpResponse("Campo 'Descrição' obrigatório")
+        
+        funcao = Papel_pessoa(descricao=descricao)
+        funcao.save()
+        return HttpResponseRedirect('/iftoAcess/listar/funcao/')
+    
     return render(request, "pages/funcao/cadastrarFuncao.html", context)
 
 def editarFuncao(request):

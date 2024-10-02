@@ -1,3 +1,41 @@
 {% include "base/menu.html" %}
 
-<center><h1>Cadastro de Cor-Rfid</h1></center>
+
+<div id="align_cadastros">
+    <h1 id="h1_title_cad_corRfid">Cadastro de Cor-Rfid</h1>
+
+    <svg width="920" height="5" viewBox="0 0 920 1" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line y1="1" x2="920" y2="1" stroke="black"/>
+    </svg>
+    <br><br>
+
+    <div id="div_form_cad_corRfid">
+        <form method="POST" id="formulario_cadastro_corRfid">
+            {% csrf_token %}
+            <br><br>
+
+            <div class="form-group row">
+                <label for="cor_Rfid" class="col-sm-2 col-form-label">Cor:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="cor_Rfid" id="cor_Rfid" placeholder="Ex.: Azul" required>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="cod_corRfid" class="col-sm-2 col-form-label">Funcão:</label>
+                <div class="col-sm-10">
+                    <select class="form-control" name="cod_corRfid" required>
+                        {% for funcao in funcoes %}
+                            <option value="{{ funcao.id }}"> {{ funcao.descricao }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="botao_salvar_corRfid">
+                <button type="submit" class="btn btn-success">Salvar</button>
+            </div>
+            <br><br>
+        </form>
+    </div>
+</div>
