@@ -1,18 +1,16 @@
 {% include "base/menu.html" %}
 
-<center><h1>Cadastro de Pessoa</h1></center>
-
 <br><br><br>
 <div id="align_cadastros">
-    <h1 id="h1_title_cad_rfid">Cadastro de Tags RFID</h1>
+    <h1 id="h1_title_cad_pessoa">Cadastro de Pessoa</h1>
 
     <svg width="920" height="5" viewBox="0 0 920 1" fill="none" xmlns="http://www.w3.org/2000/svg">
         <line y1="1" x2="920" y2="1" stroke="black"/>
     </svg>
     <br><br>
 
-    <div id="div_form_cad_rfid">
-        <form method="POST" id="formulario_cadastro_rfid">
+    <div id="div_form_cad_pessoa">
+        <form method="POST" id="formulario_cadastro_pessoa">
             {% csrf_token %}
             <br><br>
 
@@ -46,13 +44,17 @@
 
             <div class="form-group row">
                 <label for="funcao_pessoa" class="col-sm-2 col-form-label">Função:</label>
-                <div class="col-sm-10">
+                <div style="width: 61px; height:61px" class="col-sm-10">
                     <select class="form-control" name="funcao_pessoa" id="funcao_pessoa">
                         {% for funcao in funcoes %}
                             <option value="{{ funcao.id }}">{{ funcao.descricao }}</option>
                         {% endfor %}
                     </select>
                 </div>
+            </div>
+
+            <div class="botao_salvar_pessoa">
+                <button type="submit" class="btn btn-success">Salvar</button>
             </div>
             
             <br><br>

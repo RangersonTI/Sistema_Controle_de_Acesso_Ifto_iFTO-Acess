@@ -1,6 +1,18 @@
 
+from django.shortcuts import render
+
 def cadastrarUsuario(request):
-    return
+    context = {
+        'title' : 'Cadastro de Usuario',
+        'nome_usuario_logado' : 'Rangerson'
+    }
+    
+    return render(request, 'pages/usuario/cadastrarUsuario.html', context)
 
 def listarUsuario(request):
-    return
+    context = {
+        'title' : 'Editar Usuario',
+        'nome_usuario_logado' : 'Rangerson'
+    }
+    
+    return render(request, 'pages/usuario/listarUsuario.html', context)
