@@ -8,6 +8,8 @@ html{
 
 #nav_bar_navegation_iftoAcess{
     background-color: #47AC4B !important;
+    font-size:20px !important;
+    font-weight: 700;
 }
     #nav_bar_navegation_iftoAcess_brand{
         width: auto !important;
