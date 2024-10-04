@@ -22,13 +22,10 @@ html{
 
 /*      Menu    */
 
-#usuario_login{
-    background-color: #EFEFEF;
-    width: 200px;
+#usuario_login h6{
+    text-align: center;
 }
-    #usuario_login h6{
-        text-align: center;
-    }
+
 /*  Cadastro de RFID, Funcao, Pessoa,    */
 
 #align_cadastros{

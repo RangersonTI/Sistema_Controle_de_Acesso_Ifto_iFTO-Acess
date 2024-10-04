@@ -35,4 +35,4 @@ def listarFuncao(request):
         'title' : 'Listagem de Função',
         'nome_usuario_logado' : 'Rangerson'
     }    
-    return render(request, "pages/funcao/listarRfid.html", context)
+    return render(request, "pages/funcao/listarFuncao.html", context)
