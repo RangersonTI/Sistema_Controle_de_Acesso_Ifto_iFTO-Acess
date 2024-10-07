@@ -1,4 +1,4 @@
-{% include "base/menu.html" %}
+{% include "base/cabecalho.html" %}
 
 <br><br><br>
 <div id="align_cadastros">
@@ -26,7 +26,7 @@
                 <div class="col-sm-10">
                     <select class="form-control" name="cod_corRfid" required>
                         {% for cor in cores %}
-                            <option value="{{ cor.id }}"> {{ cor.descricao }}</option>
+                            <option value="{{ cor.id }}">{{ cor.corRFID }}<b> ({{ cor.cod_cargo.descricao }})</b></option>
                         {% endfor %}
                     </select>
                 </div>
@@ -36,7 +36,7 @@
                 <div class="col-sm-2">Ativo:</div>
                     <div class="col-sm-10">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="gridCheck1" name="rfid_ativo">
+                        <input class="form-check-input" type="checkbox" id="rfid_ativo" name="rfid_ativo" checked>
                     </div>
                 </div>
             </div>

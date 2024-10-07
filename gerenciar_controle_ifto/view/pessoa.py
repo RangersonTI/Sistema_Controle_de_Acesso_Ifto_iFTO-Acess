@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from gerenciar_controle_ifto.models import Pessoa,Papel_pessoa
 from datetime import datetime
+from django.http import HttpResponseRedirect
 
 def calcularIdade(data_nascimento):
     dt = datetime.strptime(data_nascimento,"%Y-%m-%d")
@@ -10,19 +11,21 @@ def calcularIdade(data_nascimento):
     for data in tdt:
         data_list.append(data)
 
-    print(data_list)
-
-    ano_nascimento = data_list[0]
-    mes_nascimento = data_list[1]
-    dia_nascimento = data_list[2]
-
-    idade = (int(datetime.year) - int(ano_nascimento))
+    ano_nascimento = int(data_list[0])
+    mes_nascimento = int(data_list[1])
+    dia_nascimento = int(data_list[2])
     
-    if (mes_nascimento < datetime.month):
+    dia_atual = datetime.now().day
+    mes_atual = datetime.now().month
+    ano_atual = datetime.now().year
+
+    idade = (ano_atual - ano_nascimento)
+    
+    if (mes_nascimento < mes_atual):
         return idade
     else:
-        if(datetime.month == mes_nascimento):
-            if(dia_nascimento <= datetime.day):
+        if(mes_atual == mes_nascimento):
+            if(dia_nascimento <= dia_atual):
                 return idade
             else:
                 return idade-1
@@ -44,16 +47,19 @@ def cadastrarPessoa(request):
         sobrenome_completo_pessoa = request.POST.get('sobrenome_completo_pessoa')
         data_nascimento = request.POST.get('data_nascimento')
         cpf_pessoa = request.POST.get('cpf_pessoa')
-        funcao_pessoa = request.POST.get('funcao_pessoa')
+        funcao_pessoa = int(request.POST.get('funcao_pessoa'))
 
         pessoa = Pessoa(nome = nome_pessoa, 
                         sobrenome = sobrenome_completo_pessoa, 
                         cpf=cpf_pessoa,
                         data_nascimento = data_nascimento,
                         idade = calcularIdade(data_nascimento),
-                        cod_Papel_pessoa = funcao_pessoa
+                        cod_Papel_pessoa = Papel_pessoa.objects.get(pk=funcao_pessoa),
+                        vinculado=False
                         )
         pessoa.save()
+        
+        return HttpResponseRedirect("/iftoAcess/")
         
     return render(request, 'pages/pessoa/cadastrarPessoa.html', context)
 
@@ -64,3 +70,11 @@ def listarPessoa(request):
         'nome_usuario_logado' : 'Rangerson'
     }
     return render(request, 'pages/pessoa/listarPessoa.html', context)
+
+def editarPessoa(request):
+    
+    context = {
+        'title' : 'Editar Pessoa',
+        'nome_usuario_logado' : 'Rangerson'
+    }
+    return render(request, 'pages/pessoa/editarPessoa.html', context)

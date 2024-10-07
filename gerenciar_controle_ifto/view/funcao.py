@@ -15,7 +15,9 @@ def cadastrarFuncao(request):
         if descricao == None:
             return HttpResponse("Campo 'Descrição' obrigatório")
         
-        funcao = Papel_pessoa(descricao=descricao)
+        funcao = Papel_pessoa(descricao=descricao,
+                              vinculado_corRfid = False
+                              )
         funcao.save()
         return HttpResponseRedirect('/iftoAcess/listar/funcao/')
     

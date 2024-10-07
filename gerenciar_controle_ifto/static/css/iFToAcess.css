@@ -6,6 +6,7 @@ html{
     align-self: center !important;
 }
 
+
 #nav_bar_navegation_iftoAcess{
     background-color: #47AC4B !important;
     font-size:20px !important;
@@ -19,17 +20,30 @@ html{
         color: black;
     }
 
+#centralize_info{
+    text-align: center;
+}
 
 /*      Menu    */
 
-#usuario_login h6{
-    text-align: center;
+#usuario_login{
+    font-size: 16px;
 }
+
+#logoff_usuario{
+    background-color: rgb(223, 0, 0);
+    color: white;
+    font-weight: 600;
+}
+    #logoff_usuario:hover{
+        background-color: rgb(156, 25, 25);
+        
+    }
+
 
 /*  Cadastro de RFID, Funcao, Pessoa,    */
 
 #align_cadastros{
-    background-color:aqua !important;
     align-content: center !important;
 }
 

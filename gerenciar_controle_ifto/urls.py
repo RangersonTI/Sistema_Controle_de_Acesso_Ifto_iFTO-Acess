@@ -12,7 +12,11 @@ urlpatterns = [
     path('cadastrar/usuario/', usuario.cadastrarUsuario, name="cadastro_usuario"),
     
     # PATH PARA EDICAO
-    path('editar/TagRfid/<int:id>', rfid.editarRFID),
+    path('editar/tagRfid/<int:id>', rfid.editarRFID, name="editar_tagRfid"),
+    path('editar/pessoa/<int:id>', pessoa.editarPessoa, name="editar_pessoa"),
+    path('editar/funcao/<int:id>', funcao.editarFuncao, name="editar_funcao"),
+    path('editar/corRfid/<int:id>', corRfid.editarCorRfid, name="editar_corRfid"),
+    path('editar/usuario/<int:id>', usuario.editarUsuario, name="editar_usuario"),
     
     #PATH PARA LISTAGEM
     path('listar/tagRfid/', rfid.listarRFID, name="visualizar_tagRfid"),

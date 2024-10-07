@@ -1,3 +1,59 @@
-{% include "base/menu.html" %}
+{% include "base/cabecalho.html" %}
+{% load static %}
 
-<center><h1>Listar de RFID</h1></center>
+<div id="align_cadastros">
+    <h1 id="centralize_info">Listagem de Tags RFID
+        <svg width="920" height="5" viewBox="0 0 920 1" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line y1="1" x2="920" y2="1" stroke="black"/>
+        </svg>
+        
+    </h1>
+    
+
+    <table class="table table-striped">
+        <thead style="text-align: center">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Tag Rfid</th>
+            <th scope="col">Funcão</th>
+            <th scope="col">Ativo</th>
+            <th scope="col">Data de Desativação</th>
+            <th scope="col">Motivo da desativação</th>
+            <th scope="col">Opções</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for tagRfid in tagsRfid %}
+                <tr>
+                    <th scope="row">{{ tagRfid.id }}</th>
+                    <td id="centralize_info">{{ tagRfid.tag_rfid_value }}</td>
+                    <td>{{ tagRfid.cod_corRFID_funcao.cod_cargo.descricao }}</td>
+                    <td id="centralize_info">{{ tagRfid.ativo }}</td>
+
+                    {% if tagRfid.data_desativacao == None %}
+                    <td id="centralize_info"> - </td>
+                    {% else %}
+                        <td id="centralize_info">{{ tagRfid.data_desativacao }}</td>
+                    {% endif %}
+
+                    {% if tagRfid.motivo_desativacao == "" %}
+                    <td id="centralize_info">-</td>
+                    {% else %}
+                        <td>{{ tagRfid.motivo_desativacao }}</td>
+                    {% endif %}
+
+                    <td id="centralize_info">
+                            <a href="{% url "editar_tagRfid" tagRfid.id%}">
+                                <img src="{% static "images/icones/editar.png" %}" width="16px" alt="">
+                            </a>
+                            <a href="#">
+                                <img src="{% static "images/icones/excluir.png" %}" width="16px" alt="">
+                            </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+</div>
