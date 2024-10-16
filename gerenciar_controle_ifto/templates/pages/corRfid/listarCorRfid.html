@@ -1,5 +1,41 @@
 {% include "base/cabecalho.html" %}
+{% load static %}
 
-<center><h1>Listar Cor-Rfid</h1></center>
+<div id="alinhar_listagens">
+    <h1 id="h1_title">Listagem de Cor-Rfid
+    </h1>
+    <hr/>
+    
 
+    <table class="table table-striped">
+        <thead style="text-align: center">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Cor-Rfid</th>
+            <th scope="col">Cargo Vinculado</th>
+            <th scope="col">Opções</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for corRfid in coresRfid %}
+                <tr>
+                    <th scope="row">{{ corRfid.id }}</th>
+                    <td id="centralize_info">{{ corRfid.corRFID }}</td>
+                    <td>{{ corRfid.cod_cargo.descricao }}</td>
+
+                    <td id="centralize_info">
+                            <a href="{% url "editar_corRfid" corRfid.id%}">
+                                <img src="{% static "images/icones/editar.png" %}" width="16px" alt="">
+                            </a>
+                            <a href="#">
+                                <img src="{% static "images/icones/excluir.png" %}" width="16px" alt="">
+                            </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+</div>
 {% include "base/final.html"%}

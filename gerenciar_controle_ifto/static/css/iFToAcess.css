@@ -19,14 +19,16 @@ html{
         color: black;
     }
 
-#centralize_info{
-    text-align: center;
+hr{
+    width: 90% !important;
+    background-color: #000000 !important;
+    height: 2px !important;
 }
 
 /*      Menu    */
 
 #usuario_login{
-    font-size: 16px;
+    font-size: 16px !important;
 }
 
 #logoff_usuario{
@@ -39,6 +41,11 @@ html{
         
     }
 
+/*          Botão Salvar            */
+
+.botao_salvar{
+    align-self: left !important;
+}
 
 /*  Cadastro de RFID, Funcao, Pessoa,    */
 
@@ -56,9 +63,20 @@ html{
         background-color: #316033;
         align-self: center;
     }
+
+#alinhar_listagens{
+    background-color: #f5f5f5;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    flex-direction: column;
+    justify-items: center !important;
+    align-items: center !important;
+    text-align: center !important;
+}
     
 
-#h1_title_cad_rfid, #h1_title_cad_funcao, #h1_title_cad_corRfid, #h1_title_cad_pessoa{
+#h1_title, #h1_title, #h1_title, #h1_title{
+    margin-top: 30px !important;
     font-family: "Instrument Sans", sans-serif !important;
     font-size: 40px !important;
     font-weight: 900 !important;
@@ -66,16 +84,15 @@ html{
 
 #div_form_cad_rfid, #div_form_cad_Funcao, #div_form_cad_corRfid, #div_form_cad_pessoa{
     background-color: #E8E8E8;
-    min-width: 800px;
-    width: 45%;
+    min-width: 600px;
+    width: 80%;
     border-radius: 7px;
     box-shadow: 0px 0px 4px black;
     margin-bottom: 15px;
 }
 
     #formulario_cadastro_rfid, #formulario_cadastro_Funcao, #formulario_cadastro_corRfid, #formulario_cadastro_pessoa{
-        width: 700px !important;
-        max-width: 90% !important;
+        max-width: 95% !important;
     }
         #botao_salvar_rfid, #botao_salvar_Funcao, #botao_salvar_corRfid, #botao_salvar_pessoa{
             background-color: #316033;

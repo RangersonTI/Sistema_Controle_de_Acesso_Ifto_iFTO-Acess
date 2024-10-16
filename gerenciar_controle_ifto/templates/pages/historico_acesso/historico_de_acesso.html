@@ -1,5 +1,34 @@
 {% include "base/cabecalho.html" %}
+{% load static %}
 
-<center><h1>Histórico de acesso do IFTO</h1></center>
+<div id="alinhar_listagens">
+    <h1 id="h1_title">Histórico de Acesso ao IFTO</h1>
+    <hr/>
+    
 
+    <table class="table table-striped">
+        <thead style="text-align: center">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Data de Acesso</th>
+            <th scope="col">Tag RFID</th>
+            <th scope="col">Nome(ID)</th>
+            <th scope="col">Função</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for acesso in acessos %}
+                <tr>
+                    <th scope="row">{{ acesso.id }}</th>
+                    <td id="centralize_info">{{ acesso.data_acesso }}</td>
+                    <th scope="row">{{ acesso.cod_rfid.tag_rfid_value }}</th>
+                    <td id="centralize_info">{{ acesso.cod_pessoa.nome }} {{ acesso.cod_pessoa.sobrenome }}<b> ({{ acesso.cod_pessoa.id }})</b></td>
+                    <td id="centralize_info">{{ acesso.funcao_pessoa.descricao }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+</div>
 {% include "base/final.html"%}

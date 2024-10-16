@@ -1,6 +1,44 @@
 {% include "base/cabecalho.html" %}
+{% load static %}
 
-<center><h1>Listagem de Função</h1></center>
+<div id="alinhar_listagens">
+    <h1 id="h1_title">Listagem de Funcão</h1>
+    <hr/>
+    
 
+    <table class="table table-striped">
+        <thead style="text-align: center">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Função</th>
+            <th scope="col">Cor Vinculado?</th>
+            <th scope="col">Opções</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for funcao in funcoes %}
+                <tr>
+                    <th scope="row">{{ funcao.id }}</th>
+                    <td id="centralize_info">{{ funcao.descricao }}</td>
+                    {% if funcao.vinculado_corRfid == True %}
+                        <td id="centralize_info">Sim</td>
+                    {% else %}
+                        <td id="centralize_info">Não</td>
+                    {% endif %}
+                    
+                    <td id="centralize_info">
+                            <a href="{% url "editar_Funcao" funcao.id%}">
+                                <img src="{% static "images/icones/editar.png" %}" width="16px" alt="">
+                            </a>
+                            <a href="#">
+                                <img src="{% static "images/icones/excluir.png" %}" width="16px" alt="">
+                            </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
 
+    </div>
+</div>
 {% include "base/final.html"%}

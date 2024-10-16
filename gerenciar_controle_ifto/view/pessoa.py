@@ -3,6 +3,12 @@ from gerenciar_controle_ifto.models import Pessoa,Papel_pessoa
 from datetime import datetime
 from django.http import HttpResponseRedirect
 
+def converterData(pessoas):
+    for pessoa in pessoas:
+        pessoa.data_nascimento = pessoa.data_nascimento.strftime("%d/%m/%Y")
+        
+    return pessoas
+
 def calcularIdade(data_nascimento):
     dt = datetime.strptime(data_nascimento,"%Y-%m-%d")
     tdt = dt.timetuple()
@@ -65,8 +71,12 @@ def cadastrarPessoa(request):
 
 def listarPessoa(request):
     
+    pessoas = Pessoa.objects.all()
+    pessoas = converterData(pessoas)
+    
     context = {
         'title' : 'Listagem de Pessoa',
+        'pessoas' : pessoas,
         'nome_usuario_logado' : 'Rangerson'
     }
     return render(request, 'pages/pessoa/listarPessoa.html', context)

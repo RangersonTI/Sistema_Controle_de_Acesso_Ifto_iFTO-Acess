@@ -1,13 +1,9 @@
 {% include "base/cabecalho.html" %}
 {% load static %}
 
-<div id="align_cadastros">
-    <h1 id="centralize_info">Listagem de Tags RFID
-        <svg width="920" height="5" viewBox="0 0 920 1" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <line y1="1" x2="920" y2="1" stroke="black"/>
-        </svg>
-        
-    </h1>
+<div id="alinhar_listagens">
+    <h1 id="h1_title">Listagem de Tags RFID</h1>
+    <hr/>
     
 
     <table class="table table-striped">
@@ -28,7 +24,11 @@
                     <th scope="row">{{ tagRfid.id }}</th>
                     <td id="centralize_info">{{ tagRfid.tag_rfid_value }}</td>
                     <td>{{ tagRfid.cod_corRFID_funcao.cod_cargo.descricao }}</td>
-                    <td id="centralize_info">{{ tagRfid.ativo }}</td>
+                    {% if tagRfid.ativo == True %}
+                        <td id="centralize_info">Sim</td>
+                    {% else %}
+                        <td id="centralize_info">Não</td>
+                    {% endif %}
 
                     {% if tagRfid.data_desativacao == None %}
                     <td id="centralize_info"> - </td>
@@ -36,8 +36,8 @@
                         <td id="centralize_info">{{ tagRfid.data_desativacao }}</td>
                     {% endif %}
 
-                    {% if tagRfid.motivo_desativacao == "" %}
-                    <td id="centralize_info">-</td>
+                    {% if tagRfid.motivo_desativacao == None or tagRfid.motivo_desativacao == ""%}
+                        <td id="centralize_info">-</td>
                     {% else %}
                         <td>{{ tagRfid.motivo_desativacao }}</td>
                     {% endif %}
@@ -57,3 +57,5 @@
 
     </div>
 </div>
+
+{% include "base/final.html"%}

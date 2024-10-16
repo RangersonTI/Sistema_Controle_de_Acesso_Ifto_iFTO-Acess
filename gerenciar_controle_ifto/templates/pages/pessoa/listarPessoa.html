@@ -1,5 +1,51 @@
 {% include "base/cabecalho.html" %}
+{% load static %}
 
-<center><h1>Listar Pessoa</h1></center>
+<div id="alinhar_listagens">
+    <h1 id="h1_title">Listagem de Pessoas</h1>
+    <hr/>
+    
+    <table class="table table-striped">
+        <thead style="text-align: center">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nome Completo</th>
+            <th scope="col">CPF</th>
+            <th scope="col">Data de Nascimento</th>
+            <th scope="col">Idade</th>
+            <th scope="col">Função</th>
+            <th scope="col">RFID Vinculado (ID)</th>
+            <th scope="col">Opções</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for pessoa in pessoas %}
+                <tr>
+                    <th scope="row">{{ pessoa.id }}</th>
+                    <td scope="row">{{ pessoa.nome }} {{ pessoa.sobrenome }}</th>
+                    <td scope="row">{{ pessoa.cpf }}</th>
+                    <td scope="row">{{ pessoa.data_nascimento }}</th>
+                    <td scope="row">{{ pessoa.idade }}</th>
+                    <td scope="row">{{ pessoa.cod_Papel_pessoa.descricao }} </td>
+                    {% if pessoa.cod_Rfid.tag_rfid_value == None%}
+                        <td scope="row">-</th>
+                    {% else %}
+                        <td scope="row">{{ pessoa.cod_Rfid.tag_rfid_value }} <b>({{ pessoa.cod_Rfid.id }})</b></td>
+                    {% endif %}
+
+                    <td id="centralize_info">
+                            <a href="{% url "editar_Pessoa" pessoa.id%}">
+                                <img src="{% static "images/icones/editar.png" %}" width="16px" alt="">
+                            </a>
+                            <a href="#">
+                                <img src="{% static "images/icones/excluir.png" %}" width="16px" alt="">
+                            </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
+</div>
 
 {% include "base/final.html"%}

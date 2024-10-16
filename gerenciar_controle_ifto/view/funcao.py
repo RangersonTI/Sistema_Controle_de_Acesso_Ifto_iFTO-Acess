@@ -33,8 +33,11 @@ def editarFuncao(request):
 
 def listarFuncao(request):
     
+    funcoes = Papel_pessoa.objects.all()
+    
     context = {
         'title' : 'Listagem de Função',
+        'funcoes' : funcoes,
         'nome_usuario_logado' : 'Rangerson'
     }    
     return render(request, "pages/funcao/listarFuncao.html", context)

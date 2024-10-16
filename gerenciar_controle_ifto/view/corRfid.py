@@ -31,8 +31,11 @@ def cadastrarCorRfid(request):
 
 def listarCorRfid(request):
 
+    coresRfid = CorRFID_Funcao.objects.all()
+    
     context = {
         'title' : 'Listagem de Cor-Rfid',
+        'coresRfid' : coresRfid,
         'nome_usuario_logado' : 'Rangerson'
     }
 
