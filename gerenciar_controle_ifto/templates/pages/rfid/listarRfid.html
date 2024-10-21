@@ -42,19 +42,27 @@
                         <td>{{ tagRfid.motivo_desativacao }}</td>
                     {% endif %}
 
-                    <td id="centralize_info">
+                    {% if tagRfid.ativo == True %}
+                        <td id="centralize_info">
                             <a href="{% url "editar_tagRfid" tagRfid.id%}">
                                 <img src="{% static "images/icones/editar.png" %}" width="16px" alt="">
                             </a>
-                            <a href="#">
-                                <img src="{% static "images/icones/excluir.png" %}" width="16px" alt="">
-                            </a>
-                    </td>
+                        </td>
+                    {% else %}
+                        <td id="centralize_info">
+                            <img src="{% static "images/icones/editar.png" %}" width="16px" alt="">
+                        </td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </tbody>
       </table>
 
+      <div class="botao_cadastrar_nas_listagens">
+          <a href="{% url "cadastro_tagRfid" %}">
+              <button type="submit" class="btn btn-success">Cadastrar</button>
+          <a>
+      </div>
     </div>
 </div>
 

@@ -25,6 +25,17 @@ hr{
     height: 2px !important;
 }
 
+/*      Botão "Cadastrar" em listagens    */
+
+.botao_cadastrar_nas_listagens{
+    margin-top: 10px;
+    align-items: left;
+    text-align: left !important;
+}
+    .botao_cadastrar_nas_listagens button:hover{
+        background-color: #316033;
+    }
+
 /*      Menu    */
 
 #usuario_login{

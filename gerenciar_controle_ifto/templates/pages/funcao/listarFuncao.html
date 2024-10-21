@@ -38,7 +38,11 @@
             {% endfor %}
         </tbody>
       </table>
-
+      <div class="botao_cadastrar_nas_listagens">
+          <a href="{% url "cadastro_funcao" %}">
+              <button type="submit" class="btn btn-success">Cadastrar</button>
+          <a>
+      </div>
     </div>
 </div>
 {% include "base/final.html"%}
