@@ -1,8 +1,24 @@
-const rfid_ativo = document.querySelector("#rfid_ativo")
+$(document).ready(function(){
+    //let CampoData_desatisacao = $('#data_desativacao')
+    //let CampoMotivo_desativação = $('#motivo_desativacao')
+    //let CampoAtivo  = $('#rfid_ativo')
+//
+    //CampoData_desatisacao.prop('disable', false)
+    //CampoMotivo_desativação.prop('disable', false)
+//
+    //if (CampoAtivo === True){
+    //    CampoData_desatisacao.prop('disable', true)
+    //    CampoMotivo_desativação.prop('disable', true)
+    //}
 
-var data_desativacao = querySelector("#data_desativacao")
-var motivo_desaticao = querySelector("#motivo_desativacao")
-
-if(rfid_ativo.disa){
-    rfid_ativo.disabled = True
-}
+    $('#rfid_ativo').click(function(){
+        if($(this).is(':checked')){
+            $('#data_desativacao').attr('disabled', true)
+            $('#motivo_desativacao').attr('disabled', true)
+        }
+        else{
+            $('#data_desativacao').attr('disabled', false)
+            $('#motivo_desativacao').attr('disabled', false)
+        }
+    })
+})

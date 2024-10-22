@@ -14,7 +14,7 @@
             <div class="form-group row">
                 <label for="tag_rfid_value" class="col-sm-2 col-form-label">Tag RFID:</label>
                 <div class="col-sm-10">
-                <input type="text" class="form-control" name="tag_rfid_value" id="tag_rfid_value" placeholder="Ex.: A4 71 EV V7" required>
+                <input type="text" class="form-control" name="tag_rfid_value" id="tag_rfid_value" placeholder="Ex.: A1 B2 C3 D4" maxlength="11" required>
                 </div>
             </div>
 
@@ -41,13 +41,13 @@
             <div class="form-group row">
                 <label for="data_desativacao" class="col-sm-2 col-form-label">Data de desativação:</label>
                 <div class="col-sm-10">
-                <input type="datetime-local" class="form-control" name="data_desativacao" id="data_desativacao">
+                <input type="datetime-local" class="form-control" name="data_desativacao" id="data_desativacao" disabled>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="motivo_desativacao">Motivo de desativação:</label>
-                <textarea class="form-control" name="motivo_desativacao" id="motivo_desativacao" placeholder="Inorme o motivo da desativação"></textarea>
+                <textarea class="form-control" name="motivo_desativacao" id="motivo_desativacao" placeholder="Informe o motivo da desativação" disabled></textarea>
             </div>
 
             <div class="botao_salvar">
@@ -58,3 +58,4 @@
         </form>
     </div>
 </div>
+{% include "base/final.html"%}

@@ -21,9 +21,10 @@ def cadastrarRFID(request):
         data_desativacao = request.POST.get('data_desativacao')
 
         if rfid_ativo == False:
-            if request.POST.get('data_desativacao') == "":
+            if request.POST.get('data_desativacao') == None:
                 return HttpResponse("Campo motivo_desativação deve ser preenchido para justifica a inativação da Tag")
-
+        else:
+            data_desativacao = None
 
         if tag_rfid_value == None:
             return HttpResponse("Campo Tag RFID não pode ser nulo")
