@@ -39,17 +39,32 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label for="data_desativacao" class="col-sm-2 col-form-label">Data de desativação:</label>
-                <div class="col-sm-10">
-                <input type="datetime-local" class="form-control" name="data_desativacao" id="data_desativacao">
+            {% if tagRfid.ativo == True%}
+                <div class="form-group row">
+                    <label for="data_desativacao" class="col-sm-2 col-form-label">Data de desativação:</label>
+                    <div class="col-sm-10">
+                    <input type="datetime-local" class="form-control" name="data_desativacao" id="data_desativacao" disabled>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label for="motivo_desativacao">Motivo de desativação:</label>
-                <textarea class="form-control" name="motivo_desativacao" id="motivo_desativacao" placeholder="Informe o motivo da desativação"></textarea>
-            </div>
+                <div class="form-group">
+                    <label for="motivo_desativacao">Motivo de desativação:</label>
+                    <textarea class="form-control" name="motivo_desativacao" id="motivo_desativacao" placeholder="Informe o motivo da desativação" disabled></textarea>
+                </div>
+            {% else %}
+
+                <div class="form-group row">
+                    <label for="data_desativacao" class="col-sm-2 col-form-label">Data de desativação:</label>
+                    <div class="col-sm-10">
+                    <input type="datetime-local" class="form-control" name="data_desativacao" id="data_desativacao">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="motivo_desativacao">Motivo de desativação:</label>
+                    <textarea class="form-control" name="motivo_desativacao" id="motivo_desativacao" placeholder="Informe o motivo da desativação"></textarea>
+                </div>
+            {% endif %}
 
             <div class="botao_salvar_rfid">
                 <button type="submit" class="btn btn-success">Salvar</button>

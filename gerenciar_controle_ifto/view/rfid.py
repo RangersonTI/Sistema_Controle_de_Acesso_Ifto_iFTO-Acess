@@ -22,7 +22,7 @@ def cadastrarRFID(request):
 
         if rfid_ativo == False:
             if request.POST.get('data_desativacao') == None:
-                return HttpResponse("Campo motivo_desativação deve ser preenchido para justifica a inativação da Tag")
+                return HttpResponse("Campo motivo_desativação deve ser preenchido para justificar a inativação da Tag")
         else:
             data_desativacao = None
 
@@ -67,8 +67,10 @@ def editarRFID(request, id):
         
         print(rfid_ativo)
         if rfid_ativo == False:
-            if request.POST.get('data_desativacao') == "" or request.POST.get('data_desativacao') == None:
-                return HttpResponse("Campo motivo_desativação deve ser preenchido para justifica a inativação da Tag")
+            if request.POST.get('data_desativacao') == None:
+                return HttpResponse("Campo 'motivo_desativação' deve ser preenchido para justificar a inativação da Tag")
+        else:
+            data_desativacao = None
 
 
         rfid = Rfid(cod_corRFID_funcao=CorRFID_Funcao.objects.get(pk=cod_corRfid),
