@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_list_or_404
 from gerenciar_controle_ifto.models import Rfid,CorRFID_Funcao
+from gerenciar_controle_ifto.forms import *
 from datetime import datetime
 
 def cadastrarRFID(request):
@@ -37,7 +38,7 @@ def cadastrarRFID(request):
                     ativo=rfid_ativo,
                     motivo_desativacao = motivo_desativacao
                     )
-                
+
         rfid.save()
         return HttpResponseRedirect('/iftoAcess/listar/tagRfid/')
         
@@ -46,42 +47,45 @@ def cadastrarRFID(request):
 def editarRFID(request, id):
 
     corRfid_Funcao = []
-    tagRfid = Rfid.objects.get(pk=id)
+    tagRfid = get_list_or_404(Rfid, pk=id)
 
+    tg = Rfid.objects.get(pk=id)
     for corRfid in CorRFID_Funcao.objects.all():
-        if corRfid.id != tagRfid.cod_corRFID_funcao.id:
+        if corRfid.id != tg.cod_corRFID_funcao.id:
             corRfid_Funcao.append(corRfid)
 
+
+
+    if request.method == 'POST':
+        #cod_corRfid = int(request.POST.get('cod_corRfid'))
+        rfid_ativo = (request.POST.get('rfid_ativo'))
+        #motivo_desativacao = request.POST.get('motivo_desativacao')
+        #data_desativacao = request.POST.get('data_desativacao')
+        #
+        #print(request.POST.get('rfid_ativo')+"\n")
+        #print(rfid_ativo)
+
+        #if rfid_ativo == False:
+        #    if request.POST.get('data_desativacao') == None:
+        #        return HttpResponse("Campo 'motivo_desativação' deve ser preenchido para justificar a inativação da Tag")
+        #else:
+        #    data_desativacao = None
+
+        form = EditarTagRfid(request.POST, instance=tagRfid)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/listarRfid')
+        else:
+            print(form.errors)
+    else:
+        form = EditarTagRfid(instance=tagRfid)
+        
     context = {
         'title' : 'Edição de Tag Rfid',
-        'tagRfid' : tagRfid,
+        'tagRfid' : form,
         'corRfid_Funcao': corRfid_Funcao,
         'nome_usuario_logado' : 'Rangerson'
     }
-    
-    if request.method == 'POST':
-        cod_corRfid = int(request.POST.get('cod_corRfid'))
-        rfid_ativo = (request.POST.get('rfid_ativo') == "ON")
-        motivo_desativacao = request.POST.get('motivo_desativacao')
-        data_desativacao = request.POST.get('data_desativacao')
-        
-        print(rfid_ativo)
-        if rfid_ativo == False:
-            if request.POST.get('data_desativacao') == None:
-                return HttpResponse("Campo 'motivo_desativação' deve ser preenchido para justificar a inativação da Tag")
-        else:
-            data_desativacao = None
-
-
-        rfid = Rfid(cod_corRFID_funcao=CorRFID_Funcao.objects.get(pk=cod_corRfid),
-                    data_cadastro=datetime.now().strftime('%Y-%m-%d %H:%M'),
-                    data_desativacao = data_desativacao,
-                    vinculado = False,
-                    ativo=rfid_ativo,
-                    motivo_desativacao = motivo_desativacao
-                    )
-                
-        rfid.save()
 
     return render(request, 'pages/rfid/editarRfid.html', context)
 
