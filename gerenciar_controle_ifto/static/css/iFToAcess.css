@@ -36,6 +36,21 @@ hr{
         background-color: #316033;
     }
 
+
+/*      Botão "Salvar" em Cadastros e Edicao    */
+
+#botao_salvar button{
+    background-color: #316033;
+    align-self: center;
+}
+
+/*      Botão "Ler RFID" em Cadastros RFID    */
+
+#botao_ler_rfid button{
+    background-color: #EB3232;
+    align-self: center;
+}
+
 /*      Menu    */
 
 #usuario_login{
@@ -49,14 +64,9 @@ hr{
 }
     #logoff_usuario:hover{
         background-color: rgb(156, 25, 25);
-        
     }
 
-/*          Botão Salvar            */
 
-.botao_salvar{
-    align-self: left !important;
-}
 
 /*  Cadastro de RFID, Funcao, Pessoa,    */
 
@@ -70,10 +80,6 @@ hr{
     text-align: center !important;
     
 }
-    #align_cadastros form button{
-        background-color: #316033;
-        align-self: center;
-    }
 
 #alinhar_listagens{
     background-color: #f0f0f0;
@@ -105,11 +111,3 @@ hr{
     #formulario_cadastro_rfid, #formulario_cadastro_Funcao, #formulario_cadastro_corRfid, #formulario_cadastro_pessoa{
         max-width: 95% !important;
     }
-        #botao_salvar_rfid, #botao_salvar_Funcao, #botao_salvar_corRfid, #botao_salvar_pessoa{
-            background-color: #316033;
-            font-weight: 900 !important;
-            align-content: left !important;
-        }
-        #botao_salvar_rfid:hover, #botao_salvar_Funcao:hover, #botao_salvar_corRfid:hover, #botao_salvar_pessoa:hover button{
-            background-color: #1f4721;
-        }

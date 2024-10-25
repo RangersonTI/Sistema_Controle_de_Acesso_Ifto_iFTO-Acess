@@ -50,9 +50,15 @@
                 <textarea class="form-control" name="motivo_desativacao" id="motivo_desativacao" placeholder="Informe o motivo da desativação" disabled></textarea>
             </div>
 
-            <div class="botao_salvar">
-                <button type="submit" class="btn btn-success">Salvar</button>
+            <div class="buttons">
+                <div id="botao_ler_rfid">
+                    <button type="button" onclick="fazer_leitura_rfid()" class="btn btn-danger">Ler RFID</button>
+                </div>
+                <div id="botao_salvar">
+                    <button type="submit" class="btn btn-success">Salvar</button>
+                </div>
             </div>
+
             
             <br><br>
         </form>

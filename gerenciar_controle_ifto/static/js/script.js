@@ -21,4 +21,5 @@ $(document).ready(function(){
             $('#motivo_desativacao').attr('disabled', false)
         }
     })
+
 })
