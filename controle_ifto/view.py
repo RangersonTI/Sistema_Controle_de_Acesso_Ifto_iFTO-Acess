@@ -8,6 +8,7 @@ import json
 @csrf_exempt
 def ValidarAcesso(request):
 
+    print("Acessou o metodo")
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
@@ -19,6 +20,7 @@ def ValidarAcesso(request):
             print(f"Erro: {ex}")
             return JsonResponse({"Status" : "Nao deu :("})
 
+        print("Vai tentar validar a senha")
         if(cod_esp32 == 'control_acess_ifto_permission_true'):
             cursor,conexao_mysql = conexao()
             command_sql = """ SELECT P.id,P.nome, P.sobrenome, P.cod_Papel_pessoa_id, P.cod_Rfid_id, Rfid.tag_rfid_value FROM gerenciar_controle_ifto_pessoa AS P
@@ -28,6 +30,7 @@ def ValidarAcesso(request):
             values = (value_rfid,)
 
             try:
+                print("Exec bd : |")
                 cursor.execute(command_sql,values)
                 mysql_resultado = cursor.fetchall()
 
@@ -115,20 +118,27 @@ def CadastroHistoricoAcesso(cod_pessoa,cod_rfid,cod_funcao_pessoa):
 def conexao():
 
     dados = lerJSON()
-    conexao_mysql = mysql.connect(
-        host= dados['host'],
-        user= dados['user'],
-        port= dados['port'],
-        password= dados['password'],
-        database= dados['database'],
-    )
+    print("Tentar Conexao")
+    try:
+        conexao_mysql = mysql.connect(
+            host= dados['host'],
+            user= dados['user'],
+            port= dados['port'],
+            password= dados['password'],
+            database= dados['database'],
+        )
+    except Exception as ex:
+        print(ex)
 
+    print("Fez a conexao")
+    print("Fazer o cursor")
     cursor = conexao_mysql.cursor()
-
+    print("Fazer o cursor e vai retornar a info :)")
     return cursor,conexao_mysql
 
 def lerJSON():
+    print("Tentar ler JSON")
     with open("controle_ifto/dados_conexao.json",encoding='utf-8') as atributo_conexao:
         dados = json.load(atributo_conexao)
-
+    print("Leu JSON")
     return dados

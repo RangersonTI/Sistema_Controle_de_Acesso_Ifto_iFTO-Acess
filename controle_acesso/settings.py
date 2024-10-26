@@ -82,7 +82,7 @@ DATABASES = {
         'USER':'root',
         'PASSWORD' : 'wrede',
         'HOST':'127.0.0.1',
-        'PORT': '3377',
+        'PORT': '3306',
     }
 }
 
