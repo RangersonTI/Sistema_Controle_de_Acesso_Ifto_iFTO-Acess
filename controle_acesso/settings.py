@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,7 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'controle_ifto',
     'gerenciar_controle_ifto',
+    'crispy_forms',
+    'crispy_bootstrap4',
 ]
+
+#Crispy
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

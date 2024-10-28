@@ -1,77 +1,22 @@
 {% include "base/cabecalho.html" %}
+{% load crispy_forms_tags %}
 
 <br><br><br>
-<div id="align_cadastros">
-    <h1 id="h1_title_cad_rfid">Cadastro de Tags RFID</h1>
-    <hr/>
+<div id="container_formulario">
+    <center>
+        <div id="div_title">
+            <h1 id="h1_title">{{ title }}</h1>
+            <hr/>
+        </div>
+    </center>
     <br><br>
-
     <div id="div_form_cad_rfid">
-        <form method="POST" id="formulario_cadastro_rfid">
-            {% csrf_token %}
-            <br><br>
-
-            <div class="form-group row">
-                <label for="tag_rfid_value" class="col-sm-2 col-form-label">Tag RFID:</label>
-                <div class="col-sm-10">
-                <input type="text" class="form-control" name="tag_rfid_value" id="tag_rfid_value" placeholder="Ex.: A4 71 EV V7" value="{{ tagRfid.tag_rfid_value }}" disabled>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="cod_corRfid" class="col-sm-2 col-form-label">Cor:</label>
-                <div class="col-sm-10">
-                    <select class="form-control" name="cod_corRfid" required>
-                        <option value="{{ tagRfid.id }}">{{ tagRfid.cod_corRFID_funcao.corRFID }}<b>({{ tagRfid.cod_corRFID_funcao.cod_cargo.descricao }})</b></option>
-                        {% for corRfid in corRfid_Funcao %}
-                            <option value="{{ corRfid.id }}">{{ corRfid.corRFID }}<b>({{ corRfid.cod_cargo.descricao }})</b></option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-sm-2">Ativo:</div>
-                    <div class="col-sm-10">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="rfid_ativo" name="rfid_ativo" value="{{tagRfid.ativo}}" checked>
-                    </div>
-                </div>
-            </div>
-
-            {% if tagRfid.ativo == True%}
-                <div class="form-group row">
-                    <label for="data_desativacao" class="col-sm-2 col-form-label">Data de desativação:</label>
-                    <div class="col-sm-10">
-                    <input type="datetime-local" class="form-control" name="data_desativacao" id="data_desativacao" disabled>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="motivo_desativacao">Motivo de desativação:</label>
-                    <textarea class="form-control" name="motivo_desativacao" id="motivo_desativacao" placeholder="Informe o motivo da desativação" disabled></textarea>
-                </div>
-            {% else %}
-
-                <div class="form-group row">
-                    <label for="data_desativacao" class="col-sm-2 col-form-label">Data de desativação:</label>
-                    <div class="col-sm-10">
-                    <input type="datetime-local" class="form-control" name="data_desativacao" id="data_desativacao">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="motivo_desativacao">Motivo de desativação:</label>
-                    <textarea class="form-control" name="motivo_desativacao" id="motivo_desativacao" placeholder="Informe o motivo da desativação"></textarea>
-                </div>
-            {% endif %}
-
-            <div class="botao_salvar_rfid">
-                <button type="submit" class="btn btn-success">Salvar</button>
-            </div>
-            
-            <br><br>
+        <form class method="POST" id="">
+            {% crispy form %}
         </form>
+    </div>
+    <div id="botao_salvar">
+        <button type="submit" class="btn btn-success">Salvar</button>
     </div>
 </div>
 {% include "base/final.html"%}

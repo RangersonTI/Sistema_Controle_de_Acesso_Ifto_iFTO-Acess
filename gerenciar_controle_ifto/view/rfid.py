@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_list_or_404
 from gerenciar_controle_ifto.models import Rfid,CorRFID_Funcao
-from gerenciar_controle_ifto.forms import *
+from gerenciar_controle_ifto.forms import EditarRfidForm
 from datetime import datetime
 
 def cadastrarRFID(request):
@@ -9,7 +9,7 @@ def cadastrarRFID(request):
     cores = CorRFID_Funcao.objects.all()
     
     context = {
-        'title' : 'Cadastro de Rfid',
+        'title' : 'Cadastro de Tag-Rfid',
         'cores' : cores,
         'nome_usuario_logado' : 'Rangerson'
     }
@@ -46,19 +46,19 @@ def cadastrarRFID(request):
 
 def editarRFID(request, id):
 
-    corRfid_Funcao = []
-    tagRfid = get_list_or_404(Rfid, pk=id)
+    #corRfid_Funcao = []
+    #tagRfid = get_list_or_404(Rfid, pk=id)
+    #
+    #tg = Rfid.objects.get(pk=id)
+    #for corRfid in CorRFID_Funcao.objects.all():
+    #    if corRfid.id != tg.cod_corRFID_funcao.id:
+    #        corRfid_Funcao.append(corRfid)
 
-    tg = Rfid.objects.get(pk=id)
-    for corRfid in CorRFID_Funcao.objects.all():
-        if corRfid.id != tg.cod_corRFID_funcao.id:
-            corRfid_Funcao.append(corRfid)
 
 
-
-    if request.method == 'POST':
+    #if request.method == 'POST':
         #cod_corRfid = int(request.POST.get('cod_corRfid'))
-        rfid_ativo = (request.POST.get('rfid_ativo'))
+        #rfid_ativo = (request.POST.get('rfid_ativo'))
         #motivo_desativacao = request.POST.get('motivo_desativacao')
         #data_desativacao = request.POST.get('data_desativacao')
         #
@@ -71,22 +71,44 @@ def editarRFID(request, id):
         #else:
         #    data_desativacao = None
 
-        form = EditarTagRfid(request.POST, instance=tagRfid)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/listarRfid')
-        else:
-            print(form.errors)
-    else:
-        form = EditarTagRfid(instance=tagRfid)
+    #    form = EditarRfid(request.POST, instance=tagRfid)
+    #    if form.is_valid():
+    #        form.save()
+    #        return HttpResponseRedirect('/listarRfid')
+    #    else:
+    #        print(form.errors)
+    #else:
+    #    form = EditarRfid(instance=tagRfid)
+    #    
+    #context = {
+    #    'title' : 'Edição de Tag Rfid',
+    #    'tagRfid' : form,
+    #    'corRfid_Funcao': corRfid_Funcao,
+    #    'nome_usuario_logado' : 'Rangerson'
+    #}
+    
+    if request.method == 'POST':
+        form = EditarRfidForm(request.POST)
         
+        if form.is_valid():
+            print(form.cleaned_data)
+            form = EditarRfidForm()
+            
+        context = {
+            'form' : form
+        }
+        
+        return render(request, 'pages/rfid/editarRfid.html', context)
+
+    form = EditarRfidForm()
+    
     context = {
-        'title' : 'Edição de Tag Rfid',
-        'tagRfid' : form,
-        'corRfid_Funcao': corRfid_Funcao,
+        
+        'form' : form,
+        'title' : 'Edição de Tag-Rfid',
         'nome_usuario_logado' : 'Rangerson'
     }
-
+    
     return render(request, 'pages/rfid/editarRfid.html', context)
 
 def listarRFID(request):
@@ -94,7 +116,7 @@ def listarRFID(request):
     rfids = Rfid.objects.all()
     
     context = {
-        'title' : 'Listar Rfid',
+        'title' : 'Listagem de Tags-Rfid',
         'tagsRfid' : rfids,
         'nome_usuario_logado' : 'Rangerson'
     }
