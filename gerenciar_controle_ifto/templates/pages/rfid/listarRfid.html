@@ -13,6 +13,7 @@
             <th scope="col">Tag Rfid</th>
             <th scope="col">Funcão</th>
             <th scope="col">Ativo</th>
+            <th scope="col">Data de Cadastro</th>
             <th scope="col">Data de Desativação</th>
             <th scope="col">Motivo da desativação</th>
             <th scope="col">Opções</th>
@@ -24,11 +25,13 @@
                     <th scope="row">{{ tagRfid.id }}</th>
                     <td id="centralize_info">{{ tagRfid.tag_rfid_value }}</td>
                     <td>{{ tagRfid.cod_corRFID_funcao.cod_cargo.descricao }}</td>
+                    
                     {% if tagRfid.ativo == True %}
                         <td id="centralize_info">Sim</td>
                     {% else %}
                         <td id="centralize_info">Não</td>
                     {% endif %}
+                    <td>{{ tagRfid.data_cadastro }}</td>
 
                     {% if tagRfid.data_desativacao == None %}
                     <td id="centralize_info"> - </td>
@@ -42,7 +45,7 @@
                         <td>{{ tagRfid.motivo_desativacao }}</td>
                     {% endif %}
 
-                    {% if tagRfid.ativo == True %}
+                    {% if tagRfid.ativo %}
                         <td id="centralize_info">
                             <a href="{% url "editar_tagRfid" tagRfid.id%}">
                                 <img src="{% static "images/icones/editar.png" %}" width="16px" alt="">
@@ -50,7 +53,7 @@
                         </td>
                     {% else %}
                         <td id="centralize_info">
-                            <img src="{% static "images/icones/editar.png" %}" width="16px" alt="">
+                            <img src="" width="16px" alt="">
                         </td>
                     {% endif %}
                 </tr>

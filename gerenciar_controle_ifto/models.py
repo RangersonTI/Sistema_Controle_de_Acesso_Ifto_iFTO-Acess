@@ -26,7 +26,10 @@ class Rfid(models.Model):
     ativo = models.BooleanField()
     motivo_desativacao = models.CharField(max_length=30, null=True)
     
-
+    def data_formatada(self):
+        if(self.data_desativacao):
+            return self.data_desativacao.strftime("%d/%m/%Y, %H:%M")
+        
 class Pessoa(models.Model):
     nome = models.CharField(max_length=20)
     sobrenome = models.CharField(max_length=35)
