@@ -6,9 +6,9 @@ pip install mysqlclient
 pip install django-crispy-forms
 pip install crispy-bootstrap4
 
-Em caso de erro ao install o 'mysqlclient', execute "sudo apt-get install python3-dev default-libmysqlclient-dev build-essential"
+COMANDO: pip install django mysql-connector-python mysqlclient django-crispy-forms crispy-bootstrap4
 
-COMANDO: pip install django mysql-connector-python mysqlclient
+Em caso de erro ao install o 'mysqlclient', execute "sudo apt-get install python3-dev default-libmysqlclient-dev build-essential pkg-config"
 
 Windows:    Caso venha ocorrer o erro ao executar o comando .\venv\Scripts\activate no terminal, provavelmente seu usuario não tem permissão executar o tipo do artivo .ps1.
 

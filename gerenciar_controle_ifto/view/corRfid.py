@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
 from gerenciar_controle_ifto.models import CorRFID_Funcao, Papel_pessoa
+from gerenciar_controle_ifto.forms import EditarCorRfidForm
 
 def cadastrarCorRfid(request):
     
@@ -41,11 +43,39 @@ def listarCorRfid(request):
 
     return render(request, "pages/corRfid/listarCorRfid.html", context)
 
-def editarCorRfid(request):
-
+def editarCorRfid(request, id):
+    
+    cor_rfid_funcao = get_object_or_404(CorRFID_Funcao, id=id)
+    
+    if request.method == 'POST':
+        form = EditarCorRfidForm(request.POST)
+        
+        if form.is_valid:
+            cor_rfid_funcao.corRFID = form.cleaned_data['corRFID']
+            cor_rfid_funcao.cod_cargo = form.cleaned_data['cod_cargo']
+            cor_rfid_funcao.save()
+            
+            return HttpResponseRedirect('/iftoAces/listar/corRfid/')
+        
+        
+        context = {
+            'form' : form,
+            'title' : 'Edicao de Cor-Rfid',
+            'nome_usuario_logado' : 'Rangerson'
+        }
+        return render(request, 'pages/corRfid/editarCorRfid.html')
+    
+    form = EditarCorRfidForm(
+        initial={
+            'corRFID'  : cor_rfid_funcao.corRFID ,
+            'cod_cargo'  : cor_rfid_funcao.cod_cargo,   
+        }
+    )
+    
     context = {
-        'title' : 'Editar Cor-Rfid',
+        'form' : form,
+        'title' : 'Edicao de Cor-Rfid',
         'nome_usuario_logado' : 'Rangerson'
     }
-
+    
     return render(request, "pages/corRfid/editarCorRfid.html", context)

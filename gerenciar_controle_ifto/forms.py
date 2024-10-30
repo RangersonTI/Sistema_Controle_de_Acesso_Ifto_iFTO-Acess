@@ -68,8 +68,28 @@ class EditarRfidForm(forms.Form):
         ativo = self.cleaned_data['ativo']
         data_desativacao = self.cleaned_data['data_desativacao']
         motivo_desativacao = self.cleaned_data['motivo_desativacao']
-        print("passou aqui no verificacao")
+
         if ativo == False and ((data_desativacao == None or data_desativacao == "") or (motivo_desativacao == None or motivo_desativacao == "")):
             self.add_error('data_desativacao',"")
             self.add_error('motivo_desativacao',"")
             raise ValidationError("Os campos 'Data de desativação' e 'Motivo desativação' são obrigatório quanto 'Ativo' for falso")
+
+class EditarCorRfidForm(forms.Form):
+    corRFID = forms.CharField(label="Cor Rfid:", required=True, error_messages={'invalid' : 'O campo deve ser preenchido'})
+    cod_cargo = forms.ModelChoiceField(label="Cargo",queryset=Papel_pessoa.objects.all(), required=True)
+    
+    def __init__(self, *args, cod_cargoID=None, **kwargs):
+        
+        super(EditarCorRfidForm, self).__init__(*args, **kwargs)
+        
+        if cod_cargoID is not None:
+            cod_cargo =CorRFID_Funcao.objects.filter(id=cod_cargoID)
+            others_options = CorRFID_Funcao.objects.exclude(id=cod_cargoID)
+            self.fields['cod_cargo'].queryset = cod_cargo | others_options
+
+    def clean(self):
+        corRfid = self.cleaned_data['corRFID']
+        cod_cargo = self.cleaned_data['cod_cargo']
+        
+        if (cod_cargo == None):
+            self.add_error('cod_cargo',"Selecione um cargo")
