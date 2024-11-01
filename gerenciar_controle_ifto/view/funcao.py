@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from gerenciar_controle_ifto.models import Papel_pessoa
+from gerenciar_controle_ifto.forms import EditarFuncaoForm
 
 def cadastrarFuncao(request):
     
@@ -23,13 +24,32 @@ def cadastrarFuncao(request):
     
     return render(request, "pages/funcao/cadastrarFuncao.html", context)
 
-def editarFuncao(request):
+def editarFuncao(request, id):
+    
+    funcao = get_object_or_404(Papel_pessoa, id=id)
+    
+    if request.method == 'POST':
+        form = EditarFuncaoForm(request.POST)
+            
+        if form.is_valid():
+            funcao.descricao = form.cleaned_data['funcao']
+            funcao.save()
+
+    form = EditarFuncaoForm(
+        initial={
+            'funcao' : funcao.descricao
+        }
+    )
     
     context = {
-        'title' : 'Editar Função',
+        'form' : form,
+        'funcao' : funcao,
+        'title' : 'Edicao de Funcao',
         'nome_usuario_logado' : 'Rangerson'
     }
-    return render(request, "pages/funcao/editarFuncao.html", context)
+    
+    return render(request, 'pages/funcao/editarFuncao.html', context)
+    
 
 def listarFuncao(request):
     

@@ -47,7 +47,7 @@ def cadastrarRFID(request):
 
         rfid.save()
         return HttpResponseRedirect('/iftoAcess/listar/tagRfid/')
-        
+
     return render(request, 'pages/rfid/cadastrarRfid.html',context)
 
 def editarRFID(request, id):
@@ -60,7 +60,6 @@ def editarRFID(request, id):
         if form.is_valid():
             rfid.cod_corRFID_funcao = form.cleaned_data['cod_corRFID_funcao']
             rfid.ativo = form.cleaned_data['ativo']
-            print(f"\n{form.cleaned_data['ativo']}\n")
             rfid.data_desativacao = form.cleaned_data['data_desativacao']
             rfid.motivo_desativacao = form.cleaned_data['motivo_desativacao']
             rfid.save()

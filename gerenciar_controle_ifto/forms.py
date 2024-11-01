@@ -6,18 +6,6 @@ from django.core.exceptions import ValidationError
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit
  
-#class EditarRfid(forms.ModelForm):
-#
-#    class Meta:
-#        model = Rfid
-#        fields = ["cod_corRFID_funcao", "data_desativacao", "ativo", "motivo_desativacao"]
-#        
-#    #def __init__(self, *args, **kwargs):
-#    #    super(EditarRfid, self).__init__(*args, **kwargs)
-#    #    
-#    #    if "ativo" in kwargs['instance'] and kwargs['instance'].ativo:
-#    #        self.fields["data_desativacao"].required == False
-#    #        self.fields["motivo_desativacao"].required == False
 
 class EditarRfidForm(forms.Form):
     tag_rfid_value = forms.CharField(required=False, label="Tag Rfid",max_length=12, disabled=True)
@@ -31,26 +19,26 @@ class EditarRfidForm(forms.Form):
                                            disabled=True,
                                            )
     motivo_desativacao = forms.CharField(required=False, label="Motivo desativação:",max_length=30, disabled=True)
-    
+
     def __init__(self, *args, corRfidID=None, **kwargs):
         super(EditarRfidForm, self).__init__(*args, **kwargs)
-        
+
         if corRfidID is not None:
             corRfid = CorRFID_Funcao.objects.filter(id=corRfidID)
             other_options = CorRFID_Funcao.objects.exclude(id=corRfidID)
             self.fields['cod_corRFID_funcao'].queryset = corRfid | other_options
-        
+
         self.fields['ativo'].widget.attrs = {
             'id' : 'rfid_ativo',
         }
         self.fields['data_desativacao'].widget.attrs = {
             'id' : 'data_desativacao',
         }
-        
+
         self.fields['motivo_desativacao'].widget.attrs = {
             'id' : 'motivo_desativacao',
         }
-        
+
         self.helper = FormHelper(self)
         self.helper.form_class = 'form-horizontal'
         self.helper.label_class = 'col-lg-2'
@@ -74,22 +62,74 @@ class EditarRfidForm(forms.Form):
             self.add_error('motivo_desativacao',"")
             raise ValidationError("Os campos 'Data de desativação' e 'Motivo desativação' são obrigatório quanto 'Ativo' for falso")
 
+
+class EditarFuncaoForm(forms.Form):
+    funcao = forms.CharField(label="Funcao:", required=True)
+    
+    def __init__(self, *args, **kwargs):
+        super(EditarFuncaoForm, self).__init__(*args, **kwargs)
+        
+        self.fields['funcao'].widget.attrs = {
+            'id' : 'funcao_descricao',
+            'name' : 'funcao_descricao'
+        }
+        
+        self.helper = FormHelper(self)
+        self.helper.form_class = 'form-horizontal'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-8'
+        self.helper.layout = Layout(
+            'funcao',
+            Submit('submit', 'Salvar', css_id='botao_salvar', css_class='btn btn-success')
+        )
+
+    def clean(self):
+        funcao = self.cleaned_data['funcao']
+        
+        if len(funcao) <=2:
+            self.add_error('info_invalido',"A funcao devera ter mais de 2 caracteres")
+
+
 class EditarCorRfidForm(forms.Form):
     corRFID = forms.CharField(label="Cor Rfid:", required=True, error_messages={'invalid' : 'O campo deve ser preenchido'})
     cod_cargo = forms.ModelChoiceField(label="Cargo",queryset=Papel_pessoa.objects.all(), required=True)
     
     def __init__(self, *args, cod_cargoID=None, **kwargs):
-        
         super(EditarCorRfidForm, self).__init__(*args, **kwargs)
         
+        self.fields['corRFID'].widget.attrs = {
+            'id' : 'cor_Rfid',
+            'name' : 'cor_Rfid'
+        }
+        
+        self.fields['cod_cargo'].widget.attrs = {
+            'id' : 'cod_corRfid',
+            'name' : 'cod_corRfid'
+        }
+        
         if cod_cargoID is not None:
-            cod_cargo =CorRFID_Funcao.objects.filter(id=cod_cargoID)
-            others_options = CorRFID_Funcao.objects.exclude(id=cod_cargoID)
+            cod_cargo =Papel_pessoa.objects.filter(id=cod_cargoID)
+            others_options = Papel_pessoa.objects.exclude(id=cod_cargoID)
             self.fields['cod_cargo'].queryset = cod_cargo | others_options
 
+        self.helper = FormHelper(self)
+        self.helper.form_class = 'form-horizontal'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-8'
+        self.helper.layout = Layout(
+            'corRFID',
+            'cod_cargo',
+            Submit('submit', 'Salvar', css_id='botao_salvar', css_class='btn btn-success')
+        )
+
     def clean(self):
-        corRfid = self.cleaned_data['corRFID']
+        corRFID = self.cleaned_data['corRFID']
         cod_cargo = self.cleaned_data['cod_cargo']
+        print("\n"+corRFID+"\n")
+        
+        #if (len(corRFID) <=2):
+        #    print("passou do len()")
+        #    self.add_error('corRFID', "A 'Cor' deve ter mais de 2 caracteres")
         
         if (cod_cargo == None):
             self.add_error('cod_cargo',"Selecione um cargo")

@@ -1,5 +1,20 @@
 {% include "base/cabecalho.html" %}
+{% load crispy_forms_tags %}
 
-<center><h1>Editar Funcao</h1></center>
-
+<br><br><br>
+<div id="container_formulario">
+    <center>
+        <div id="div_title">
+            <h1 id="h1_title">{{ title }}</h1>
+            <hr/>
+        </div>
+    </center>
+    <br><br>
+    <div id="div_form_cad_rfid">
+        <form method="POST">
+            {% crispy form %}
+        </form>
+    </div>
+    
+</div>
 {% include "base/final.html"%}
