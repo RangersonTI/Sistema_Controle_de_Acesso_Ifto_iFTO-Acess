@@ -4,7 +4,7 @@ from django.db import models
 from gerenciar_controle_ifto.models import Papel_pessoa, Pessoa, Rfid, CorRFID_Funcao
 from django.core.exceptions import ValidationError
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit
+from crispy_forms.layout import Layout, Submit, HTML
  
 
 class EditarRfidForm(forms.Form):
@@ -48,6 +48,9 @@ class EditarRfidForm(forms.Form):
             'ativo',
             'data_desativacao',
             'motivo_desativacao',
+            HTML("""<a href="{% url "visualizar_tagRfid" %}">
+                        <button type='button' class="btn btn-primary", id="botao_voltar">Voltar</button>
+                    </a>"""),
             Submit('submit', 'Salvar', css_id='botao_salvar', css_class='btn btn-success')
         )
 
@@ -78,7 +81,10 @@ class EditarFuncaoForm(forms.Form):
         self.helper.field_class = 'col-lg-8'
         self.helper.layout = Layout(
             'funcao',
-            Submit('submit', 'Salvar', css_id='botao_salvar', css_class='btn btn-success')
+            HTML("""<a href="{% url "visualizar_funcao" %}">
+                        <button type='button' class="btn btn-primary", id="botao_voltar">Voltar</button>
+                    </a>"""),
+            Submit('submit', 'Salvar', css_id='botao_salvar', css_class='btn btn-success'),
         )
 
     def clean(self):
@@ -121,7 +127,10 @@ class EditarCorRfidForm(forms.Form):
         self.helper.layout = Layout(
             'corRFID',
             'cod_cargo',
-            Submit('submit', 'Salvar', css_id='botao_salvar', css_class='btn btn-success')
+            HTML("""<a href="{% url "visualizar_corRfid" %}">
+                        <button type='button' class="btn btn-primary", id="botao_voltar">Voltar</button>
+                    </a>"""),
+            Submit('submit', 'Salvar', css_id='botao_salvar', css_class='btn btn-success'),
         )
     
     def clean(self):
@@ -134,3 +143,49 @@ class EditarCorRfidForm(forms.Form):
 
         if len(corRfid) <=2:
             self.add_error('corRFID',"A cor deve ter mais de 2 caracteres")
+            
+class EditarPessoaForm(forms.Form):
+    nome = forms.CharField(label="Nome:")
+    sobrenome = forms.CharField(label="Sobrenome:")
+    cpf = forms.CharField(label="CPF:")
+    data_nascimento = forms.DateTimeField(label="Data de nascimento:", 
+                                          widget= forms.DateTimeInput(
+                                                attrs={'type': 'datetime-local'},
+                                                format='%d-%m-%Y %H:%M'
+                                            ),
+                                        )
+    cod_Papel_pessoa = forms.ModelChoiceField(label="Funcao",queryset=Papel_pessoa.objects.all())
+    
+    def __init__(self, *args, cod_cargoID=None, **kwargs):
+        self.fields['nome'].widget.attrs = {
+            'id' : 'nome'
+        }
+        self.fields['sobrenome'].widget.attrs = {
+            'id' : 'sobrenome'
+        }
+        self.fields['cpf'].widget.attrs = {
+            'id' : 'cpf'
+        }
+        self.fields['data_nascimento'].widget.attrs = {
+            'id' : 'data_nascimento'
+        }
+        self.fields['cod_Papel_pessoa'].widget.attrs = {
+            'id' : 'cod_Papel_pessoa'
+        }
+        
+        self.helper = FormHelper(self)
+        self.helper.form_class= 'form-horizontal'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-8'
+        self.helper.layout = Layout(
+            'nome',
+            'sobrenome',
+            'cpf',
+            'data_nascimento',
+            'cod_Papel_pessoa',
+            
+            HTML("""<a href="{% url "visualizar_pessoa" %}">
+                        <button type='button' class="btn btn-primary", id="botao_voltar">Voltar</button>
+                    </a>"""),
+            Submit('submit', 'Salvar', css_id='botao_salvar', css_class='btn btn-success'),
+        )

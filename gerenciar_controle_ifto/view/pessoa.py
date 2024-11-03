@@ -65,7 +65,7 @@ def cadastrarPessoa(request):
                         )
         pessoa.save()
         
-        return HttpResponseRedirect("/iftoAcess/")
+        return HttpResponseRedirect("/iftoAcess/listar/pessoa/")
         
     return render(request, 'pages/pessoa/cadastrarPessoa.html', context)
 
