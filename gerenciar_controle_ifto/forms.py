@@ -10,7 +10,6 @@ from crispy_forms.layout import Layout, Submit
 class EditarRfidForm(forms.Form):
     tag_rfid_value = forms.CharField(required=False, label="Tag Rfid",max_length=12, disabled=True)
     cod_corRFID_funcao = forms.ModelChoiceField(required=True, label="Cor Rfid:", queryset=CorRFID_Funcao.objects.all())
-    #ativo = forms.BooleanField(label="Ativo:", initial=True)
     ativo = forms.BooleanField(required=False, label="Ativo:")
     data_desativacao = forms.DateTimeField(required=False, label="Data de desativação:", 
                                            widget=forms.DateTimeInput(
@@ -71,7 +70,6 @@ class EditarFuncaoForm(forms.Form):
         
         self.fields['funcao'].widget.attrs = {
             'id' : 'funcao_descricao',
-            'name' : 'funcao_descricao'
         }
         
         self.helper = FormHelper(self)
@@ -84,36 +82,40 @@ class EditarFuncaoForm(forms.Form):
         )
 
     def clean(self):
+        funcoes = Papel_pessoa.objects.all()
         funcao = self.cleaned_data['funcao']
-        
+
         if len(funcao) <=2:
-            self.add_error('info_invalido',"A funcao devera ter mais de 2 caracteres")
+            return self.add_error('funcao',"A funcao devera ter mais de 2 caracteres")
+        
+        for funcao_obj in funcoes:
+            if str(funcao).upper() == funcao_obj.descricao.upper():
+                self.add_error('funcao', "Esta funcao j'a foi cadastrada.")
+                break
 
 
 class EditarCorRfidForm(forms.Form):
-    corRFID = forms.CharField(label="Cor Rfid:", required=True, error_messages={'invalid' : 'O campo deve ser preenchido'})
-    cod_cargo = forms.ModelChoiceField(label="Cargo",queryset=Papel_pessoa.objects.all(), required=True)
+    corRFID = forms.CharField(label="Cor:")
+    cod_cargo = forms.ModelChoiceField(label="Cargo:", queryset=Papel_pessoa.objects.all())
     
     def __init__(self, *args, cod_cargoID=None, **kwargs):
         super(EditarCorRfidForm, self).__init__(*args, **kwargs)
         
         self.fields['corRFID'].widget.attrs = {
-            'id' : 'cor_Rfid',
-            'name' : 'cor_Rfid'
+            'id' : 'corRFID'
         }
         
         self.fields['cod_cargo'].widget.attrs = {
-            'id' : 'cod_corRfid',
-            'name' : 'cod_corRfid'
+            'id' : 'cod_cargo'
         }
-        
+
         if cod_cargoID is not None:
             cod_cargo =Papel_pessoa.objects.filter(id=cod_cargoID)
-            others_options = Papel_pessoa.objects.exclude(id=cod_cargoID)
+            others_options = Papel_pessoa.objects.exclude(id=cod_cargoID).filter(vinculado_corRfid=False)
             self.fields['cod_cargo'].queryset = cod_cargo | others_options
 
         self.helper = FormHelper(self)
-        self.helper.form_class = 'form-horizontal'
+        self.helper.form_class= 'form-horizontal'
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-8'
         self.helper.layout = Layout(
@@ -121,15 +123,14 @@ class EditarCorRfidForm(forms.Form):
             'cod_cargo',
             Submit('submit', 'Salvar', css_id='botao_salvar', css_class='btn btn-success')
         )
-
+    
     def clean(self):
-        corRFID = self.cleaned_data['corRFID']
-        cod_cargo = self.cleaned_data['cod_cargo']
-        print("\n"+corRFID+"\n")
-        
-        #if (len(corRFID) <=2):
-        #    print("passou do len()")
-        #    self.add_error('corRFID', "A 'Cor' deve ter mais de 2 caracteres")
-        
-        if (cod_cargo == None):
-            self.add_error('cod_cargo',"Selecione um cargo")
+        cor_rfid_funcoes = CorRFID_Funcao.objects.all()
+        corRfid = self.cleaned_data['corRFID']
+                
+        for cor_rfid_funcao in cor_rfid_funcoes:
+            if str(corRfid).upper() == str(cor_rfid_funcao.corRFID).upper() and not(corRfid):
+                self.add_error('corRFID', "A cor informada ja foi cadastrada")
+
+        if len(corRfid) <=2:
+            self.add_error('corRFID',"A cor deve ter mais de 2 caracteres")

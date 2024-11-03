@@ -16,13 +16,13 @@ def cadastrarCorRfid(request):
     if request.method == 'POST':
         cor = request.POST.get('cor_Rfid')
         funcao = int(request.POST.get('cod_corRfid'))
-        
+
         corRfid = CorRFID_Funcao(corRFID = cor,
                                  cod_cargo = Papel_pessoa.objects.get(pk=funcao)
                                  )
 
         corRfid.save()
-    
+
         # Aqui ele irá atulizar o status da Funcao vinculada a cor para verdadeiro.
         edit_funcao = Papel_pessoa.objects.get(pk=funcao)
         edit_funcao.vinculado_corRfid = True
@@ -33,7 +33,7 @@ def cadastrarCorRfid(request):
 def listarCorRfid(request):
 
     coresRfid = CorRFID_Funcao.objects.all()
-    
+
     context = {
         'title' : 'Listagem de Cor-Rfid',
         'coresRfid' : coresRfid,
@@ -44,46 +44,55 @@ def listarCorRfid(request):
 
 
 def editarCorRfid(request, id):
-    
-    cor_rfid_funcao = get_object_or_404(CorRFID_Funcao, id=id)
+
+    corRfid_funcao = get_object_or_404(CorRFID_Funcao,id=id)
     
     if request.method == 'POST':
         form = EditarCorRfidForm(request.POST)
-        
-        if form.is_valid:
-            cor_rfid_funcao.corRFID = form.cleaned_data['cor_Rfid']
-            cor_rfid_funcao.cod_cargo = form.cleaned_data['cod_corRfid']
-            cor_rfid_funcao.save()
+    
+        if form.is_valid():
+            corRfid_funcao.corRFID = form.cleaned_data['corRFID']
+            corRfid_funcao.cod_cargo = form.cleaned_data['cod_cargo']
+
+            corRfid_funcao_anterior = CorRFID_Funcao.objects.get(pk=id)
+
+            # Neste trecho de codigo ser'a executado, caso venha ser feito a alteracao de funcao relacionado a cor
+            # na qual sera realizado a alteracao do status de 'vinculado_corRfid'
             
+            if not(corRfid_funcao.cod_cargo.id == corRfid_funcao_anterior.cod_cargo.id):
+
+                edit_funcao_anterior = Papel_pessoa.objects.get(pk=corRfid_funcao_anterior.cod_cargo.id)
+                edit_funcao_anterior.vinculado_corRfid = False
+                edit_funcao_anterior.save()
+
+                edit_funcao_atual = Papel_pessoa.objects.get(pk=corRfid_funcao.cod_cargo.id)
+                edit_funcao_atual.vinculado_corRfid = True
+                edit_funcao_atual.save()
+
+            corRfid_funcao.save()
             return HttpResponseRedirect('/iftoAcess/listar/corRfid/')
-        
+
         context = {
             'form' : form,
             'title' : 'Edicao de Cor-Rfid',
             'nome_usuario_logado' : 'Rangerson'
         }
-        return render(request, 'pages/corRfid/editarCorRfid.html', context)
-        
-        
-    context = {
-        'form' : form,
-        'title' : 'Edicao de Cor-Rfid',
-        'nome_usuario_logado' : 'Rangerson'
-    }
-    return render(request, 'pages/corRfid/editarCorRfid.html', context)
-    
+        return render(request,'pages/corRfid/editarCorRfid.html', context)
+
+
     form = EditarCorRfidForm(
         initial={
-            'corRFID'  : cor_rfid_funcao.corRFID ,
-            'cod_cargo'  : cor_rfid_funcao.cod_cargo,   
+            'corRFID': corRfid_funcao.corRFID,
+            'cod_cargo': corRfid_funcao.cod_cargo
         },
-        cod_cargoID = cor_rfid_funcao.cod_cargo.id
+        cod_cargoID = corRfid_funcao.id
     )
-    
+       
     context = {
-        'form' : form,
-        'title' : 'Edicao de Cor-Rfid',
-        'nome_usuario_logado' : 'Rangerson'
-    }
+            'form' : form,
+            'corRfid_funcao' : corRfid_funcao,
+            'title' : 'Edicao de Cor-Rfid',
+            'nome_usuario_logado' : 'Rangerson'
+        }
+    return render(request,'pages/corRfid/editarCorRfid.html', context)
     # IFTO Acess: Uma proposta de Controle de Acesso para o Instituto
-    return render(request, "pages/corRfid/editarCorRfid.html", context)

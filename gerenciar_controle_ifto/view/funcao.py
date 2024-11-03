@@ -25,15 +25,25 @@ def cadastrarFuncao(request):
     return render(request, "pages/funcao/cadastrarFuncao.html", context)
 
 def editarFuncao(request, id):
-    
+
     funcao = get_object_or_404(Papel_pessoa, id=id)
-    
+
     if request.method == 'POST':
         form = EditarFuncaoForm(request.POST)
-            
+
         if form.is_valid():
             funcao.descricao = form.cleaned_data['funcao']
             funcao.save()
+            return HttpResponseRedirect('/iftoAcess/listar/funcao')
+        
+        context = {
+        'form' : form,
+        'funcao' : funcao,
+        'title' : 'Edicao de Funcao',
+        'nome_usuario_logado' : 'Rangerson'
+        }
+        return render(request, 'pages/funcao/editarFuncao.html', context)
+
 
     form = EditarFuncaoForm(
         initial={
