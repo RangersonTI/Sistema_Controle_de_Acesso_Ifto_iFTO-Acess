@@ -88,7 +88,6 @@ def editarRFID(request, id):
     context = {
         
         'form' : form,
-        'rfid' : rfid,
         'title' : 'Edição de Tag-Rfid',
         'nome_usuario_logado' : 'Rangerson'
     }

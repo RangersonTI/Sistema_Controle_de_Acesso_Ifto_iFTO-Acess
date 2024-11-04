@@ -5,6 +5,7 @@ pip install mysql-connector-python
 pip install mysqlclient
 pip install django-crispy-forms
 pip install crispy-bootstrap4
+pip install validate-docbr
 
 COMANDO: pip install django mysql-connector-python mysqlclient django-crispy-forms crispy-bootstrap4
 

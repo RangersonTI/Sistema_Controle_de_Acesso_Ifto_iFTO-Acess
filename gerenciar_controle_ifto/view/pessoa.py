@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from gerenciar_controle_ifto.models import Pessoa,Papel_pessoa
 from datetime import datetime
 from django.http import HttpResponseRedirect
+from gerenciar_controle_ifto.forms import EditarPessoaForm
 
 def converterData(pessoas):
     for pessoa in pessoas:
@@ -81,9 +82,41 @@ def listarPessoa(request):
     }
     return render(request, 'pages/pessoa/listarPessoa.html', context)
 
-def editarPessoa(request):
+def editarPessoa(request, id):
+    
+    pessoa = get_object_or_404(Pessoa, id=id)
+    
+    if request.method == 'POST':
+        form = EditarPessoaForm(request.POST)
+        
+        if form.is_valid():
+            pessoa.nome = form.cleaned_data['nome']
+            pessoa.sobrenome = form.cleaned_data['sobrenome']
+            pessoa.cpf = form.cleaned_data['cpf']
+            pessoa.cod_Papel_pessoa = form.cleaned_data['cod_Papel_pessoa']
+            pessoa.data_nascimento = form.cleaned_data['data_nascimento']
+            pessoa.save()
+            
+        context = {
+        'form' : form,
+        'title' : 'Edicao de Pessoa',
+        'nome_usuario_logado' : 'Rangerson'
+        }
+        return render(request, 'pages/pessoa/editarPessoa.html', context)    
+    
+    form = EditarPessoaForm(
+        inital = {
+            'nome' : pessoa.nome,
+            'sobrenome' : pessoa.sobrenome,
+            'cpf' : pessoa.cpf,
+            'cod_Papel_pessoa' : pessoa.cod_Papel_pessoa,
+            'data_nascimento' : pessoa.data_nascimento
+        },
+        cod_cargoID = pessoa.cod_Papel_pessoa.id
+    )
     
     context = {
+        'form' : form,
         'title' : 'Editar Pessoa',
         'nome_usuario_logado' : 'Rangerson'
     }
