@@ -31,6 +31,7 @@ class EditarRfidForm(forms.Form):
         self.fields['ativo'].widget.attrs = {
             'id' : 'rfid_ativo',
         }
+
         self.fields['data_desativacao'].widget.attrs = {
             'id' : 'data_desativacao',
         }
@@ -222,3 +223,37 @@ class EditarPessoaForm(forms.Form):
 
             if not(cpf_validate.validate(cpf_particionado)):
                 self.add_error('cpf', "CPF informado e invalido")
+                
+class VincularPessoaRfid(forms.Form):
+    pessoa= forms.CharField(label="Pessoa:")
+    rfid_a_vincular = forms.ModelChoiceField(queryset=Rfid.objects.all(),label="RFID:")
+    
+    def __init__(self, *args, codCargoID = None ,**kwargs):
+        super(VincularPessoaRfid, self).__init__(*args, **kwargs)
+
+        self.helper = FormHelper(self)
+        self.helper.form_class= 'form-horizontal'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-8'
+        self.helper.layout = Layout(
+            'pessoa',
+            'rfid_a_vincular',
+            HTML("""<a href="{% url "visualizar_pessoa" %}">
+                        <button type='button' class="btn btn-primary", id="botao_voltar">Voltar</button>
+                    </a>"""),
+            Submit('submit', 'Salvar', css_id='botao_salvar', css_class='btn btn-success'),
+        )
+
+        if codCargoID is not None:
+            print("Is not none :-)")
+            rfid = Rfid.objects.filter(vinculado=False,cod_corRFID_funcao=codCargoID)
+            print("Tem algo: "+str(rfid))
+            self.fields['rfid_a_vincular'].queryset = rfid
+            
+            
+            
+    def clean(self):
+        rfid_a_vincular = self.cleaned_data['rfid_a_vincular']
+        
+        if rfid_a_vincular == None:
+            self.add_error('rfid_a_vincular',"Selecione um RFID para vincular")

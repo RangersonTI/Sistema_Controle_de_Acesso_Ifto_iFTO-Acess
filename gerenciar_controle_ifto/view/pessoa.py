@@ -85,10 +85,10 @@ def listarPessoa(request):
 def editarPessoa(request, id):
     
     pessoa = get_object_or_404(Pessoa, id=id)
-    
+
     if request.method == 'POST':
         form = EditarPessoaForm(request.POST)
-        
+
         if form.is_valid():
             pessoa.nome = form.cleaned_data['nome']
             pessoa.sobrenome = form.cleaned_data['sobrenome']

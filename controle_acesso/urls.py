@@ -16,11 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from controle_ifto import view as view_prototipo
+#from controle_ifto import view as view_prototipo
 
 urlpatterns = [
     #path('', include('gerenciar_controle_ifto.urls')),
     path('iftoAcess/', include('gerenciar_controle_ifto.urls')),
     path('admin/', admin.site.urls),
-    path('leitor/', include('controle_ifto.urls')),
+    #path('leitor/', include('controle_ifto.urls')),
 ]
