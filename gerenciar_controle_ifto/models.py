@@ -26,6 +26,9 @@ class Rfid(models.Model):
     ativo = models.BooleanField()
     motivo_desativacao = models.CharField(max_length=30, null=True)
     
+    def __str__(self):
+        return self.tag_rfid_value
+    
     def data_formatada(self):
         if(self.data_desativacao):
             return self.data_desativacao.strftime("%d/%m/%Y, %H:%M")

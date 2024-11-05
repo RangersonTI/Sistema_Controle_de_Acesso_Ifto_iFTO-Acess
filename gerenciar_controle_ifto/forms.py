@@ -145,7 +145,7 @@ class EditarCorRfidForm(forms.Form):
 
         if len(corRfid) <=2:
             self.add_error('corRFID',"A cor deve ter mais de 2 caracteres")
-            
+
 class EditarPessoaForm(forms.Form):
     nome = forms.CharField(label="Nome:")
     sobrenome = forms.CharField(label="Sobrenome:")
@@ -223,11 +223,11 @@ class EditarPessoaForm(forms.Form):
 
             if not(cpf_validate.validate(cpf_particionado)):
                 self.add_error('cpf', "CPF informado e invalido")
-                
+
 class VincularPessoaRfid(forms.Form):
-    pessoa= forms.CharField(label="Pessoa:")
+    pessoa= forms.CharField(label="Pessoa:", disabled=True)
     rfid_a_vincular = forms.ModelChoiceField(queryset=Rfid.objects.all(),label="RFID:")
-    
+
     def __init__(self, *args, codCargoID = None ,**kwargs):
         super(VincularPessoaRfid, self).__init__(*args, **kwargs)
 
@@ -238,6 +238,7 @@ class VincularPessoaRfid(forms.Form):
         self.helper.layout = Layout(
             'pessoa',
             'rfid_a_vincular',
+            
             HTML("""<a href="{% url "visualizar_pessoa" %}">
                         <button type='button' class="btn btn-primary", id="botao_voltar">Voltar</button>
                     </a>"""),
@@ -245,9 +246,7 @@ class VincularPessoaRfid(forms.Form):
         )
 
         if codCargoID is not None:
-            print("Is not none :-)")
-            rfid = Rfid.objects.filter(vinculado=False,cod_corRFID_funcao=codCargoID)
-            print("Tem algo: "+str(rfid))
+            rfid = Rfid.objects.filter(cod_corRFID_funcao_id=CorRFID_Funcao.objects.get(cod_cargo_id=codCargoID), vinculado=False)
             self.fields['rfid_a_vincular'].queryset = rfid
             
             
