@@ -225,7 +225,7 @@ class EditarPessoaForm(forms.Form):
                 self.add_error('cpf', "CPF informado e invalido")
 
 class VincularPessoaRfid(forms.Form):
-    pessoa= forms.CharField(label="Pessoa:", disabled=True)
+    pessoa= forms.CharField(label="Pessoa:", disabled=True, required=False)
     rfid_a_vincular = forms.ModelChoiceField(queryset=Rfid.objects.all(),label="RFID:")
 
     def __init__(self, *args, codCargoID = None ,**kwargs):

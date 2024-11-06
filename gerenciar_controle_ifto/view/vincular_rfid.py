@@ -4,12 +4,12 @@ from gerenciar_controle_ifto.models import Rfid, Pessoa
 from django.http import HttpResponseRedirect
 
 def vincularRfid(request, id):
-    
+
     pessoa = get_object_or_404(Pessoa, id=id)
-    
-    if request.method == 'POST':
+
+    if request.POST:
         form = VincularPessoaRfid(request.POST)
-        
+
         if form.is_valid():
             print("Passou por validar")
             cod_rfid = form.cleaned_data['rfid_a_vincular']
@@ -17,6 +17,8 @@ def vincularRfid(request, id):
             pessoa.save()
             print("Pronto :)...  Salvou")
             
+            print(type(f"Tipo de erro: {cod_rfid}"))
+
             rfid = get_object_or_404(Rfid,id=cod_rfid)
             rfid.vinculado = True
             rfid.save()
@@ -28,7 +30,9 @@ def vincularRfid(request, id):
             'title' : 'Vinculação de RFID',
             'nome_usuario_logado' : 'Rangerson'
         }
+        return render(request, 'pages/vincular_pessoa_rfid/vincularPessoaRfid.html', context)
 
+    print(request.method)
     print("Bora ve se retorn get novamente")
     form = VincularPessoaRfid(
         initial = {
