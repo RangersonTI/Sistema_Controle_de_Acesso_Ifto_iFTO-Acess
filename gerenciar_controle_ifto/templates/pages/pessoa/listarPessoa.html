@@ -41,11 +41,11 @@
                                 <a href="{% url "vincular_rfid_pessoa" pessoa.id%}">
                                     <img src="{% static "images/icones/vincular.png" %}" width="18px" alt="">
                                 </a>
-                            {% else %}      
+                            {% else %}
                                 <img src="#" width="18px" alt="">
                             {% endif %}
                             {% if pessoa.vinculado == True %}
-                                <a href="#">
+                                <a href="{% url "desvincular_rfid_pessoa" pessoa.id%}">
                                     <img src="{% static "images/icones/desvincular.png" %}" width="18px" alt="">
                                 </a>
                             {% else %}

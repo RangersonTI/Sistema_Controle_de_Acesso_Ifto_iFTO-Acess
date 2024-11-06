@@ -9,10 +9,13 @@ class Papel_pessoa(models.Model):
     def __str__(self):
         return self.descricao
 
+
 class CorRFID_Funcao(models.Model):
     corRFID = models.CharField(max_length=12, unique=True)
     cod_cargo = models.OneToOneField(Papel_pessoa, on_delete=models.PROTECT)
-        
+    
+    def __str__(self):
+        return self.corRFID
 
 
 class Rfid(models.Model):

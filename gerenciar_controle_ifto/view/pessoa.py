@@ -105,7 +105,7 @@ def editarPessoa(request, id):
         return render(request, 'pages/pessoa/editarPessoa.html', context)    
     
     form = EditarPessoaForm(
-        inital = {
+        initial = {
             'nome' : pessoa.nome,
             'sobrenome' : pessoa.sobrenome,
             'cpf' : pessoa.cpf,
