@@ -23,7 +23,7 @@ def vincularRfid(request, id):
             rfid.vinculado = True
             rfid.save()
             print("Vai redirecionar\n")
-            HttpResponseRedirect('/iftoAcess/listar/pessoa/')
+            return HttpResponseRedirect('/iftoAcess/listar/pessoa/')
 
         context = {
             'form' : form,
@@ -47,36 +47,47 @@ def vincularRfid(request, id):
     return render(request, 'pages/vincular_pessoa_rfid/vincularPessoaRfid.html', context)
 
 def desvincularRfid(request, id):
-    
     pessoa = get_object_or_404(Pessoa, id=id)
+   
+    rfid_a_desvincular = pessoa.cod_Rfid
+    pessoa.cod_Rfid = None
+    pessoa.vinculado = False
+    pessoa.save()
+
+    rfid = get_object_or_404(Rfid,id=rfid_a_desvincular.id)
+    rfid.vinculado = False
+    rfid.save()
+
+    return HttpResponseRedirect('/iftoAcess/listar/pessoa/')
     
-    if request.method == 'POST':
-        cod_rfid = form.cleaned_data['rfid_a_vincular']
-        pessoa.cod_Rfid = cod_rfid
-        pessoa.save()
-            
-        rfid = get_object_or_404(Rfid,id=cod_rfid)
-        rfid.vinculado = True
-        rfid.save()
-
-        HttpResponseRedirect('/iftoAcess/listar/pessoa/')
-
-        context = {
-            'form' : form,
-            'title' : 'Vinculação de RFID',
-            'nome_usuario_logado' : 'Rangerson'
-        }
-
-    form = VincularPessoaRfid(
-        initial = {
-            'pessoa' : ''+pessoa.nome+' '+pessoa.sobrenome+' '+'('+str(pessoa.id)+')'
-        },
-        codCargoID = pessoa.cod_Papel_pessoa.id
-    )
-    context = {
-        'form' : form,
-        'title' : 'Vinculação de RFID',
-        'nome_usuario_logado' : 'Rangerson'
-    }
-    
-    return render(request, 'pages/vincular_pessoa_rfid/vincularPessoaRfid.html', context)
+    #if request.method == 'POST':
+    #    rfid_a_desvincular = pessoa.cod_Rfid
+    #    pessoa.cod_Rfid = Null
+    #    pessoa.vinculado = False
+    #    pessoa.save()
+    #
+    #    rfid = get_object_or_404(Rfid,id=rfid_a_desvincular)
+    #    rfid.vinculado = False
+    #    rfid.save()
+    #
+    #    HttpResponseRedirect('/iftoAcess/listar/pessoa/')
+#
+#        context = {
+#            'form' : form,
+#            'title' : 'Vinculação de RFID',
+ #           'nome_usuario_logado' : 'Rangerson'
+ #       }
+#
+#    form = VincularPessoaRfid(
+#        initial = {
+#            'pessoa' : ''+pessoa.nome+' '+pessoa.sobrenome+' '+'('+str(pessoa.id)+')'
+#        },
+#        codCargoID = pessoa.cod_Papel_pessoa.id
+#    )
+#    context = {
+#        'form' : form,
+#        'title' : 'Vinculação de RFID',
+#        'nome_usuario_logado' : 'Rangerson'
+#    }
+#    
+#    return render(request, 'pages/vincular_pessoa_rfid/vincularPessoaRfid.html', context)
