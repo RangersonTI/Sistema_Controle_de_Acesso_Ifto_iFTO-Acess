@@ -48,7 +48,7 @@ def vincularRfid(request, id):
 
 def desvincularRfid(request, id):
     pessoa = get_object_or_404(Pessoa, id=id)
-   
+
     rfid_a_desvincular = pessoa.cod_Rfid
     pessoa.cod_Rfid = None
     pessoa.vinculado = False

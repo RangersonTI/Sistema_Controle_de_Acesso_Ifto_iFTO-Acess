@@ -1,5 +1,5 @@
 from django.urls import path, include
-from gerenciar_controle_ifto.view import home,pessoa,rfid,funcao, corRfid, usuario, historico_acesso_ifto, pessoa_rfid
+from gerenciar_controle_ifto.view import home,pessoa,rfid,funcao, corRfid, usuario, historico_acesso_ifto, pessoa_rfid, login
 
 urlpatterns = [
     path('', home.home, name="homepage"),
@@ -27,4 +27,8 @@ urlpatterns = [
     path('historico_acesso_ifto/',historico_acesso_ifto.listarHistoricoAcesso_Ifto, name="historico_acesso_ifto"),
     path('vincular_rfid/<int:id>', pessoa_rfid.vincularRfid, name="vincular_rfid_pessoa"),
     path('desvincular_rfid/<int:id>', pessoa_rfid.desvincularRfid, name="desvincular_rfid_pessoa"),
+    
+    #PATH DE LOGIN
+    path('login/', login.login, name="login"),
+    
 ]

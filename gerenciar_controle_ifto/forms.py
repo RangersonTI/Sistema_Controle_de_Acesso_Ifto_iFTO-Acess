@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, HTML
 from validate_docbr import CPF
+from django.contrib.auth.models import User
  
 
 class EditarRfidForm(forms.Form):
@@ -108,11 +109,11 @@ class EditarCorRfidForm(forms.Form):
 
     def __init__(self, *args, cod_cargoID=None, **kwargs):
         super(EditarCorRfidForm, self).__init__(*args, **kwargs)
-        
+
         self.fields['corRFID'].widget.attrs = {
             'id' : 'corRFID'
         }
-        
+
         self.fields['cod_cargo'].widget.attrs = {
             'id' : 'cod_cargo'
         }
@@ -134,11 +135,11 @@ class EditarCorRfidForm(forms.Form):
                     </a>"""),
             Submit('submit', 'Salvar', css_id='botao_salvar', css_class='btn btn-success'),
         )
-    
+
     def clean(self):
         cor_rfid_funcoes = CorRFID_Funcao.objects.all()
         corRfid = self.cleaned_data['corRFID']
-                
+
         for cor_rfid_funcao in cor_rfid_funcoes:
             if str(corRfid).upper() == str(cor_rfid_funcao.corRFID).upper() and not(corRfid):
                 self.add_error('corRFID', "A cor informada ja foi cadastrada")
@@ -168,7 +169,8 @@ class EditarPessoaForm(forms.Form):
             'id' : 'sobrenome'
         }
         self.fields['cpf'].widget.attrs = {
-            'id' : 'cpf'
+            'id' : 'cpf',
+            'maxlength' : 11
         }
         self.fields['data_nascimento'].widget.attrs = {
             'id' : 'data_nascimento',
@@ -181,7 +183,7 @@ class EditarPessoaForm(forms.Form):
         if cod_cargoID is not None:
             cod_cargo =Papel_pessoa.objects.filter(id=cod_cargoID)
             others_options = Papel_pessoa.objects.exclude(id=cod_cargoID)
-            self.fields['cod_cargo'].queryset = cod_cargo | others_options
+            self.fields['cod_Papel_pessoa'].queryset = cod_cargo | others_options
         
         self.helper = FormHelper(self)
         self.helper.form_class= 'form-horizontal'
@@ -215,14 +217,18 @@ class EditarPessoaForm(forms.Form):
         if len(cpf) != 11:
             self.add_error('cpf','CPF incompleto')
         else:
-            cpf_p1 = cpf[:3]
-            cpf_p2 = cpf[3:6]
-            cpf_p3 = cpf[6:9]
-            cpf_p4 = cpf[9:]
-            cpf_particionado = "{}.{}.{}-{}".format(cpf_p1,cpf_p2,cpf_p3,cpf_p4)
+            cpf_pessoa = Pessoa.objects.filter(cpf=cpf)
+            if cpf_pessoa:
+                self.add_error('cpf', "CPF informado j'a foi cadastrado no sistema")
+            else:
+                cpf_p1 = cpf[:3]
+                cpf_p2 = cpf[3:6]
+                cpf_p3 = cpf[6:9]
+                cpf_p4 = cpf[9:]
+                cpf_particionado = "{}.{}.{}-{}".format(cpf_p1,cpf_p2,cpf_p3,cpf_p4)
 
-            if not(cpf_validate.validate(cpf_particionado)):
-                self.add_error('cpf', "CPF informado e invalido")
+                if not(cpf_validate.validate(cpf_particionado)):
+                    self.add_error('cpf', "CPF informado e invalido")
 
 class VincularPessoaRfid(forms.Form):
     pessoa= forms.CharField(label="Pessoa:", disabled=True, required=False)
@@ -238,7 +244,7 @@ class VincularPessoaRfid(forms.Form):
         self.helper.layout = Layout(
             'pessoa',
             'rfid_a_vincular',
-            
+
             HTML("""<a href="{% url "visualizar_pessoa" %}">
                         <button type='button' class="btn btn-primary", id="botao_voltar">Voltar</button>
                     </a>"""),
@@ -248,11 +254,58 @@ class VincularPessoaRfid(forms.Form):
         if codCargoID is not None:
             rfid = Rfid.objects.filter(cod_corRFID_funcao_id=CorRFID_Funcao.objects.get(cod_cargo_id=codCargoID), vinculado=False)
             self.fields['rfid_a_vincular'].queryset = rfid
-            
-            
-            
+
+
     def clean(self):
         rfid_a_vincular = self.cleaned_data['rfid_a_vincular']
-        
+
         if rfid_a_vincular == None:
             self.add_error('rfid_a_vincular',"Selecione um RFID para vincular")
+            
+            
+# PARA USUARIOS
+
+class UsuarioForm(forms.Form):
+    nome = forms.CharField(label="Nome:"),
+    sobrenome = forms.CharField(label="Sobrenome:")
+    email = forms.EmailField(label="Email:")
+    usuario = forms.CharField(label="Usuario:")
+    senha = forms.CharField(label="Senha:", 
+                            widget=forms.PasswordInput(
+                                render_value=False
+                            ))
+    
+    def __init__(self, *args, codCargoID = None ,**kwargs):
+        super(UsuarioForm, self).__init__(*args, **kwargs)
+        
+        self.helper = FormHelper(self)
+        self.helper.form_class= 'form-horizontal'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-8'
+        self.helper.layout = Layout(
+            'nome',
+            'sobrenome',
+            'email',
+            'usuario',
+            'senha',            
+            HTML("""<a href="{% url "visualizar_usuario" %}">
+                        <button type='button' class="btn btn-primary", id="botao_voltar">Voltar</button>
+                    </a>"""),
+            Submit('submit', 'Salvar', css_id='botao_salvar', css_class='btn btn-success'),
+        )
+        
+    def clean(self):
+        nome = self.cleaned_data['nome']
+        sobrenome = self.cleaned_data['sobrenome']
+        email = self.cleaned_data['email']
+        usuario = self.cleaned_data['usuario']
+        senha = self.cleaned_data['senha']
+        
+        email = User.objects.filter(email=email).first()
+        usuario = User.objects.filter(username=usuario).first()
+
+        if email:
+            self.add_error('email', "O email informado j'a foi cadastrado em outro usuario")
+        
+        if usuario:
+            self.add_error('usuario',"O usuario informado j'a foi cadastrado em outro usuario")

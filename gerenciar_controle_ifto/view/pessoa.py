@@ -83,7 +83,7 @@ def listarPessoa(request):
     return render(request, 'pages/pessoa/listarPessoa.html', context)
 
 def editarPessoa(request, id):
-    
+
     pessoa = get_object_or_404(Pessoa, id=id)
 
     if request.method == 'POST':
@@ -97,6 +97,8 @@ def editarPessoa(request, id):
             pessoa.data_nascimento = form.cleaned_data['data_nascimento']
             pessoa.save()
             
+            return HttpResponseRedirect('/iftoAcess/listar/pessoa/')
+
         context = {
         'form' : form,
         'title' : 'Edicao de Pessoa',
@@ -117,7 +119,7 @@ def editarPessoa(request, id):
     
     context = {
         'form' : form,
-        'title' : 'Editar Pessoa',
+        'title' : 'Edicao de Pessoa',
         'nome_usuario_logado' : 'Rangerson'
     }
     return render(request, 'pages/pessoa/editarPessoa.html', context)

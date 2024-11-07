@@ -1,8 +1,12 @@
 
 from django.shortcuts import render
+from gerenciar_controle_ifto.forms import UsuarioForm
 
 def cadastrarUsuario(request):
+    
+    form = UsuarioForm()
     context = {
+        'form':form,
         'title' : 'Cadastro de Usuario',
         'nome_usuario_logado' : 'Rangerson'
     }
