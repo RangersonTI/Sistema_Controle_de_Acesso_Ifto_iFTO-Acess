@@ -263,18 +263,19 @@ class VincularPessoaRfid(forms.Form):
             self.add_error('rfid_a_vincular',"Selecione um RFID para vincular")
             
             
-# PARA USUARIOS
+# PARA USUARIOS (CADASTRAR, EDITAR E LISTAR)
 
 class UsuarioForm(forms.Form):
-    nome = forms.CharField(label="Nome:"),
-    sobrenome = forms.CharField(label="Sobrenome:")
+    #nome = forms.CharField(label="Nome:"),
+    #sobrenome = forms.CharField(label="Sobrenome:")
+    cod_pessoa = forms.ModelChoiceField(label="Pessoa", queryset=Pessoa.objects.all())
     email = forms.EmailField(label="Email:")
     usuario = forms.CharField(label="Usuario:")
     senha = forms.CharField(label="Senha:", 
                             widget=forms.PasswordInput(
                                 render_value=False
                             ))
-    
+
     def __init__(self, *args, codCargoID = None ,**kwargs):
         super(UsuarioForm, self).__init__(*args, **kwargs)
         
@@ -283,8 +284,7 @@ class UsuarioForm(forms.Form):
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-8'
         self.helper.layout = Layout(
-            'nome',
-            'sobrenome',
+            'cod_pessoa',
             'email',
             'usuario',
             'senha',            

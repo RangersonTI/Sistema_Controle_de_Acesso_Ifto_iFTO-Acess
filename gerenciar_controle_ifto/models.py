@@ -44,6 +44,9 @@ class Pessoa(models.Model):
     cod_Rfid = models.OneToOneField(Rfid, on_delete=models.PROTECT, null=True)
     vinculado = models.BooleanField()
 
+    def __str__(self):
+        return self.nome, self.sobrenome
+
 class Usuario_sistema(models.Model):
     cod_pessoa = models.OneToOneField(Pessoa, on_delete=models.PROTECT)
     nome_de_usuario = models.CharField(max_length=20)
