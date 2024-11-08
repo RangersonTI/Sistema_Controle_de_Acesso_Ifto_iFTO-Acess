@@ -30,6 +30,7 @@ urlpatterns = [
     path('desvincular_rfid/<int:id>', pessoa_rfid.desvincularRfid, name="desvincular_rfid_pessoa"),
     
     #PATH DE LOGIN
-    path('login/', login.login, name="login"),
+    path('login/', login.login_user, name="login"),
+    path('logout/', login.logout_user, name="logout"),
     
 ]

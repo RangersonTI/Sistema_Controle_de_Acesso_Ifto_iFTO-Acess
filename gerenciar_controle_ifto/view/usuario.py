@@ -76,11 +76,13 @@ def editarUsuario(request, id):
 
         if form.is_valid():
         #cod_pessoa = form.cleaned_data['cod_pessoa']
-            nome = form.cleaned_data['nome']
-            sobrenome = form.cleaned_data['sobrenome']
-            email = form.cleaned_data['email']
-            usuario = form.cleaned_data['usuario']
-            senha = form.cleaned_data['senha']
+            usuario.first_name= form.cleaned_data['nome']
+            usuario.last_name = form.cleaned_data['sobrenome']
+            usuario.email = form.cleaned_data['email']
+            usuario.username = form.cleaned_data['usuario']
+            usuario.set_password(form.cleaned_data['senha'])
+            usuario.is_active = form.cleaned_data['ativo']
+            usuario.save()
 
         #usuario_sys = Usuario_sistema(cod_pessoa = cod_pessoa,
         #                              nome_de_usuario = nome+sobrenome,
@@ -90,18 +92,11 @@ def editarUsuario(request, id):
         #                              )
         #usuario_sys.save()
         
-            usuario = User.objects.create_user(username=usuario,
-                                               password=senha,
-                                               email=email,
-                                               first_name=nome,
-                                               last_name=sobrenome
-                                                )
-            usuario.save()
             return HttpResponseRedirect('/iftoAcess/listar/usuario/')
         
         context = {
             'form':form,
-            'title' : 'Cadastro de Usuario',
+            'title' : 'Edicao de Usuario',
             'nome_usuario_logado' : 'Rangerson'
         }
 
@@ -109,17 +104,19 @@ def editarUsuario(request, id):
 
     form = UsuarioForm(
         initial = {
-            'username':usuario.username,
-            'password':usuario.password,
+            'usuario':usuario.username,
+            'senha':usuario.password,
             'email':usuario.email,
-            'first_name':usuario.first_name,
-            'last_name':usuario.last_name
-        }
+            'nome':usuario.first_name,
+            'sobrenome':usuario.last_name,
+            'ativo':usuario.is_active
+        },
+        #cod_user_id = usuario.id
     )
     
     context = {
         'form':form,
-        'title' : 'Cadastro de Usuario',
+        'title' : 'Edicao de Usuario',
         'nome_usuario_logado' : 'Rangerson'
     }
     

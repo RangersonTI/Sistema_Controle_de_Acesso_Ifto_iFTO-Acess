@@ -275,10 +275,14 @@ class UsuarioForm(forms.Form):
                             widget=forms.PasswordInput(
                                 render_value=False
                             ))
-    ativo = forms.BooleanField(label="Ativo:")
+    ativo = forms.BooleanField(label="Ativo:", required=False)
 
     def __init__(self, *args, **kwargs):
         super(UsuarioForm, self).__init__(*args, **kwargs)
+        
+        self.fields['ativo'].widget.attrs = {
+            'checked' : True
+        }
         
         self.helper = FormHelper(self)
         self.helper.form_class= 'form-horizontal'
@@ -321,3 +325,43 @@ class UsuarioForm(forms.Form):
         else:
             if usuario.upper() == senha.upper():
                 self.add_error('senha',"A 'senha' não pode ser igual ao nome de usuário")
+                
+# FORMULARIO DE LOGIN
+
+class LoginForm(forms.Form):
+    usuario = forms.CharField(label="Usuario")
+    senha = forms.CharField(label="Senha:", 
+                            widget=forms.PasswordInput(
+                                render_value=False
+                            ))
+    
+    def __init__(self, *args, **kwargs):
+        super(LoginForm, self).__init__(*args, **kwargs)
+        
+#{% static "images/logo_iftoAcess.png"%}
+        self.helper = FormHelper(self)
+        self.helper.form_class= 'form-signin'
+        self.helper.label_class = 'sr-only'
+        self.helper.field_class = 'form-control'
+        self.helper.layout = Layout(
+            HTML("""<img class="mb-4" src="" alt="" width="72" height="72">"""),
+            HTML("""<h1 class="h3 mb-3 font-weight-normal">LOGIN</h1>"""),
+            'nome',
+            'sobrenome',
+            'email',
+            'usuario',
+            'senha',
+            'ativo',
+            HTML("""<a href="{% url "visualizar_usuario" %}">
+                        <button type='button' class="btn btn-primary", id="botao_voltar">Voltar</button>
+                    </a>"""),
+            Submit('submit', 'Salvar', css_id='botao_salvar', css_class='btn btn-lg btn-primary btn-block'),
+        )
+        
+    #def clean(self):
+    #    usuario = self.cleaned_data['usuario']
+    #    senha = self.cleaned_data['usuario']
+    #    
+    #    usuario = User.objects.get(username=usuario, password=senha)
+    #    
+    #    if usuario is not
