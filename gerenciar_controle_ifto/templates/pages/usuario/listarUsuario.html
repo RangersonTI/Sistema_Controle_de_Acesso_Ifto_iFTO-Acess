@@ -1,3 +1,53 @@
 {% include "base/cabecalho.html" %}
+{% load static %}
 
-<center><h1>Listar Usuario</h1></center>
+<div id="alinhar_listagens">
+    <h1 id="h1_title">Listagem de Pessoas</h1>
+    <hr/>
+    
+    <table class="table table-striped">
+        <thead style="text-align: center">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nome Completo</th>
+            <th scope="col">Email</th>
+            <th scope="col">Usuario</th>
+            <th scope="col">Senha</th>
+            <th scope="col">Ativo</th>
+            <th scope="col">Opções</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for usuario in usuarios %}
+                <tr>
+                    <th scope="row">{{ usuario.id }}</th>
+                    <td scope="row">{{ usuario.first_name }} {{ pessoa.last_name }}</th>
+                    <td scope="row">{{ usuario.email }}</th>
+                    <td scope="row">{{ usuario.username }}</th>
+                    <td scope="row">********</td>
+                    {% if usuario.is_active %}
+                        <td scope="row">Sim</td>
+                    {% else %}
+                        <td scope="row">Não</td>
+                    {% endif %}
+                    <td id="centralize_info">
+                        <a href="{% url "editar_usuario" usuario.id%}">
+                            <img src="{% static "images/icones/editar.png" %}" width="18px" alt="">
+                        </a>
+                        <a href="{% url "desativar_usuario" usuario.id%}">
+                            <img src="{% static "images/icones/vincular.png" %}" width="18px" alt="">
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+      <div class="botao_cadastrar_nas_listagens">
+          <a href="{% url "cadastro_usuario" %}">
+              <button type="submit" class="btn btn-success">Cadastrar</button>
+          <a>
+      </div>
+    </div>
+</div>
+
+{% include "base/final.html"%}

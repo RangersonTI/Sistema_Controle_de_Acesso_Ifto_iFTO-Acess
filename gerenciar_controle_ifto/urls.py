@@ -17,6 +17,7 @@ urlpatterns = [
     path('editar/funcao/<int:id>', funcao.editarFuncao, name="editar_Funcao"),
     path('editar/corRfid/<int:id>', corRfid.editarCorRfid, name="editar_corRfid"),
     path('editar/usuario/<int:id>', usuario.editarUsuario, name="editar_usuario"),
+    path('desativar/usuario/<int:id>', usuario.editarUsuario, name="desativar_usuario"),
     
     #PATH PARA LISTAGEM
     path('listar/tagRfid/', rfid.listarRFID, name="visualizar_tagRfid"),

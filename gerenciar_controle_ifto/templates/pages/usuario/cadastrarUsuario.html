@@ -12,6 +12,7 @@
     <br><br>
     <div id="div_form_cad_rfid">
         <form method="POST">
+            {% csrf_token %}
             {% crispy form %}
         </form>
     </div>

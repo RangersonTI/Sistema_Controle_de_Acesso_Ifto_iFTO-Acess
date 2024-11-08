@@ -1,37 +1,49 @@
 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from gerenciar_controle_ifto.forms import UsuarioForm
 from gerenciar_controle_ifto.models import Usuario_sistema
+from django.http import HttpResponseRedirect
 
 def cadastrarUsuario(request):
-    
+
     if request.method == 'POST':
         form = UsuarioForm(request.POST)
+
+        if form.is_valid():
+        #cod_pessoa = form.cleaned_data['cod_pessoa']
+            nome = form.cleaned_data['nome']
+            sobrenome = form.cleaned_data['sobrenome']
+            email = form.cleaned_data['email']
+            usuario = form.cleaned_data['usuario']
+            senha = form.cleaned_data['senha']
+            ativo = form.cleaned_data['ativo']
+
+        #usuario_sys = Usuario_sistema(cod_pessoa = cod_pessoa,
+        #                              nome_de_usuario = nome+sobrenome,
+        #                              usuario = usuario,
+        #                              senha = senha,
+        #                              data_criacao = '2024-11-07' 
+        #                              )
+        #usuario_sys.save()
         
-        cod_pessoa = form.cleaned_data['cod_pessoa']
-        nome = form.cleaned_data['nome']
-        sobrenome = form.cleaned_data['sobrenome']
-        email = form.cleaned_data['email']
-        usuario = form.cleaned_data['usuario']
-        senha = form.cleaned_data['senha']
+            usuario = User.objects.create_user(username=usuario,
+                                               password=senha,
+                                               email=email,
+                                               first_name=nome,
+                                               last_name=sobrenome,
+                                               is_active=ativo
+                                                )
+            usuario.save()
+            return HttpResponseRedirect('/iftoAcess/listar/usuario/')
         
-        usuario_sys = Usuario_sistema(cod_pessoa = cod_pessoa,
-                                      nome_de_usuario = nome+sobrenome,
-                                      usuario = usuario,
-                                      senha = senha,
-                                      data_criacao = '2024-11-07' 
-                                      )
-        usuario_sys.save()
-        
-        usuario = User.objects.create_user(username=usuario,
-                                            password=senha,
-                                            email=email,
-                                            first_name=nome,
-                                            last_name=sobrenome
-                                            )
-        
-        
+        context = {
+            'form':form,
+            'title' : 'Cadastro de Usuario',
+            'nome_usuario_logado' : 'Rangerson'
+        }
+    
+        return render(request, 'pages/usuario/cadastrarUsuario.html', context)
         
     form = UsuarioForm()
     context = {
@@ -43,7 +55,11 @@ def cadastrarUsuario(request):
     return render(request, 'pages/usuario/cadastrarUsuario.html', context)
 
 def listarUsuario(request):
+    
+    usuarios = User.objects.all()
+    
     context = {
+        'usuarios':usuarios,
         'title' : 'Editar Usuario',
         'nome_usuario_logado' : 'Rangerson'
     }
@@ -51,10 +67,60 @@ def listarUsuario(request):
     return render(request, 'pages/usuario/listarUsuario.html', context)
 
 
-def editarUsuario(request):
+def editarUsuario(request, id):
+    
+    usuario = get_object_or_404(User,id=id)
+    
+    if request.method == 'POST':
+        form = UsuarioForm(request.POST)
+
+        if form.is_valid():
+        #cod_pessoa = form.cleaned_data['cod_pessoa']
+            nome = form.cleaned_data['nome']
+            sobrenome = form.cleaned_data['sobrenome']
+            email = form.cleaned_data['email']
+            usuario = form.cleaned_data['usuario']
+            senha = form.cleaned_data['senha']
+
+        #usuario_sys = Usuario_sistema(cod_pessoa = cod_pessoa,
+        #                              nome_de_usuario = nome+sobrenome,
+        #                              usuario = usuario,
+        #                              senha = senha,
+        #                              data_criacao = '2024-11-07' 
+        #                              )
+        #usuario_sys.save()
+        
+            usuario = User.objects.create_user(username=usuario,
+                                               password=senha,
+                                               email=email,
+                                               first_name=nome,
+                                               last_name=sobrenome
+                                                )
+            usuario.save()
+            return HttpResponseRedirect('/iftoAcess/listar/usuario/')
+        
+        context = {
+            'form':form,
+            'title' : 'Cadastro de Usuario',
+            'nome_usuario_logado' : 'Rangerson'
+        }
+
+        return render(request, 'pages/usuario/cadastrarUsuario.html', context)
+
+    form = UsuarioForm(
+        initial = {
+            'username':usuario.username,
+            'password':usuario.password,
+            'email':usuario.email,
+            'first_name':usuario.first_name,
+            'last_name':usuario.last_name
+        }
+    )
+    
     context = {
-        'title' : 'Editar Usuario',
+        'form':form,
+        'title' : 'Cadastro de Usuario',
         'nome_usuario_logado' : 'Rangerson'
     }
     
-    return render(request, 'pages/usuario/editarUsuario.html', context)
+    return render(request, 'pages/usuario/cadastrarUsuario.html', context)
