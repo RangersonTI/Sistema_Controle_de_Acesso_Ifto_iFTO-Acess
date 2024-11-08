@@ -12,6 +12,7 @@
     <br><br>
     <div id="div_form_cad_rfid">
         <form method="POST">
+		<img class="mb-4" src="{% static "images/logo_iftoAcess.png" %}" alt="" width="72" height="72"><h1 class="h3 mb-3 font-weight-normal">Login</h1>
             {% csrf_token %}
             {% crispy form %}
         </form>

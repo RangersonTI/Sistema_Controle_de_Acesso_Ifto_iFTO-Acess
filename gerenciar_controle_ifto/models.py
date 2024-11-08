@@ -33,7 +33,7 @@ class Rfid(models.Model):
     def data_formatada(self):
         if(self.data_desativacao):
             return self.data_desativacao.strftime("%d/%m/%Y, %H:%M")
-        
+
 class Pessoa(models.Model):
     nome = models.CharField(max_length=20)
     sobrenome = models.CharField(max_length=35)

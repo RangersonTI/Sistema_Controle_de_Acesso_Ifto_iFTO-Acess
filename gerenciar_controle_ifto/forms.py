@@ -338,24 +338,16 @@ class LoginForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
         
-#{% static "images/logo_iftoAcess.png"%}
         self.helper = FormHelper(self)
         self.helper.form_class= 'form-signin'
         self.helper.label_class = 'sr-only'
         self.helper.field_class = 'form-control'
+        self.helper.button_class = 'btn btn-lg btn-primary btn-block'
         self.helper.layout = Layout(
-            HTML("""<img class="mb-4" src="" alt="" width="72" height="72">"""),
-            HTML("""<h1 class="h3 mb-3 font-weight-normal">LOGIN</h1>"""),
-            'nome',
-            'sobrenome',
-            'email',
+            HTML("""<h1 class="h3 mb-3 font-weight-normal">Login</h1>"""),
             'usuario',
             'senha',
-            'ativo',
-            HTML("""<a href="{% url "visualizar_usuario" %}">
-                        <button type='button' class="btn btn-primary", id="botao_voltar">Voltar</button>
-                    </a>"""),
-            Submit('submit', 'Salvar', css_id='botao_salvar', css_class='btn btn-lg btn-primary btn-block'),
+            Submit('submit', 'Entrar', css_id='botao_entrar', css_class='btn btn-lg btn-primary btn-block'),
         )
         
     #def clean(self):
