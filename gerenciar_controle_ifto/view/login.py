@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from gerenciar_controle_ifto.forms import LoginForm
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
+from datetime import datetime
 
 def login_user(request):
     
@@ -24,17 +25,21 @@ def login_user(request):
         
         context = {
             'form':form,
+            'ano_criado':'2024',
+            'ano_atual':datetime.now().year,
             'title' : 'Login',
         }
     
         return render(request, 'pages/login/login.html', context)
         
     form = LoginForm()
-    
+
     context = {
-            'form':form,
-            'title' : 'Login',
-        }
+        'form':form,
+        'ano_criado':'2024',
+        'ano_atual':datetime.now().year,
+        'title' : 'Login',
+    }
     
     return render(request, 'pages/login/login.html', context)
 

@@ -1,6 +1,5 @@
-from django.forms.models import ModelForm
+
 from django import forms
-from django.db import models
 from gerenciar_controle_ifto.models import Papel_pessoa, Pessoa, Rfid, CorRFID_Funcao
 from django.core.exceptions import ValidationError
 from crispy_forms.helper import FormHelper
@@ -329,8 +328,8 @@ class UsuarioForm(forms.Form):
 # FORMULARIO DE LOGIN
 
 class LoginForm(forms.Form):
-    usuario = forms.CharField(label="Usuario")
-    senha = forms.CharField(label="Senha:", 
+    usuario = forms.CharField(label="")
+    senha = forms.CharField(label="", 
                             widget=forms.PasswordInput(
                                 render_value=False
                             ))
@@ -338,22 +337,36 @@ class LoginForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
         
+        self.fields['usuario'].widget.attrs = {
+            'placeholder' : "Usuario"
+        }
+        
+        self.fields['senha'].widget.attrs = {
+            'placeholder' : "Senha"
+        }
+        
         self.helper = FormHelper(self)
-        self.helper.form_class= 'form-signin'
-        self.helper.label_class = 'sr-only'
-        self.helper.field_class = 'form-control'
-        self.helper.button_class = 'btn btn-lg btn-primary btn-block'
+        self.helper.form_class= 'form-horizontal'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-8'
         self.helper.layout = Layout(
-            HTML("""<h1 class="h3 mb-3 font-weight-normal">Login</h1>"""),
             'usuario',
             'senha',
-            Submit('submit', 'Entrar', css_id='botao_entrar', css_class='btn btn-lg btn-primary btn-block'),
+            Submit('submit', 'Entrar', css_id='botao_entrar', css_class='btn btn-success'),
+            HTML("""<p class="mt-5 mb-3 text-muted">&copy; {{ano_criado}}{% if  ano_criado < ano_atual%}-{{ano_atual}}{% endif %}""")
         )
+    
+    def clean(self):
+        usuario = self.cleaned_data['usuario']
+        senha = self.cleaned_data['senha']
         
-    #def clean(self):
-    #    usuario = self.cleaned_data['usuario']
-    #    senha = self.cleaned_data['usuario']
-    #    
-    #    usuario = User.objects.get(username=usuario, password=senha)
-    #    
-    #    if usuario is not
+        user = User.objects.filter(username=usuario).exists()
+        user_authenticate = User.objects.filter(username=usuario).first
+        print(user_authenticate)
+        
+        if user is None:
+            raise ValidationError(" Usu'ario ou senha incorreta")
+        
+        else:
+            if  not user_authenticate.check_password(senha):
+                raise ValidationError(" Usu'ario ou senha incorreta")

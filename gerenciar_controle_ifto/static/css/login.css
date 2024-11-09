@@ -1,0 +1,17 @@
+/*          LOGIN           */
+
+html, body, form{
+    background-color: #f0f0f0;
+}
+
+form{
+    margin: auto;
+    width: 30%;
+    min-width: 320px;
+}
+
+#botao_entrar{
+    margin-top: 15px;
+    width: 200px;
+    background-color: #316033;
+}
