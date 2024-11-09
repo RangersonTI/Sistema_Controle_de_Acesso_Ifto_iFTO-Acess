@@ -21,7 +21,7 @@ def login_user(request):
                 login(request,user_authenticate)
                 usuario = form.cleaned_data['usuario']
 
-                return HttpResponseRedirect('/iftoAcess')
+                return HttpResponseRedirect('/iftoAcess/')
         
         context = {
             'form':form,

@@ -346,7 +346,6 @@ class LoginForm(forms.Form):
         }
         
         self.helper = FormHelper(self)
-        self.helper.form_class= 'form-horizontal'
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-8'
         self.helper.layout = Layout(
@@ -360,13 +359,9 @@ class LoginForm(forms.Form):
         usuario = self.cleaned_data['usuario']
         senha = self.cleaned_data['senha']
         
-        user = User.objects.filter(username=usuario).exists()
-        user_authenticate = User.objects.filter(username=usuario).first
-        print(user_authenticate)
+        #user = User.objects.filter(username=usuario).exists()
+        user = User.objects.get(username=usuario)
+        print(user.username, user.password)
         
-        if user is None:
-            raise ValidationError(" Usu'ario ou senha incorreta")
-        
-        else:
-            if  not user_authenticate.check_password(senha):
-                raise ValidationError(" Usu'ario ou senha incorreta")
+        if not(usuario == user.username and user.check_password(senha)):
+           raise ValidationError(" Usu'ario ou senha inv'alido")

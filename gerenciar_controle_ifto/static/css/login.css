@@ -6,12 +6,24 @@ html, body, form{
 
 form{
     margin: auto;
-    width: 30%;
-    min-width: 320px;
+    width: 350px;
+    text-align: center;
+    border: #000;
+    border-style:double;
+    border-width: 5px;
+    box-shadow: #000 0px 0px 15px;
 }
 
 #botao_entrar{
     margin-top: 15px;
     width: 200px;
     background-color: #316033;
+}
+
+form div div input{
+    align-items: center;
+}
+
+img{
+    margin: 15px;
 }

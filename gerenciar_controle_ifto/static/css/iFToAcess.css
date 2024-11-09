@@ -14,6 +14,9 @@ label{
     font-style: normal;
 }
 
+main{
+    height: 100px;
+}
 
 #nav_bar_navegation_iftoAcess{
     background-color: #47AC4B !important;
@@ -33,6 +36,12 @@ hr{
     background-color: #000000 !important;
     height: 2px !important;
 }
+
+#logo_homepage{
+    width: 512px;
+    opacity: 0.3;
+}
+
 
 /*          Títulos de formularios         */
 
