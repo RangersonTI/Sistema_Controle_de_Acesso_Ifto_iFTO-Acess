@@ -7,6 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 
 def cadastrarUsuario(request):
+    
+    if request.user.is_authenticated:
+        nome_usuario = request.user.username
 
     if request.method == 'POST':
         form = UsuarioForm(request.POST)
@@ -41,7 +44,7 @@ def cadastrarUsuario(request):
         context = {
             'form':form,
             'title' : 'Cadastro de Usuario',
-            'nome_usuario_logado' : 'Rangerson'
+            'nome_usuario_logado' : nome_usuario
         }
     
         return render(request, 'pages/usuario/cadastrarUsuario.html', context)
@@ -50,25 +53,31 @@ def cadastrarUsuario(request):
     context = {
         'form':form,
         'title' : 'Cadastro de Usuario',
-        'nome_usuario_logado' : 'Rangerson'
+        'nome_usuario_logado' : nome_usuario
     }
     
     return render(request, 'pages/usuario/cadastrarUsuario.html', context)
 
 def listarUsuario(request):
     
+    if request.user.is_authenticated:
+        nome_usuario = request.user.username
+    
     usuarios = User.objects.all()
     
     context = {
         'usuarios':usuarios,
         'title' : 'Editar Usuario',
-        'nome_usuario_logado' : 'Rangerson'
+        'nome_usuario_logado' : nome_usuario
     }
     
     return render(request, 'pages/usuario/listarUsuario.html', context)
 
 
 def editarUsuario(request, id):
+    
+    if request.user.is_authenticated:
+        nome_usuario = request.user.username
     
     usuario = get_object_or_404(User,id=id)
     
@@ -99,7 +108,7 @@ def editarUsuario(request, id):
         context = {
             'form':form,
             'title' : 'Edicao de Usuario',
-            'nome_usuario_logado' : 'Rangerson'
+            'nome_usuario_logado' : nome_usuario
         }
 
         return render(request, 'pages/usuario/cadastrarUsuario.html', context)
@@ -119,7 +128,7 @@ def editarUsuario(request, id):
     context = {
         'form':form,
         'title' : 'Edicao de Usuario',
-        'nome_usuario_logado' : 'Rangerson'
+        'nome_usuario_logado' : nome_usuario
     }
     
     return render(request, 'pages/usuario/cadastrarUsuario.html', context)

@@ -6,11 +6,14 @@ from django.contrib.auth.decorators import login_required
 
 def cadastrarCorRfid(request):
     
+    if request.user.is_authenticated:
+        nome_usuario = request.user.username
+    
     funcoes = Papel_pessoa.objects.filter(vinculado_corRfid=False)
 
     context = {
         'title' : 'Cadastro de Cor-Rfid',
-        'nome_usuario_logado' : 'Rangerson',
+        'nome_usuario_logado' : nome_usuario,
         'funcoes' : funcoes
     }
 
@@ -33,12 +36,15 @@ def cadastrarCorRfid(request):
 
 def listarCorRfid(request):
 
+    if request.user.is_authenticated:
+        nome_usuario = request.user.username
+        
     coresRfid = CorRFID_Funcao.objects.all()
 
     context = {
         'title' : 'Listagem de Cor-Rfid',
         'coresRfid' : coresRfid,
-        'nome_usuario_logado' : 'Rangerson'
+        'nome_usuario_logado' : nome_usuario
     }
 
     return render(request, "pages/corRfid/listarCorRfid.html", context)
@@ -46,6 +52,9 @@ def listarCorRfid(request):
 
 def editarCorRfid(request, id):
 
+    if request.user.is_authenticated:
+        nome_usuario = request.user.username
+    
     corRfid_funcao = get_object_or_404(CorRFID_Funcao,id=id)
     
     if request.method == 'POST':
@@ -76,7 +85,7 @@ def editarCorRfid(request, id):
         context = {
             'form' : form,
             'title' : 'Edicao de Cor-Rfid',
-            'nome_usuario_logado' : 'Rangerson'
+            'nome_usuario_logado' : nome_usuario
         }
         return render(request,'pages/corRfid/editarCorRfid.html', context)
 
