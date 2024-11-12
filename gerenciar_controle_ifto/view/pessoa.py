@@ -41,12 +41,16 @@ def calcularIdade(data_nascimento):
 
 
 def cadastrarPessoa(request):
+    
+    if request.user.is_authenticated:
+        nome_usuario = request.user.username
+    
     funcoes = Papel_pessoa.objects.all()
     
     context = {
         'title' : 'Cadastro de Pessoa',
         'funcoes' : funcoes,
-        'nome_usuario_logado' : 'Rangerson'
+        'nome_usuario_logado' : nome_usuario
     }
     
     if request.method == 'POST':
@@ -72,17 +76,23 @@ def cadastrarPessoa(request):
 
 def listarPessoa(request):
     
+    if request.user.is_authenticated:
+        nome_usuario = request.user.username
+    
     pessoas = Pessoa.objects.all()
     pessoas = converterData(pessoas)
     
     context = {
         'title' : 'Listagem de Pessoa',
         'pessoas' : pessoas,
-        'nome_usuario_logado' : 'Rangerson'
+        'nome_usuario_logado' : nome_usuario
     }
     return render(request, 'pages/pessoa/listarPessoa.html', context)
 
 def editarPessoa(request, id):
+    
+    if request.user.is_authenticated:
+        nome_usuario = request.user.username
 
     pessoa = get_object_or_404(Pessoa, id=id)
 
@@ -102,7 +112,7 @@ def editarPessoa(request, id):
         context = {
         'form' : form,
         'title' : 'Edicao de Pessoa',
-        'nome_usuario_logado' : 'Rangerson'
+        'nome_usuario_logado' : nome_usuario
         }
         return render(request, 'pages/pessoa/editarPessoa.html', context)    
     
@@ -120,6 +130,6 @@ def editarPessoa(request, id):
     context = {
         'form' : form,
         'title' : 'Edicao de Pessoa',
-        'nome_usuario_logado' : 'Rangerson'
+        'nome_usuario_logado' : nome_usuario
     }
     return render(request, 'pages/pessoa/editarPessoa.html', context)

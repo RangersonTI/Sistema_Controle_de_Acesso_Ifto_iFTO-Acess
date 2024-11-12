@@ -12,12 +12,15 @@ def converterData(rfids):
 
 def cadastrarRFID(request):
     
+    if request.user.is_authenticated:
+        nome_usuario = request.user.username
+    
     cores = CorRFID_Funcao.objects.all()
     
     context = {
         'title' : 'Cadastro de Tag-Rfid',
         'cores' : cores,
-        'nome_usuario_logado' : 'Rangerson'
+        'nome_usuario_logado' : nome_usuario
     }
 
     if request.method == 'POST':
@@ -51,6 +54,9 @@ def cadastrarRFID(request):
     return render(request, 'pages/rfid/cadastrarRfid.html',context)
 
 def editarRFID(request, id):
+    
+    if request.user.is_authenticated:
+        nome_usuario = request.user.username
 
     rfid = get_object_or_404(Rfid, id=id)
 
@@ -68,7 +74,7 @@ def editarRFID(request, id):
         context = {
             'form' : form,
             'title' : 'Edição de Tag-Rfid',
-            'nome_usuario_logado' : 'Rangerson'
+            'nome_usuario_logado' : nome_usuario
         }
         
         return render(request, 'pages/rfid/editarRfid.html', context)
@@ -89,12 +95,15 @@ def editarRFID(request, id):
         
         'form' : form,
         'title' : 'Edição de Tag-Rfid',
-        'nome_usuario_logado' : 'Rangerson'
+        'nome_usuario_logado' : nome_usuario
     }
     
     return render(request, 'pages/rfid/editarRfid.html', context)
 
 def listarRFID(request):
+    
+    if request.user.is_authenticated:
+        nome_usuario = request.user.username
     
     rfids = Rfid.objects.all()
     #rfids = converterData(rfids)
@@ -102,7 +111,7 @@ def listarRFID(request):
     context = {
         'title' : 'Listagem de Tags-Rfid',
         'tagsRfid' : rfids,
-        'nome_usuario_logado' : 'Rangerson'
+        'nome_usuario_logado' : nome_usuario
     }
     
     return render(request, 'pages/rfid/listarRfid.html', context)
