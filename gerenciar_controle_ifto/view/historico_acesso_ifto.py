@@ -9,6 +9,7 @@ def converterDataHistoricoAcesso(acessos):
 
     return acessos
 
+@login_required(login_url='/iftoAcess/login/')
 def listarHistoricoAcesso_Ifto(request):
     
     if request.user.is_authenticated:

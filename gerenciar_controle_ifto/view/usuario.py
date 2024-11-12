@@ -6,6 +6,7 @@ from gerenciar_controle_ifto.models import Usuario_sistema
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 
+@login_required(login_url='/iftoAcess/login/')
 def cadastrarUsuario(request):
     
     if request.user.is_authenticated:
@@ -58,6 +59,7 @@ def cadastrarUsuario(request):
     
     return render(request, 'pages/usuario/cadastrarUsuario.html', context)
 
+@login_required(login_url='/iftoAcess/login/')
 def listarUsuario(request):
     
     if request.user.is_authenticated:
@@ -73,7 +75,7 @@ def listarUsuario(request):
     
     return render(request, 'pages/usuario/listarUsuario.html', context)
 
-
+@login_required(login_url='/iftoAcess/login/')
 def editarUsuario(request, id):
     
     if request.user.is_authenticated:

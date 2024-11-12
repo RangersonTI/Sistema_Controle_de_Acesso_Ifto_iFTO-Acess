@@ -4,6 +4,7 @@ from gerenciar_controle_ifto.models import CorRFID_Funcao, Papel_pessoa
 from gerenciar_controle_ifto.forms import EditarCorRfidForm
 from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='/iftoAcess/login/')
 def cadastrarCorRfid(request):
     
     if request.user.is_authenticated:
@@ -34,6 +35,7 @@ def cadastrarCorRfid(request):
 
     return render(request, "pages/corRfid/cadastrarCorRfid.html", context)
 
+@login_required(login_url='/iftoAcess/login/')
 def listarCorRfid(request):
 
     if request.user.is_authenticated:
@@ -49,7 +51,7 @@ def listarCorRfid(request):
 
     return render(request, "pages/corRfid/listarCorRfid.html", context)
 
-
+@login_required(login_url='/iftoAcess/login/')
 def editarCorRfid(request, id):
 
     if request.user.is_authenticated:

@@ -4,6 +4,7 @@ from gerenciar_controle_ifto.models import Papel_pessoa
 from gerenciar_controle_ifto.forms import EditarFuncaoForm
 from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='/iftoAcess/login/')
 def cadastrarFuncao(request):
     
     if request.user.is_authenticated:
@@ -28,6 +29,7 @@ def cadastrarFuncao(request):
     
     return render(request, "pages/funcao/cadastrarFuncao.html", context)
 
+@login_required(login_url='/iftoAcess/login/')
 def editarFuncao(request, id):
     
     if request.user.is_authenticated:
@@ -67,7 +69,7 @@ def editarFuncao(request, id):
     
     return render(request, 'pages/funcao/editarFuncao.html', context)
     
-
+@login_required(login_url='/iftoAcess/login/')
 def listarFuncao(request):
     
     if request.user.is_authenticated:

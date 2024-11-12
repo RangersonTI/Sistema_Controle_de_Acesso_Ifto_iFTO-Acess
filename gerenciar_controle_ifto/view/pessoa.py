@@ -40,7 +40,7 @@ def calcularIdade(data_nascimento):
         else:
             return idade-1
 
-
+@login_required(login_url='/iftoAcess/login/')
 def cadastrarPessoa(request):
     
     if request.user.is_authenticated:
@@ -75,6 +75,7 @@ def cadastrarPessoa(request):
         
     return render(request, 'pages/pessoa/cadastrarPessoa.html', context)
 
+@login_required(login_url='/iftoAcess/login/')
 def listarPessoa(request):
     
     if request.user.is_authenticated:
@@ -90,6 +91,7 @@ def listarPessoa(request):
     }
     return render(request, 'pages/pessoa/listarPessoa.html', context)
 
+@login_required(login_url='/iftoAcess/login/')
 def editarPessoa(request, id):
     
     if request.user.is_authenticated:

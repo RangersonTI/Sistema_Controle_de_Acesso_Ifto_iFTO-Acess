@@ -4,6 +4,7 @@ from gerenciar_controle_ifto.models import Rfid, Pessoa
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='/iftoAcess/login/')
 def vincularRfid(request, id):
     
     if request.user.is_authenticated:
@@ -50,6 +51,7 @@ def vincularRfid(request, id):
     
     return render(request, 'pages/vincular_pessoa_rfid/vincularPessoaRfid.html', context)
 
+@login_required(login_url='/iftoAcess/login/')
 def desvincularRfid(request, id):
     
     if request.user.is_authenticated:

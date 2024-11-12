@@ -11,6 +11,7 @@ def converterData(rfids):
 
     return rfids
 
+@login_required(login_url='/iftoAcess/login/')
 def cadastrarRFID(request):
     
     if request.user.is_authenticated:
@@ -54,6 +55,7 @@ def cadastrarRFID(request):
 
     return render(request, 'pages/rfid/cadastrarRfid.html',context)
 
+@login_required(login_url='/iftoAcess/login/')
 def editarRFID(request, id):
     
     if request.user.is_authenticated:
@@ -101,6 +103,7 @@ def editarRFID(request, id):
     
     return render(request, 'pages/rfid/editarRfid.html', context)
 
+@login_required(login_url='/iftoAcess/login/')
 def listarRFID(request):
     
     if request.user.is_authenticated:
