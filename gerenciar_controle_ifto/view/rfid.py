@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from gerenciar_controle_ifto.models import Rfid,CorRFID_Funcao
 from gerenciar_controle_ifto.forms import EditarRfidForm
+from django.contrib.auth.decorators import login_required
 from datetime import datetime
 
 def converterData(rfids):

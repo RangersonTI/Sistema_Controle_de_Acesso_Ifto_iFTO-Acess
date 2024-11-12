@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from gerenciar_controle_ifto.forms import LoginForm
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from datetime import datetime
 
 def login_user(request):

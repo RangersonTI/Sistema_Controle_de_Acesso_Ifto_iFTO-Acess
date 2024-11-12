@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from gerenciar_controle_ifto.models import CorRFID_Funcao, Papel_pessoa
 from gerenciar_controle_ifto.forms import EditarCorRfidForm
+from django.contrib.auth.decorators import login_required
 
 def cadastrarCorRfid(request):
     

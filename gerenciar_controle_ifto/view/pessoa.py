@@ -3,6 +3,7 @@ from gerenciar_controle_ifto.models import Pessoa,Papel_pessoa
 from datetime import datetime
 from django.http import HttpResponseRedirect
 from gerenciar_controle_ifto.forms import EditarPessoaForm
+from django.contrib.auth.decorators import login_required
 
 def converterData(pessoas):
     for pessoa in pessoas:

@@ -299,7 +299,7 @@ class UsuarioForm(forms.Form):
                     </a>"""),
             Submit('submit', 'Salvar', css_id='botao_salvar', css_class='btn btn-success'),
         )
-        
+
     def clean(self):
         nome = self.cleaned_data['nome']
         sobrenome = self.cleaned_data['sobrenome']

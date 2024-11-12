@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from gerenciar_controle_ifto.forms import UsuarioForm
 from gerenciar_controle_ifto.models import Usuario_sistema
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 
 def cadastrarUsuario(request):

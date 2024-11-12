@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from gerenciar_controle_ifto.models import Historico_acesso_campus
+from django.contrib.auth.decorators import login_required
 from datetime import datetime
 
 def converterDataHistoricoAcesso(acessos):
