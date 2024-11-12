@@ -1,12 +1,18 @@
 /*          LOGIN           */
 
-html, body, form{
+/*html, body, form{
     background-color: #f0f0f0;
+}
+
+body{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 form{
     margin: auto;
-    width: 350px;
+    width: 400px;
     text-align: center;
     border: #000;
     border-style:double;
@@ -25,5 +31,34 @@ form div div input{
 }
 
 img{
-    margin: 15px;
+    margin: 25px;
+}*/
+
+body,html{
+    background-color: #f0f0f0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+element{
+    background-color: #f0f0f0;
+}
+
+form{
+    width:400px ;
+    margin: auto;
+    align-items: center;
+    border-radius: 4px;
+}
+
+.container_form{
+    display: flex;
+    align-items: center;
+}
+
+input[type=submit]:hover{
+    background-color: #316033;
 }

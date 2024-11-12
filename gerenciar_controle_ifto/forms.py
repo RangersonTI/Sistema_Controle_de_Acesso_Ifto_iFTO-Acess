@@ -69,14 +69,14 @@ class EditarRfidForm(forms.Form):
 
 class EditarFuncaoForm(forms.Form):
     funcao = forms.CharField(label="Funcao:", required=True)
-    
+
     def __init__(self, *args, **kwargs):
         super(EditarFuncaoForm, self).__init__(*args, **kwargs)
-        
+
         self.fields['funcao'].widget.attrs = {
             'id' : 'funcao_descricao',
         }
-        
+
         self.helper = FormHelper(self)
         self.helper.form_class = 'form-horizontal'
         self.helper.label_class = 'col-lg-2'
@@ -262,7 +262,7 @@ class VincularPessoaRfid(forms.Form):
             self.add_error('rfid_a_vincular',"Selecione um RFID para vincular")
             
             
-# PARA USUARIOS (CADASTRAR, EDITAR E LISTAR)
+# PARA USUARIOS (CADASTRAR E EDITAR)
 
 class UsuarioForm(forms.Form):
     nome = forms.CharField(label="Nome:")   
@@ -276,7 +276,7 @@ class UsuarioForm(forms.Form):
                             ))
     ativo = forms.BooleanField(label="Ativo:", required=False)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args,**kwargs):
         super(UsuarioForm, self).__init__(*args, **kwargs)
         
         self.fields['ativo'].widget.attrs = {
@@ -307,8 +307,13 @@ class UsuarioForm(forms.Form):
         usuario = self.cleaned_data['usuario']
         senha = self.cleaned_data['senha']
         
-        email_exist = User.objects.filter(email=email).first()
-        usuario_exist = User.objects.filter(username=usuario).first()
+        if(User.objects.filter(username=usuario).first()):
+            user = User.objects.filter(username=usuario).first()
+            email_exist = User.objects.filter(email=email).exclude(id=user.id)
+            usuario_exist = User.objects.filter(username=usuario).exclude(id=user.id)
+        else:
+            email_exist = User.objects.filter(email=email).first()
+            usuario_exist = User.objects.filter(username=usuario).first()
 
         if email_exist:
             self.add_error('email', "O email informado já foi cadastrado em outro usuario")
@@ -328,9 +333,8 @@ class UsuarioForm(forms.Form):
 # FORMULARIO DE LOGIN
 
 class LoginForm(forms.Form):
-    usuario = forms.CharField(label="")
-    senha = forms.CharField(label="", 
-                            widget=forms.PasswordInput(
+    usuario = forms.CharField(label=False)
+    senha = forms.CharField(label=False, widget=forms.PasswordInput(
                                 render_value=False
                             ))
     
@@ -346,22 +350,21 @@ class LoginForm(forms.Form):
         }
         
         self.helper = FormHelper(self)
-        self.helper.label_class = 'col-lg-2'
-        self.helper.field_class = 'col-lg-8'
         self.helper.layout = Layout(
             'usuario',
             'senha',
-            Submit('submit', 'Entrar', css_id='botao_entrar', css_class='btn btn-success'),
-            HTML("""<p class="mt-5 mb-3 text-muted">&copy; {{ano_criado}}{% if  ano_criado < ano_atual%}-{{ano_atual}}{% endif %}""")
+            Submit('submit', 'Entrar', css_id='botao_entrar', css_class='btn btn-lg btn-success btn-block'),
+            HTML("""<p class="mt-5 mb-3 text-muted">&copy; {{ano_criado}}{% if ano_criado < ano_atual %}-{{ano_atual}}{% endif %}""")
         )
     
     def clean(self):
         usuario = self.cleaned_data['usuario']
         senha = self.cleaned_data['senha']
         
-        #user = User.objects.filter(username=usuario).exists()
-        user = User.objects.get(username=usuario)
-        print(user.username, user.password)
-        
+        try:
+            user = User.objects.get(username=usuario.lower())
+        except Exception:
+            raise ValidationError(" Usu'ario ou senha inv'alido")
+            
         if not(usuario == user.username and user.check_password(senha)):
            raise ValidationError(" Usu'ario ou senha inv'alido")

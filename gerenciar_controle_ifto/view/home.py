@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 
 @login_required(login_url='/iftoAcess/login/')
 def home(request):
+    
+    user_conect = request.user.is_authenticad
+    
     context = {
         'title' : 'Inicío',
         'nome_usuario_logado' : 'Rangerson'

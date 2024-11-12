@@ -15,32 +15,33 @@ def login_user(request):
             usuario = form.cleaned_data['usuario']
             senha = form.cleaned_data['senha']
             
-            user_authenticate = authenticate(request, username=usuario, password=senha)
+            user_authenticate = authenticate(request, username=usuario.lower(), password=senha)
         
             if user_authenticate is not None:
                 login(request,user_authenticate)
                 usuario = form.cleaned_data['usuario']
 
                 return HttpResponseRedirect('/iftoAcess/')
-        
+
         context = {
             'form':form,
-            'ano_criado':'2024',
+            'ano_criado':'2022',
             'ano_atual':datetime.now().year,
             'title' : 'Login',
         }
     
         return render(request, 'pages/login/login.html', context)
-        
+
     form = LoginForm()
 
     context = {
         'form':form,
-        'ano_criado':'2024',
-        'ano_atual':datetime.now().year,
+        'ano_criado':'2022',
+        'ano_atual': str(datetime.now().year),
         'title' : 'Login',
     }
-    
+    print(datetime.now().year,)
+
     return render(request, 'pages/login/login.html', context)
 
 

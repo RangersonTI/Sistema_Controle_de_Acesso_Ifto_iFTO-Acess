@@ -26,8 +26,8 @@ def cadastrarUsuario(request):
         #                              data_criacao = '2024-11-07' 
         #                              )
         #usuario_sys.save()
-        
-            usuario = User.objects.create_user(username=usuario,
+
+            usuario = User.objects.create_user(username=usuario.lower(),
                                                password=senha,
                                                email=email,
                                                first_name=nome,
@@ -76,7 +76,8 @@ def editarUsuario(request, id):
 
         if form.is_valid():
         #cod_pessoa = form.cleaned_data['cod_pessoa']
-            usuario.first_name= form.cleaned_data['nome']
+            usuario.first_name= (form.cleaned_data['nome']).lower()
+            print(usuario.first_name)
             usuario.last_name = form.cleaned_data['sobrenome']
             usuario.email = form.cleaned_data['email']
             usuario.username = form.cleaned_data['usuario']
@@ -104,7 +105,7 @@ def editarUsuario(request, id):
 
     form = UsuarioForm(
         initial = {
-            'usuario':usuario.username,
+            'usuario':usuario.username.lower(),
             'senha':usuario.password,
             'email':usuario.email,
             'nome':usuario.first_name,
