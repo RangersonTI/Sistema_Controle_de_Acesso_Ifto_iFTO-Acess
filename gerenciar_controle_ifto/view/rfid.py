@@ -15,12 +15,13 @@ def converterData(rfids):
 def cadastrarRFID(request):
     
     if request.user.is_authenticated:
-        nome_usuario = request.user.username
+        nome_usuario = request.user.first_name
     
     cores = CorRFID_Funcao.objects.all()
     
     context = {
         'title' : 'Cadastro de Tag-Rfid',
+        'usuario_staff_atual':request.user.is_staff,
         'cores' : cores,
         'nome_usuario_logado' : nome_usuario
     }
@@ -59,7 +60,7 @@ def cadastrarRFID(request):
 def editarRFID(request, id):
     
     if request.user.is_authenticated:
-        nome_usuario = request.user.username
+        nome_usuario = request.user.first_name
 
     rfid = get_object_or_404(Rfid, id=id)
 
@@ -77,6 +78,7 @@ def editarRFID(request, id):
         context = {
             'form' : form,
             'title' : 'Edição de Tag-Rfid',
+            'usuario_staff_atual':request.user.is_staff,
             'nome_usuario_logado' : nome_usuario
         }
         
@@ -98,6 +100,7 @@ def editarRFID(request, id):
         
         'form' : form,
         'title' : 'Edição de Tag-Rfid',
+        'usuario_staff_atual':request.user.is_staff,
         'nome_usuario_logado' : nome_usuario
     }
     
@@ -107,13 +110,14 @@ def editarRFID(request, id):
 def listarRFID(request):
     
     if request.user.is_authenticated:
-        nome_usuario = request.user.username
+        nome_usuario = request.user.first_name
     
     rfids = Rfid.objects.all()
     #rfids = converterData(rfids)
     
     context = {
         'title' : 'Listagem de Tags-Rfid',
+        'usuario_staff_atual':request.user.is_staff,
         'tagsRfid' : rfids,
         'nome_usuario_logado' : nome_usuario
     }

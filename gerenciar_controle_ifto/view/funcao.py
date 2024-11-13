@@ -8,10 +8,11 @@ from django.contrib.auth.decorators import login_required
 def cadastrarFuncao(request):
     
     if request.user.is_authenticated:
-        nome_usuario = request.user.username
+        nome_usuario = request.user.first_name
     
     context = {
         'title' : 'Cadastro de Função',
+        'usuario_staff_atual':request.user.is_staff,
         'nome_usuario_logado' : nome_usuario
     }
     
@@ -33,7 +34,7 @@ def cadastrarFuncao(request):
 def editarFuncao(request, id):
     
     if request.user.is_authenticated:
-        nome_usuario = request.user.username
+        nome_usuario = request.user.first_name
 
     funcao = get_object_or_404(Papel_pessoa, id=id)
 
@@ -49,6 +50,7 @@ def editarFuncao(request, id):
         'form' : form,
         'funcao' : funcao,
         'title' : 'Edicao de Funcao',
+        'usuario_staff_atual':request.user.is_staff,
         'nome_usuario_logado' : nome_usuario
         }
         return render(request, 'pages/funcao/editarFuncao.html', context)
@@ -64,6 +66,7 @@ def editarFuncao(request, id):
         'form' : form,
         'funcao' : funcao,
         'title' : 'Edicao de Funcao',
+        'usuario_staff_atual':request.user.is_staff,
         'nome_usuario_logado' : nome_usuario
     }
     
@@ -73,12 +76,13 @@ def editarFuncao(request, id):
 def listarFuncao(request):
     
     if request.user.is_authenticated:
-        nome_usuario = request.user.username
+        nome_usuario = request.user.first_name
     
     funcoes = Papel_pessoa.objects.all()
     
     context = {
         'title' : 'Listagem de Função',
+        'usuario_staff_atual':request.user.is_staff,
         'funcoes' : funcoes,
         'nome_usuario_logado' : nome_usuario
     }    

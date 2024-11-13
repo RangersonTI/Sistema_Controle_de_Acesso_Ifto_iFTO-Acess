@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 def vincularRfid(request, id):
     
     if request.user.is_authenticated:
-        nome_usuario = request.user.username
+        nome_usuario = request.user.first_name
 
     pessoa = get_object_or_404(Pessoa, id=id)
 
@@ -21,8 +21,6 @@ def vincularRfid(request, id):
             pessoa.cod_Rfid = cod_rfid
             pessoa.vinculado = True
             pessoa.save()
-
-            print(f"Prinmi ai: {cod_rfid}")
             
             rfid = get_object_or_404(Rfid,id=cod_rfid.id)
             rfid.vinculado = True
@@ -33,6 +31,7 @@ def vincularRfid(request, id):
         context = {
             'form' : form,
             'title' : 'Vinculação de RFID',
+            'usuario_staff_atual':request.user.is_staff,
             'nome_usuario_logado' : nome_usuario
         }
         return render(request, 'pages/vincular_pessoa_rfid/vincularPessoaRfid.html', context)
@@ -46,6 +45,7 @@ def vincularRfid(request, id):
     context = {
         'form' : form,
         'title' : 'Vinculação de RFID',
+        'usuario_staff_atual':request.user.is_staff,
         'nome_usuario_logado' : nome_usuario
     }
     
@@ -55,7 +55,7 @@ def vincularRfid(request, id):
 def desvincularRfid(request, id):
     
     if request.user.is_authenticated:
-        nome_usuario = request.user.username
+        nome_usuario = request.user.first_name
     
     pessoa = get_object_or_404(Pessoa, id=id)
 

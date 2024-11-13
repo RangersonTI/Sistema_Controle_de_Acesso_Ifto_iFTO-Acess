@@ -13,7 +13,7 @@ def converterDataHistoricoAcesso(acessos):
 def listarHistoricoAcesso_Ifto(request):
     
     if request.user.is_authenticated:
-        nome_usuario = request.user.username
+        nome_usuario = request.user.first_name
     
     acessos = Historico_acesso_campus.objects.all()
     
@@ -21,6 +21,7 @@ def listarHistoricoAcesso_Ifto(request):
     
     context = {
         'title' : 'Histórico de Acesso',
+        'usuario_staff_atual':request.user.is_staff,
         'acessos' : acessos,
         'nome_usuario_logado' : nome_usuario
     }

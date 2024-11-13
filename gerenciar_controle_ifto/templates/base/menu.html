@@ -21,7 +21,9 @@
                 <a class="dropdown-item" href="{% url "cadastro_tagRfid" %}">Tags RFID</a>
                 <a class="dropdown-item" href="{% url "cadastro_funcao" %}">Funcao</a>
                 <a class="dropdown-item" href="{% url "cadastro_corRfid" %}">Cor RFID</a>
-                <a class="dropdown-item" href="{% url "cadastro_usuario" %}">Usuarios</a>
+                {% if usuario_staff_atual == True %}
+                  <a class="dropdown-item" href="{% url "cadastro_usuario" %}">Usuarios</a>
+                {% endif %}
             </div>
         </li>
 
@@ -34,7 +36,9 @@
                 <a class="dropdown-item" href="{% url "visualizar_tagRfid" %}">Tags RFID</a>
                 <a class="dropdown-item" href="{% url "visualizar_funcao" %}">Função</a>
                 <a class="dropdown-item" href="{% url "visualizar_corRfid" %}">Cor RFID</a>
-                <a class="dropdown-item" href="{% url "visualizar_usuario" %}">Usuarios</a>
+                {% if usuario_staff_atual == True %}
+                  <a class="dropdown-item" href="{% url "visualizar_usuario" %}">Usuarios</a>
+                {% endif %}
             </div>
         </li>
 

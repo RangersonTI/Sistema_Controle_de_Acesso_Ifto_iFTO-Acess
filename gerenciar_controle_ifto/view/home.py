@@ -10,6 +10,7 @@ def home(request):
 
     context = {
         'title' : 'Inicío',
+        'usuario_staff_atual':request.user.is_staff,
         'nome_usuario_logado' : nome_usuario
     }
     
