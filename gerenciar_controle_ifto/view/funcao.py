@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from gerenciar_controle_ifto.models import Papel_pessoa
-from gerenciar_controle_ifto.forms import EditarFuncaoForm
+from gerenciar_controle_ifto.formularios.FuncaoForm import *
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='/iftoAcess/login/')
@@ -61,7 +61,7 @@ def editarFuncao(request, id):
             'funcao' : funcao.descricao
         }
     )
-    
+
     context = {
         'form' : form,
         'funcao' : funcao,

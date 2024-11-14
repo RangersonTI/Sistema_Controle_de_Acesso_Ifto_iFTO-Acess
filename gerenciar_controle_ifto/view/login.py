@@ -1,7 +1,7 @@
 
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
-from gerenciar_controle_ifto.forms import LoginForm
+from gerenciar_controle_ifto.formularios.LoginForm import LoginForm
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
@@ -26,8 +26,8 @@ def login_user(request):
 
         context = {
             'form':form,
-            'ano_criado':'2022',
-            'ano_atual':datetime.now().year,
+            'ano_criado':'2024',
+            'ano_atual': str(datetime.now().year),
             'title' : 'Login',
         }
     
@@ -37,11 +37,10 @@ def login_user(request):
 
     context = {
         'form':form,
-        'ano_criado':'2022',
+        'ano_criado':'2024',
         'ano_atual': str(datetime.now().year),
         'title' : 'Login',
     }
-    print(datetime.now().year,)
 
     return render(request, 'pages/login/login.html', context)
 

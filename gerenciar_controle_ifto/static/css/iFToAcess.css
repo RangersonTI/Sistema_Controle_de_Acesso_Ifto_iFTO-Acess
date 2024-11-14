@@ -98,6 +98,16 @@ form button{
     margin-bottom: 20px;
 }
 
+#botao_ler_rfid{
+    font-size: 20px !important;
+    font-weight: 400;
+    font-family: "Rubik", sans-serif;
+    background-color: #da2d2d;
+    align-self: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 #botao_salvar div{
     background-color: red;
     align-items: center;

@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from gerenciar_controle_ifto.models import Pessoa,Papel_pessoa
 from datetime import datetime
 from django.http import HttpResponseRedirect
-from gerenciar_controle_ifto.forms import EditarPessoaForm
+from gerenciar_controle_ifto.formularios.PessoaForm import *
 from django.contrib.auth.decorators import login_required
 
 def converterData(pessoas):
@@ -78,7 +78,7 @@ def cadastrarPessoa(request):
 
 @login_required(login_url='/iftoAcess/login/')
 def listarPessoa(request):
-    
+
     if request.user.is_authenticated:
         nome_usuario = request.user.first_name
     

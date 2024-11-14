@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from gerenciar_controle_ifto.forms import VincularPessoaRfid
+from gerenciar_controle_ifto.formularios.PessoaForm import VincularPessoaRfid
 from gerenciar_controle_ifto.models import Rfid, Pessoa
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required

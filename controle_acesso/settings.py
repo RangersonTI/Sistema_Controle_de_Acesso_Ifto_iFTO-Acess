@@ -85,9 +85,9 @@ WSGI_APPLICATION = 'controle_acesso.wsgi.application'
 #    'default': {
 #        'ENGINE': 'django.db.backends.mysql',
 #        'NAME': 'controle_acesso_ifto',
-#        'USER':'rangerti',
-#        'PASSWORD' : 'wrede123',
-#       'HOST':'127.0.0.1',
+#        'USER':'root',
+#        'PASSWORD' : 'wrede',
+#        'HOST':'127.0.0.1',
 #        'PORT': '3306',
 #    }
 #}

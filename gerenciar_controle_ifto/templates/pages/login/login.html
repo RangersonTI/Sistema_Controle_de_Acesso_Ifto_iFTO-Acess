@@ -18,6 +18,7 @@
         <form method='POST' id='form_login' class="form-signin">
             <img class="mb-4" src="{% static "images/logo_iftoAcess.ico" %}" alt="" width="72" height="72">
             <h1 class="h3 mb-3 font-weight-normal">LOGIN</h1>
+            {% csrf_token %}
             {% crispy form %}
         </form>
     </body>

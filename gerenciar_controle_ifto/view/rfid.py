@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from gerenciar_controle_ifto.models import Rfid,CorRFID_Funcao
-from gerenciar_controle_ifto.forms import EditarRfidForm
+from gerenciar_controle_ifto.formularios.RfidForm import *
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 
@@ -16,45 +16,44 @@ def cadastrarRFID(request):
     
     if request.user.is_authenticated:
         nome_usuario = request.user.first_name
-    
-    cores = CorRFID_Funcao.objects.all()
+
+    if request.method == 'POST':
+        form = CadastrarRfidForm(request.POST)
+
+        if form.is_valid():
+            rfid = Rfid(tag_rfid_value=form.cleaned_data['tag_rfid_value'],
+                    cod_corRFID_funcao=form.cleaned_data['cod_corRFID_funcao'],
+                    data_cadastro=datetime.now().strftime('%Y-%m-%d %H:%M'),
+                    data_desativacao = form.cleaned_data['data_desativacao'],
+                    vinculado = False,
+                    ativo=form.cleaned_data['ativo'],
+                    motivo_desativacao = form.cleaned_data['motivo_desativacao']
+                    )
+            
+            rfid.save()
+            return HttpResponseRedirect('/iftoAcess/listar/tagRfid/')
+            
+        context = {
+            'form' : form,
+            'title' : 'Edição de Tag-Rfid',
+            'usuario_staff_atual':request.user.is_staff,
+            'nome_usuario_logado' : nome_usuario
+        }
+        
+        return render(request, 'pages/rfid/editarRfid.html', context)
+
+
+    form = CadastrarRfidForm()
     
     context = {
+        
+        'form' : form,
         'title' : 'Cadastro de Tag-Rfid',
         'usuario_staff_atual':request.user.is_staff,
-        'cores' : cores,
         'nome_usuario_logado' : nome_usuario
     }
 
-    if request.method == 'POST':
-        tag_rfid_value = request.POST.get('tag_rfid_value')
-        cod_corRfid = int(request.POST.get('cod_corRfid'))
-        rfid_ativo = (request.POST.get('rfid_ativo') == "on")
-        motivo_desativacao = request.POST.get('motivo_desativacao')
-        data_desativacao = request.POST.get('data_desativacao')
-
-        if rfid_ativo == False:
-            if request.POST.get('data_desativacao') == None:
-                return HttpResponse("Campo motivo_desativação deve ser preenchido para justificar a inativação da Tag")
-        else:
-            data_desativacao = None
-
-        if tag_rfid_value == None:
-            return HttpResponse("Campo Tag RFID não pode ser nulo")
-
-        rfid = Rfid(tag_rfid_value=tag_rfid_value,
-                    cod_corRFID_funcao=CorRFID_Funcao.objects.get(pk=cod_corRfid),
-                    data_cadastro=datetime.now().strftime('%Y-%m-%d %H:%M'),
-                    data_desativacao = data_desativacao,
-                    vinculado = False,
-                    ativo=rfid_ativo,
-                    motivo_desativacao = motivo_desativacao
-                    )
-
-        rfid.save()
-        return HttpResponseRedirect('/iftoAcess/listar/tagRfid/')
-
-    return render(request, 'pages/rfid/cadastrarRfid.html',context)
+    return render(request, 'pages/rfid/cadastrarRfid.html', context)
 
 @login_required(login_url='/iftoAcess/login/')
 def editarRFID(request, id):

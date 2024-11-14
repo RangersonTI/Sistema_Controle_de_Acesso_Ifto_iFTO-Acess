@@ -1,7 +1,7 @@
 
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
-from gerenciar_controle_ifto.forms import UsuarioForm
+from gerenciar_controle_ifto.formularios.UsuarioForm import *
 from gerenciar_controle_ifto.models import Usuario_sistema
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
@@ -43,9 +43,9 @@ def cadastrarUsuario(request):
             }
 
             return render(request, 'pages/usuario/cadastrarUsuario.html', context)
-            
+
         return HttpResponseRedirect('/iftoAcess/')
-        
+
     
 
 @login_required(login_url='/iftoAcess/login/')
@@ -98,7 +98,7 @@ def editarUsuario(request, id):
                     'nome_usuario_logado' : nome_usuario
                 }
 
-                return render(request, 'pages/usuario/cadastrarUsuario.html', context)
+                return render(request, 'pages/usuario/editarUsuario.html', context)
 
             form = UsuarioForm(
                 initial = {
