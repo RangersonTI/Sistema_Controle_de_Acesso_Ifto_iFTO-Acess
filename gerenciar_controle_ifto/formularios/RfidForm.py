@@ -21,6 +21,10 @@ class CadastrarRfidForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(CadastrarRfidForm, self).__init__(*args, **kwargs)
+        
+        self.fields['tag_rfid_value'].widget.attrs = {
+            'readonly':True
+        }
 
         self.fields['ativo'].widget.attrs = {
             'id' : 'rfid_ativo',
