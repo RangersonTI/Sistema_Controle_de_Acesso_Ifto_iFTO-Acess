@@ -21,7 +21,7 @@ def vincularRfid(request, id):
             pessoa.cod_Rfid = cod_rfid
             pessoa.vinculado = True
             pessoa.save()
-            
+
             rfid = get_object_or_404(Rfid,id=cod_rfid.id)
             rfid.vinculado = True
             rfid.save()

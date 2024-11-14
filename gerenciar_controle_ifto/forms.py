@@ -147,10 +147,11 @@ class EditarCorRfidForm(forms.Form):
             self.add_error('corRFID',"A cor deve ter mais de 2 caracteres")
 
 class EditarPessoaForm(forms.Form):
+    id = forms.IntegerField()
     nome = forms.CharField(label="Nome:")
     sobrenome = forms.CharField(label="Sobrenome:")
     cpf = forms.CharField(label="CPF:")
-    data_nascimento = forms.DateTimeField(label="Data de nascimento:", 
+    data_nascimento = forms.DateTimeField(label="Data de nascimento:",
                                           widget= forms.DateTimeInput(
                                                 attrs={'type': 'datetime-local'},
                                                 format='%d-%m-%Y %H:%M'
@@ -158,8 +159,10 @@ class EditarPessoaForm(forms.Form):
                                         )
     cod_Papel_pessoa = forms.ModelChoiceField(label="Funcao",queryset=Papel_pessoa.objects.all())
     
-    def __init__(self, *args, cod_cargoID=None, **kwargs):
+    def __init__(self, *args, cod_cargoID=None, vinculado=False, id_pessoa=0, **kwargs):
         super(EditarPessoaForm,self).__init__(*args, **kwargs)
+        
+        self.fields['id'].initial = id_pessoa
         
         self.fields['nome'].widget.attrs = {
             'id' : 'nome'
@@ -175,9 +178,15 @@ class EditarPessoaForm(forms.Form):
             'id' : 'data_nascimento',
             'min' : '1900-01-01'
         }
-        self.fields['cod_Papel_pessoa'].widget.attrs = {
-            'id' : 'cod_Papel_pessoa'
-        }
+        
+        if vinculado == False:
+            self.fields['cod_Papel_pessoa'].widget.attrs = {
+                'id' : 'cod_Papel_pessoa'
+            }
+        else:
+            self.fields['cod_Papel_pessoa'].widget.attrs = {
+                'disabled' : True
+            }
         
         if cod_cargoID is not None:
             cod_cargo =Papel_pessoa.objects.filter(id=cod_cargoID)
@@ -202,6 +211,7 @@ class EditarPessoaForm(forms.Form):
         )
 
     def clean(self):
+        id_pessoa = int(self.cleaned_data['id'])
         nome = self.cleaned_data['nome']
         sobrenome = self.cleaned_data['sobrenome']
         cpf = self.cleaned_data['cpf']
@@ -216,7 +226,7 @@ class EditarPessoaForm(forms.Form):
         if len(cpf) != 11:
             self.add_error('cpf','CPF incompleto')
         else:
-            cpf_pessoa = Pessoa.objects.filter(cpf=cpf)
+            cpf_pessoa = Pessoa.objects.filter(cpf=cpf).exclude(id=id_pessoa)
             if cpf_pessoa:
                 self.add_error('cpf', "CPF informado j'a foi cadastrado no sistema")
             else:

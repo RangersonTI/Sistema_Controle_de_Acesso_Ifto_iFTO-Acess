@@ -108,8 +108,9 @@ def editarPessoa(request, id):
             pessoa.nome = form.cleaned_data['nome']
             pessoa.sobrenome = form.cleaned_data['sobrenome']
             pessoa.cpf = form.cleaned_data['cpf']
-            pessoa.cod_Papel_pessoa = form.cleaned_data['cod_Papel_pessoa']
             pessoa.data_nascimento = form.cleaned_data['data_nascimento']
+            if pessoa.vinculado == False:
+                pessoa.cod_Papel_pessoa = form.cleaned_data['cod_Papel_pessoa']
             pessoa.save()
             
             return HttpResponseRedirect('/iftoAcess/listar/pessoa/')
@@ -130,7 +131,9 @@ def editarPessoa(request, id):
             'cod_Papel_pessoa' : pessoa.cod_Papel_pessoa,
             'data_nascimento' : pessoa.data_nascimento
         },
-        cod_cargoID = pessoa.cod_Papel_pessoa.id
+        cod_cargoID = pessoa.cod_Papel_pessoa.id,
+        vinculado = pessoa.vinculado,
+        id_pessoa = pessoa.id
     )
     
     context = {
