@@ -45,7 +45,7 @@
                         <td>{{ tagRfid.motivo_desativacao }}</td>
                     {% endif %}
 
-                    {% if tagRfid.ativo %}
+                    {% if tagRfid.ativo == True and not tagRfid.vinculado%}
                         <td id="centralize_info">
                             <a href="{% url "editar_tagRfid" tagRfid.id%}">
                                 <img src="{% static "images/icones/editar.png" %}" width="16px" alt="">

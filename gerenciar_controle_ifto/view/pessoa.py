@@ -12,8 +12,10 @@ def converterData(pessoas):
     return pessoas
 
 def calcularIdade(data_nascimento):
-    dt = datetime.strptime(data_nascimento,"%Y-%m-%d")
-    tdt = dt.timetuple()
+    print(data_nascimento)
+    
+    #dt = datetime.strptime(data_nascimento,"%Y-%m-%d")
+    tdt = data_nascimento.timetuple()
     data_list = []
 
     for data in tdt:
@@ -46,35 +48,41 @@ def cadastrarPessoa(request):
     if request.user.is_authenticated:
         nome_usuario = request.user.first_name
     
-    funcoes = Papel_pessoa.objects.all()
-    
-    context = {
-        'title' : 'Cadastro de Pessoa',
-        'usuario_staff_atual':request.user.is_staff,
-        'funcoes' : funcoes,
-        'nome_usuario_logado' : nome_usuario
-    }
-    
-    if request.method == 'POST':
-        nome_pessoa = request.POST.get('nome_pessoa')
-        sobrenome_completo_pessoa = request.POST.get('sobrenome_completo_pessoa')
-        data_nascimento = request.POST.get('data_nascimento')
-        cpf_pessoa = request.POST.get('cpf_pessoa')
-        funcao_pessoa = int(request.POST.get('funcao_pessoa'))
 
-        pessoa = Pessoa(nome = nome_pessoa, 
-                        sobrenome = sobrenome_completo_pessoa, 
-                        cpf=cpf_pessoa,
-                        data_nascimento = data_nascimento,
-                        idade = calcularIdade(data_nascimento),
-                        cod_Papel_pessoa = Papel_pessoa.objects.get(pk=funcao_pessoa),
+    if request.method == 'POST':
+        form = CadastrarPessoaForm(request.POST)
+
+        if form.is_valid():
+            pessoa = Pessoa(nome = form.cleaned_data['nome'], 
+                        sobrenome = form.cleaned_data['sobrenome'], 
+                        cpf=form.cleaned_data['cpf'],
+                        data_nascimento = form.cleaned_data['data_nascimento'],
+                        idade = calcularIdade(form.cleaned_data['data_nascimento']),
+                        cod_Papel_pessoa = form.cleaned_data['cod_Papel_pessoa'],
                         vinculado=False
                         )
-        pessoa.save()
-        
-        return HttpResponseRedirect("/iftoAcess/listar/pessoa/")
-        
+            pessoa.save()
+
+            return HttpResponseRedirect('/iftoAcess/listar/pessoa/')
+
+        context = {
+            'form' : form,
+            'title' : 'Cadastro de Pessoa',
+            'usuario_staff_atual':request.user.is_staff,
+            'nome_usuario_logado' : nome_usuario
+        }
+        return render(request, 'pages/pessoa/cadastrarPessoa.html', context)    
+
+    form = CadastrarPessoaForm()
+    
+    context = {
+        'form' : form,
+        'title' : 'Cadastro de Pessoa',
+        'usuario_staff_atual':request.user.is_staff,
+        'nome_usuario_logado' : nome_usuario
+    }
     return render(request, 'pages/pessoa/cadastrarPessoa.html', context)
+
 
 @login_required(login_url='/iftoAcess/login/')
 def listarPessoa(request):
@@ -111,34 +119,35 @@ def editarPessoa(request, id):
             pessoa.data_nascimento = form.cleaned_data['data_nascimento']
             if pessoa.vinculado == False:
                 pessoa.cod_Papel_pessoa = form.cleaned_data['cod_Papel_pessoa']
+            print(pessoa.data_nascimento)
             pessoa.save()
-            
+
             return HttpResponseRedirect('/iftoAcess/listar/pessoa/')
 
         context = {
-        'form' : form,
-        'title' : 'Edicao de Pessoa',
-        'usuario_staff_atual':request.user.is_staff,
-        'nome_usuario_logado' : nome_usuario
+            'form' : form,
+            'title' : 'Edicão de Pessoa',
+            'usuario_staff_atual':request.user.is_staff,
+            'nome_usuario_logado' : nome_usuario
         }
         return render(request, 'pages/pessoa/editarPessoa.html', context)    
-    
+
     form = EditarPessoaForm(
         initial = {
+            'id' : int(pessoa.id),
             'nome' : pessoa.nome,
             'sobrenome' : pessoa.sobrenome,
             'cpf' : pessoa.cpf,
             'cod_Papel_pessoa' : pessoa.cod_Papel_pessoa,
-            'data_nascimento' : pessoa.data_nascimento
+            'data_nascimento' : datetime.strptime(str(pessoa.data_nascimento),'%Y-%m-%d')
         },
         cod_cargoID = pessoa.cod_Papel_pessoa.id,
         vinculado = pessoa.vinculado,
-        id_pessoa = pessoa.id
     )
     
     context = {
         'form' : form,
-        'title' : 'Edicao de Pessoa',
+        'title' : 'Edicão de Pessoa',
         'usuario_staff_atual':request.user.is_staff,
         'nome_usuario_logado' : nome_usuario
     }

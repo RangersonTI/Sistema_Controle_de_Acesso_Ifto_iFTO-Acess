@@ -16,7 +16,6 @@ def vincularRfid(request, id):
         form = VincularPessoaRfid(request.POST)
 
         if form.is_valid():
-            print("Passou por validar")
             cod_rfid = form.cleaned_data['rfid_a_vincular']
             pessoa.cod_Rfid = cod_rfid
             pessoa.vinculado = True
@@ -25,7 +24,6 @@ def vincularRfid(request, id):
             rfid = get_object_or_404(Rfid,id=cod_rfid.id)
             rfid.vinculado = True
             rfid.save()
-            print("Vai redirecionar\n")
             return HttpResponseRedirect('/iftoAcess/listar/pessoa/')
 
         context = {

@@ -86,7 +86,8 @@ def editarUsuario(request, id):
                     usuario.last_name = form.cleaned_data['sobrenome']
                     usuario.email = form.cleaned_data['email']
                     usuario.username = (form.cleaned_data['usuario']).lower()
-                    usuario.set_password(form.cleaned_data['senha'])
+                    if not(form.cleaned_data['senha'] == None or form.cleaned_data['senha'] == ""):
+                        usuario.set_password(form.cleaned_data['senha'])
                     usuario.is_active = form.cleaned_data['ativo']
                     usuario.save()
                     return HttpResponseRedirect('/iftoAcess/listar/usuario/')

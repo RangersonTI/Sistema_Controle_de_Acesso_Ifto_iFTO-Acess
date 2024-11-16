@@ -9,26 +9,37 @@ def cadastrarFuncao(request):
     
     if request.user.is_authenticated:
         nome_usuario = request.user.first_name
-    
+
+    if request.method == 'POST':
+        form = CadastrarFuncaoForm(request.POST)
+
+        if form.is_valid():
+            funcao = Papel_pessoa(descricao=form.cleaned_data['funcao'],
+                              vinculado_corRfid = False
+                              )
+            funcao.save()
+            return HttpResponseRedirect('/iftoAcess/listar/funcao')
+        
+        context = {
+        'form' : form,
+        'title' : 'Cadastro de Funcao',
+        'usuario_staff_atual':request.user.is_staff,
+        'nome_usuario_logado' : nome_usuario
+        }
+        return render(request, 'pages/funcao/editarFuncao.html', context)
+
+
+    form = CadastrarFuncaoForm()
+
     context = {
-        'title' : 'Cadastro de Função',
+        'form' : form,
+        'title' : 'Cadastro de Funcao',
         'usuario_staff_atual':request.user.is_staff,
         'nome_usuario_logado' : nome_usuario
     }
     
-    if request.method == 'POST':
-        descricao = request.POST.get('descricao_funcao')
-        
-        if descricao == None:
-            return HttpResponse("Campo 'Descrição' obrigatório")
-        
-        funcao = Papel_pessoa(descricao=descricao,
-                              vinculado_corRfid = False
-                              )
-        funcao.save()
-        return HttpResponseRedirect('/iftoAcess/listar/funcao/')
-    
-    return render(request, "pages/funcao/cadastrarFuncao.html", context)
+    return render(request, 'pages/funcao/editarFuncao.html', context)
+
 
 @login_required(login_url='/iftoAcess/login/')
 def editarFuncao(request, id):
@@ -58,6 +69,7 @@ def editarFuncao(request, id):
 
     form = EditarFuncaoForm(
         initial={
+            'id' : funcao.id,
             'funcao' : funcao.descricao
         }
     )

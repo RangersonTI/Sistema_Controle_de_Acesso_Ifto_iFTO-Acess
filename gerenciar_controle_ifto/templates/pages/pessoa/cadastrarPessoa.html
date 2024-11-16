@@ -1,63 +1,21 @@
 {% include "base/cabecalho.html" %}
+{% load crispy_forms_tags %}
 
 <br><br><br>
-<div id="align_cadastros">
-    <h1 id="h1_title">Cadastro de Pessoa</h1>
-    <hr/>
+<div id="container_formulario">
+    <center>
+        <div id="div_title">
+            <h1 id="h1_title">{{ title }}</h1>
+            <hr/>
+        </div>
+    </center>
     <br><br>
-
-    <div id="div_form_cad_pessoa">
-        <form method="POST" id="formulario_cadastro_pessoa">
+    <div id="div_form_cad_rfid">
+        <form method="POST">
             {% csrf_token %}
-            <br><br>
-
-            <div class="form-group row">
-                <label for="nome_pessoa" class="col-sm-2 col-form-label">Nome:</label>
-                <div class="col-sm-10">
-                <input type="text" class="form-control" name="nome_pessoa" id="nome_pessoa" placeholder="Ex.: Paulo" maxlength="20" required>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="sobrenome_completo_pessoa" class="col-sm-2 col-form-label">Sobrenome completo:</label>
-                <div class="col-sm-10">
-                <input type="text" class="form-control" name="sobrenome_completo_pessoa" id="sobrenome_completo_pessoa" placeholder="Ex.: Ricardo da Silva" maxlength="35" required>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="data_nascimento" class="col-sm-2 col-form-label">Data de nascimento:</label>
-                <div class="col-sm-10">
-                <input type="date" class="form-control" name="data_nascimento" id="data_nascimento">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="cpf_pessoa" class="col-sm-2 col-form-label">CPF (apenas numeros):</label>
-                <div class="col-sm-10">
-                <input type="text" class="form-control" name="cpf_pessoa" id="cpf_pessoa" placeholder="Ex.: 11122233344" maxlength="11" required>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="funcao_pessoa" class="col-sm-2 col-form-label">Função:</label>
-                <div style="width: 61px; height:61px" class="col-sm-10">
-                    <select class="form-control" name="funcao_pessoa" id="funcao_pessoa">
-                        {% for funcao in funcoes %}
-                            <option value={{ funcao.id }}>{{ funcao.descricao }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-
-            <div class="botao_salvar">
-                <button type="submit" class="btn btn-success">Salvar</button>
-            </div>
-            
-            <br><br>
+            {% crispy form %}
         </form>
     </div>
+    
 </div>
-
-
 {% include "base/final.html"%}

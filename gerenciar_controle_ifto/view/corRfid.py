@@ -10,31 +10,46 @@ def cadastrarCorRfid(request):
     if request.user.is_authenticated:
         nome_usuario = request.user.first_name
     
-    funcoes = Papel_pessoa.objects.filter(vinculado_corRfid=False)
-
-    context = {
-        'title' : 'Cadastro de Cor-Rfid',
-        'nome_usuario_logado' : nome_usuario,
-        'funcoes' : funcoes
-    }
-
     if request.method == 'POST':
-        cor = request.POST.get('cor_Rfid')
-        funcao = int(request.POST.get('cod_corRfid'))
+        form = CadastrarCorRfidForm(request.POST)
+    
+        if form.is_valid():
+            cod_cargo = form.cleaned_data['cod_cargo']
+            
+            corRfid = CorRFID_Funcao(corRFID = form.cleaned_data['corRFID'],
+                                     cod_cargo = cod_cargo
+                                    )
+            corRfid.save()
+            
+            funcao_a_vincular = Papel_pessoa.objects.get(pk=cod_cargo.id)
+            funcao_a_vincular.vinculado_corRfid = True
+            funcao_a_vincular.save()
 
-        corRfid = CorRFID_Funcao(corRFID = cor,
-                                 cod_cargo = Papel_pessoa.objects.get(pk=funcao)
-                                 )
+            # Neste trecho de codigo ser'a executado, caso venha ser feito a alteracao de funcao relacionado a cor
+            # na qual sera realizado a alteracao do status de 'vinculado_corRfid'
+            return HttpResponseRedirect('/iftoAcess/listar/corRfid/')
 
-        corRfid.save()
+        context = {
+            'form' : form,
+            'title' : 'Cadastro de Cor-Rfid',
+            'usuario_staff_atual':request.user.is_staff,
+            'nome_usuario_logado' : nome_usuario
+        }
+        return render(request,'pages/corRfid/editarCorRfid.html', context)
 
-        # Aqui ele irá atulizar o status da Funcao vinculada a cor para verdadeiro.
-        edit_funcao = Papel_pessoa.objects.get(pk=funcao)
-        edit_funcao.vinculado_corRfid = True
-        edit_funcao.save()
 
-    return render(request, "pages/corRfid/cadastrarCorRfid.html", context)
+    form = CadastrarCorRfidForm()
+       
+    context = {
+            'form' : form,
+            'title' : 'Cadastro de Cor-Rfid',
+            'usuario_staff_atual':request.user.is_staff,
+            'nome_usuario_logado' : 'Rangerson'
+        }
+    return render(request,'pages/corRfid/editarCorRfid.html', context)
+    
 
+        
 @login_required(login_url='/iftoAcess/login/')
 def listarCorRfid(request):
 
@@ -62,7 +77,7 @@ def editarCorRfid(request, id):
     
     if request.method == 'POST':
         form = EditarCorRfidForm(request.POST)
-    
+
         if form.is_valid():
             corRfid_funcao.corRFID = form.cleaned_data['corRFID']
             corRfid_funcao.cod_cargo = form.cleaned_data['cod_cargo']
@@ -71,7 +86,7 @@ def editarCorRfid(request, id):
 
             # Neste trecho de codigo ser'a executado, caso venha ser feito a alteracao de funcao relacionado a cor
             # na qual sera realizado a alteracao do status de 'vinculado_corRfid'
-            
+
             if not(corRfid_funcao.cod_cargo.id == corRfid_funcao_anterior.cod_cargo.id):
 
                 edit_funcao_anterior = Papel_pessoa.objects.get(pk=corRfid_funcao_anterior.cod_cargo.id)
@@ -96,6 +111,7 @@ def editarCorRfid(request, id):
 
     form = EditarCorRfidForm(
         initial={
+            'id':corRfid_funcao.id,
             'corRFID': corRfid_funcao.corRFID,
             'cod_cargo': corRfid_funcao.cod_cargo
         },

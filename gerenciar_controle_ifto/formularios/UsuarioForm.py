@@ -15,11 +15,11 @@ class UsuarioForm(forms.Form):
     #cod_pessoa = forms.ModelChoiceField(label="Pessoa", queryset=Pessoa.objects.all())
     email = forms.EmailField(label="Email:")
     usuario = forms.CharField(label="Usuario:")
-    senha = forms.CharField(label="Senha:", 
+    senha = forms.CharField(required=False,label="Senha:", 
                             widget=forms.PasswordInput(
                                 render_value=False
                             ))
-    ativo = forms.BooleanField(label="Ativo:", required=False)
+    ativo = forms.BooleanField(label="Ativo", required=False)
 
     def __init__(self, *args,**kwargs):
         super(UsuarioForm, self).__init__(*args, **kwargs)
@@ -69,8 +69,10 @@ class UsuarioForm(forms.Form):
         if len(usuario) <5:
             self.add_error('usuario',"O nome de'usuário' deverá ter pelo menos 5 caracteres")
 
-        if len(senha) <8:
-            self.add_error('senha',"A 'senha' deverá ter pelo menos 8 caracteres")
+        if len(senha) >=0:
+            pass
         else:
-            if usuario.upper() == senha.upper():
-                self.add_error('senha',"A 'senha' não pode ser igual ao nome de usuário")
+            self.add_error('senha',"A 'senha' deverá ter pelo menos 8 caracteres")
+
+        if usuario.upper() == senha.upper():
+            self.add_error('senha',"A 'senha' não pode ser igual ao nome de usuário")

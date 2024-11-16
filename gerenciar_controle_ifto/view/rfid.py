@@ -7,13 +7,15 @@ from datetime import datetime
 
 def converterData(rfids):
     for rfid in rfids:
-        rfid.data_desativacao = rfid.data_desativacao.strftime("%d/%m/%Y, %H:%M")
+        rfid.data_cadastro = rfid.data_cadastro.strftime("%d/%m/%Y, %H:%M")
+        if not(rfid.data_desativacao == None):
+            rfid.data_desativacao = rfid.data_desativacao.strftime("%d/%m/%Y, %H:%M")
 
     return rfids
 
 @login_required(login_url='/iftoAcess/login/')
 def cadastrarRFID(request):
-    
+
     if request.user.is_authenticated:
         nome_usuario = request.user.first_name
 
@@ -29,17 +31,17 @@ def cadastrarRFID(request):
                     ativo=form.cleaned_data['ativo'],
                     motivo_desativacao = form.cleaned_data['motivo_desativacao']
                     )
-            
+
             rfid.save()
             return HttpResponseRedirect('/iftoAcess/listar/tagRfid/')
-            
+
         context = {
             'form' : form,
             'title' : 'Edição de Tag-Rfid',
             'usuario_staff_atual':request.user.is_staff,
             'nome_usuario_logado' : nome_usuario
         }
-        
+
         return render(request, 'pages/rfid/editarRfid.html', context)
 
 
@@ -58,10 +60,13 @@ def cadastrarRFID(request):
 @login_required(login_url='/iftoAcess/login/')
 def editarRFID(request, id):
     
+    rfid = get_object_or_404(Rfid, id=id)
+    
+    if rfid.vinculado:
+        return HttpResponseRedirect('/iftoAcess/listar/tagRfid/')
+
     if request.user.is_authenticated:
         nome_usuario = request.user.first_name
-
-    rfid = get_object_or_404(Rfid, id=id)
 
     if request.method == 'POST':
         form = EditarRfidForm(request.POST)
@@ -73,7 +78,7 @@ def editarRFID(request, id):
             rfid.motivo_desativacao = form.cleaned_data['motivo_desativacao']
             rfid.save()
             return HttpResponseRedirect('/iftoAcess/listar/tagRfid/')
-            
+
         context = {
             'form' : form,
             'title' : 'Edição de Tag-Rfid',
@@ -94,7 +99,7 @@ def editarRFID(request, id):
         },
         corRfidID = rfid.cod_corRFID_funcao.id,
     )
-    
+
     context = {
         
         'form' : form,
@@ -102,17 +107,17 @@ def editarRFID(request, id):
         'usuario_staff_atual':request.user.is_staff,
         'nome_usuario_logado' : nome_usuario
     }
-    
+
     return render(request, 'pages/rfid/editarRfid.html', context)
 
 @login_required(login_url='/iftoAcess/login/')
 def listarRFID(request):
-    
+
     if request.user.is_authenticated:
         nome_usuario = request.user.first_name
-    
+
     rfids = Rfid.objects.all()
-    #rfids = converterData(rfids)
+    rfids = converterData(rfids)
     
     context = {
         'title' : 'Listagem de Tags-Rfid',

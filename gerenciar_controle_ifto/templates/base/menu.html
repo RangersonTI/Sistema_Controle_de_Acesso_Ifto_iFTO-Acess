@@ -17,13 +17,13 @@
                 Cadastros
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{% url "cadastro_pessoa" %}">Pessoas</a>
-                <a class="dropdown-item" href="{% url "cadastro_tagRfid" %}">Tags RFID</a>
-                <a class="dropdown-item" href="{% url "cadastro_funcao" %}">Funcao</a>
-                <a class="dropdown-item" href="{% url "cadastro_corRfid" %}">Cor RFID</a>
-                {% if usuario_staff_atual == True %}
-                  <a class="dropdown-item" href="{% url "cadastro_usuario" %}">Usuarios</a>
-                {% endif %}
+              <a class="dropdown-item" href="{% url "cadastro_corRfid" %}">Cor RFID</a>
+              <a class="dropdown-item" href="{% url "cadastro_funcao" %}">Funcao</a>
+              <a class="dropdown-item" href="{% url "cadastro_pessoa" %}">Pessoas</a>
+              <a class="dropdown-item" href="{% url "cadastro_tagRfid" %}">Tags RFID</a>
+              {% if usuario_staff_atual == True %}
+                <a class="dropdown-item" href="{% url "cadastro_usuario" %}">Usuarios</a>
+              {% endif %}
             </div>
         </li>
 
@@ -32,13 +32,13 @@
                 Visualização
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{% url "visualizar_pessoa" %}">Pessoas</a>
-                <a class="dropdown-item" href="{% url "visualizar_tagRfid" %}">Tags RFID</a>
-                <a class="dropdown-item" href="{% url "visualizar_funcao" %}">Função</a>
-                <a class="dropdown-item" href="{% url "visualizar_corRfid" %}">Cor RFID</a>
-                {% if usuario_staff_atual == True %}
-                  <a class="dropdown-item" href="{% url "visualizar_usuario" %}">Usuarios</a>
-                {% endif %}
+              <a class="dropdown-item" href="{% url "visualizar_corRfid" %}">Cor RFID</a>
+              <a class="dropdown-item" href="{% url "visualizar_funcao" %}">Função</a>
+              <a class="dropdown-item" href="{% url "visualizar_pessoa" %}">Pessoas</a>
+              <a class="dropdown-item" href="{% url "visualizar_tagRfid" %}">Tags RFID</a>
+              {% if usuario_staff_atual == True %}
+                <a class="dropdown-item" href="{% url "visualizar_usuario" %}">Usuarios</a>
+              {% endif %}
             </div>
         </li>
 
@@ -65,7 +65,6 @@
               <img src="{% static "images/logo_iftoAcess.png"%}" width="45px"> Olá, {{ nome_usuario_logado }}
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <!--<a class="dropdown-item" href="#">Configurações</a>-->
                 <a id="logoff_usuario" class="dropdown-item" href="{% url "logout" %}">Sair</a>
             </div>
           </li>
