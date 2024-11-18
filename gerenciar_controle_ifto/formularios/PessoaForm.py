@@ -98,7 +98,7 @@ class EditarPessoaForm(forms.Form):
     
     def __init__(self, *args, cod_cargoID=None, vinculado=False, **kwargs):
         super(EditarPessoaForm,self).__init__(*args, **kwargs)
-                
+
         self.fields['id'].widget.attrs = {
             'readonly' : True
         }
@@ -117,19 +117,14 @@ class EditarPessoaForm(forms.Form):
             'min' : '1900-01-01'
         }
         
-        if vinculado == False:
-            self.fields['cod_Papel_pessoa'].widget.attrs = {
-                'id' : 'cod_Papel_pessoa'
-            }
-        else:
-            self.fields['cod_Papel_pessoa'].widget.attrs = {
-                'disabled' : True
-            }
-        
         if cod_cargoID is not None:
             cod_cargo =Papel_pessoa.objects.filter(id=cod_cargoID)
-            others_options = Papel_pessoa.objects.exclude(id=cod_cargoID)
-            self.fields['cod_Papel_pessoa'].queryset = cod_cargo | others_options
+            if vinculado == False:
+                others_options = Papel_pessoa.objects.exclude(id=cod_cargoID)
+                self.fields['cod_Papel_pessoa'].queryset = cod_cargo | others_options
+            else:
+                self.fields['cod_Papel_pessoa'].queryset = cod_cargo
+        
         
         self.helper = FormHelper(self)
         self.helper.form_class= 'form-horizontal'
@@ -211,3 +206,22 @@ class VincularPessoaRfid(forms.Form):
 
         if rfid_a_vincular == None:
             self.add_error('rfid_a_vincular',"Selecione um RFID para vincular")
+            
+class BuscarPessoaForm(forms.Form):
+    campo = forms.CharField(required=False, label="", max_length=50)
+
+    def __init__(self, *args, **kwargs):
+        super(BuscarPessoaForm, self).__init__(*args, **kwargs)
+
+        self.fields['campo'].widget.attrs = {
+            'placeholder' : 'Informe um Nome ou CPF',
+        }
+
+        self.helper = FormHelper(self)
+        self.helper.form_class = 'form-inline'
+        self.helper.label_class = 'sr-only'
+        self.helper.layout = Layout(
+            'campo',
+
+            Submit('submit', 'Buscar', css_id='botao_buscar', css_class='btn btn-primary mb-2')
+        )

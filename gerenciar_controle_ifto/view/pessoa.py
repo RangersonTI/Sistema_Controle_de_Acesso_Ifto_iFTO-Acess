@@ -3,6 +3,7 @@ from gerenciar_controle_ifto.models import Pessoa,Papel_pessoa
 from datetime import datetime
 from django.http import HttpResponseRedirect
 from gerenciar_controle_ifto.formularios.PessoaForm import *
+from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 
 def converterData(pessoas):
@@ -90,11 +91,54 @@ def listarPessoa(request):
     if request.user.is_authenticated:
         nome_usuario = request.user.first_name
     
+    
+    if request.method == "POST":
+        form = BuscarPessoaForm(request.POST)
+        
+        if form.is_valid():
+            campo = form.cleaned_data['campo']
+            
+            if (campo == "" or campo == None):
+                pessoas = Pessoa.objects.all()
+                pessoas = converterData(pessoas)
+
+                context = {
+                    'title' : 'Listagem de Pessoa',
+                    'form' :form,
+                    'usuario_staff_atual':request.user.is_staff,
+                    'pessoas' : pessoas,
+                    'nome_usuario_logado' : nome_usuario
+                }
+                return render(request, 'pages/pessoa/listarPessoa.html', context)
+            
+            pessoas = Pessoa.objects.filter(nome__icontains=campo)
+            print(len(pessoas))
+            
+            if len(pessoas) <=0:
+                pessoas = Pessoa.objects.filter(sobrenome__icontains=campo)
+
+            if len(pessoas) <=0:
+                pessoas = Pessoa.objects.filter(cpf=campo)
+                
+            pessoas = converterData(pessoas)
+
+            context = {
+                'title' : 'Listagem de Pessoa',
+                'form' :form,
+                'usuario_staff_atual':request.user.is_staff,
+                'pessoas' : pessoas,
+                'nome_usuario_logado' : nome_usuario
+            }
+            return render(request, 'pages/pessoa/listarPessoa.html', context)
+                
+    form = BuscarPessoaForm()
+    
     pessoas = Pessoa.objects.all()
     pessoas = converterData(pessoas)
     
     context = {
         'title' : 'Listagem de Pessoa',
+        'form' :form,
         'usuario_staff_atual':request.user.is_staff,
         'pessoas' : pessoas,
         'nome_usuario_logado' : nome_usuario
@@ -103,7 +147,7 @@ def listarPessoa(request):
 
 @login_required(login_url='/iftoAcess/login/')
 def editarPessoa(request, id):
-    
+
     if request.user.is_authenticated:
         nome_usuario = request.user.first_name
 
@@ -119,7 +163,6 @@ def editarPessoa(request, id):
             pessoa.data_nascimento = form.cleaned_data['data_nascimento']
             if pessoa.vinculado == False:
                 pessoa.cod_Papel_pessoa = form.cleaned_data['cod_Papel_pessoa']
-            print(pessoa.data_nascimento)
             pessoa.save()
 
             return HttpResponseRedirect('/iftoAcess/listar/pessoa/')
@@ -131,6 +174,22 @@ def editarPessoa(request, id):
             'nome_usuario_logado' : nome_usuario
         }
         return render(request, 'pages/pessoa/editarPessoa.html', context)    
+    
+    tdt = (pessoa.data_nascimento).timetuple()
+    data_tdt = []
+    
+    print(type(tdt))
+    
+    for data in tdt:
+        data_tdt.append(data)
+        
+        
+    if (int(data_tdt[1]) < 10):
+        data_nascimento = f"{data_tdt[0]}-0"+f"{data_tdt[1]}-"+f"{data_tdt[2]}"
+    else:
+        data_nascimento = f"{data_tdt[2]}-"+f"{data_tdt[1]}-"+f"{data_tdt[0]}"
+        
+    print(data_nascimento)
 
     form = EditarPessoaForm(
         initial = {
@@ -139,7 +198,7 @@ def editarPessoa(request, id):
             'sobrenome' : pessoa.sobrenome,
             'cpf' : pessoa.cpf,
             'cod_Papel_pessoa' : pessoa.cod_Papel_pessoa,
-            'data_nascimento' : datetime.strptime(str(pessoa.data_nascimento),'%Y-%m-%d')
+            'data_nascimento' : data_nascimento
         },
         cod_cargoID = pessoa.cod_Papel_pessoa.id,
         vinculado = pessoa.vinculado,

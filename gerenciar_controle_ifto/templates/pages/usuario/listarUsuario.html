@@ -1,8 +1,14 @@
 {% include "base/cabecalho.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 <div id="alinhar_listagens">
-    <h1 id="h1_title">Listagem de Pessoas</h1>
+    <h1 id="h1_title">{{ title }}</h1>
+    <hr/>
+    <form method="POST">
+        {% csrf_token %}
+        {% crispy form %}
+    </form>
     <hr/>
     
     <table class="table table-striped">
@@ -33,9 +39,6 @@
                     <td id="centralize_info">
                         <a href="{% url "editar_usuario" usuario.id%}">
                             <img src="{% static "images/icones/editar.png" %}" width="18px" alt="">
-                        </a>
-                        <a href="{% url "desativar_usuario" usuario.id%}">
-                            <img src="{% static "images/icones/vincular.png" %}" width="18px" alt="">
                         </a>
                     </td>
                 </tr>

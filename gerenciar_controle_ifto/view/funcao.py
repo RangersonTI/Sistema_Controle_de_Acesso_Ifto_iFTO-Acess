@@ -56,11 +56,11 @@ def editarFuncao(request, id):
             funcao.descricao = form.cleaned_data['funcao']
             funcao.save()
             return HttpResponseRedirect('/iftoAcess/listar/funcao')
-        
+
         context = {
         'form' : form,
         'funcao' : funcao,
-        'title' : 'Edicao de Funcao',
+        'title' : 'Edicão de Funcao',
         'usuario_staff_atual':request.user.is_staff,
         'nome_usuario_logado' : nome_usuario
         }
@@ -77,23 +77,52 @@ def editarFuncao(request, id):
     context = {
         'form' : form,
         'funcao' : funcao,
-        'title' : 'Edicao de Funcao',
+        'title' : 'Edicão de Funcao',
         'usuario_staff_atual':request.user.is_staff,
         'nome_usuario_logado' : nome_usuario
     }
-    
+
     return render(request, 'pages/funcao/editarFuncao.html', context)
-    
+
 @login_required(login_url='/iftoAcess/login/')
 def listarFuncao(request):
     
     if request.user.is_authenticated:
         nome_usuario = request.user.first_name
+        
+    if request.method == "POST":
+        form = BuscarFuncaoForm(request.POST)
+        
+        if form.is_valid():
+            campo = form.cleaned_data['campo']
+            
+            if campo == None or campo == "":
+                funcoes = Papel_pessoa.objects.all()
+                context = {
+                    'title' : 'Listagem de Função',
+                    'form': form,
+                    'usuario_staff_atual':request.user.is_staff,
+                    'funcoes' : funcoes,
+                    'nome_usuario_logado' : nome_usuario
+                }    
+                return render(request, "pages/funcao/listarFuncao.html", context)
+            
+            funcoes = Papel_pessoa.objects.filter(descricao__icontains=campo)
+            context = {
+                    'title' : 'Listagem de Função',
+                    'form': form,
+                    'usuario_staff_atual':request.user.is_staff,
+                    'funcoes' : funcoes,
+                    'nome_usuario_logado' : nome_usuario
+                }    
+            return render(request, "pages/funcao/listarFuncao.html", context)
+
+    form = BuscarFuncaoForm()
     
     funcoes = Papel_pessoa.objects.all()
-    
     context = {
         'title' : 'Listagem de Função',
+        'form': form,
         'usuario_staff_atual':request.user.is_staff,
         'funcoes' : funcoes,
         'nome_usuario_logado' : nome_usuario

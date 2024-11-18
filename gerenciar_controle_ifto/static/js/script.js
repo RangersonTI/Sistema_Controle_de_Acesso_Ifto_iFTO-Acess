@@ -15,21 +15,11 @@ $(document).ready(function(){
 }
 )
 
-// Setar data maxima do campo de data_nascimento em cadastro/editar pessoa
-
-//var hoje = new Date();
-//var dia = hoje.getDate();
-//var mes = hoje.getMonth() + 1;
-//var ano = hoje.getFullYear();
-//
-//hoje = ano+'-'+mes+'-'+dia+'';
-//
-//if (dia < 10){
-//    dia = '0'+dia;
-//}
-//
-//if (mes < 10){
-//    mes = '0'+mes;
-//}
-//
-//document.getElementById("data_nascimento").setAttribute("max", hoje)
+function desativar_campos_edRfid(){
+    ativo = document.getElementById('rfid_ativo')
+    console.log(ativo)
+    if (ativo){
+        document.getElementById('data_desativacao').attr('disabled', true)
+        document.getElementById('motivo_desativacao').attr('disabled', true)
+    }
+}

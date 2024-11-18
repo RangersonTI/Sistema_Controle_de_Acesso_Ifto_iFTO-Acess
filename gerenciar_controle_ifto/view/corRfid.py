@@ -56,10 +56,46 @@ def listarCorRfid(request):
     if request.user.is_authenticated:
         nome_usuario = request.user.first_name
         
+    if request.method == "POST":
+        form = BuscarCorRfidForm(request.POST)
+       
+        if form.is_valid():
+            campo = form.cleaned_data['campo']
+           
+            if campo==None or campo=="":
+               
+                coresRfid = CorRFID_Funcao.objects.all()
+                context = {
+                    'title' : 'Listagem de Cor-Rfid',
+                    'form' : form,
+                    'usuario_staff_atual':request.user.is_staff,
+                    'coresRfid' : coresRfid,
+                    'nome_usuario_logado' : nome_usuario
+                }
+                return render(request, "pages/corRfid/listarCorRfid.html", context)
+
+
+            coresRfid = CorRFID_Funcao.objects.filter(corRFID__icontains=campo)
+
+            if(len(coresRfid)<=0):
+                funcao = Papel_pessoa.objects.filter(descricao__icontains=campo).first()
+                coresRfid = CorRFID_Funcao.objects.filter(cod_cargo=funcao)
+
+            context = {
+                    'title' : 'Listagem de Cor-Rfid',
+                    'form' : form,
+                    'usuario_staff_atual':request.user.is_staff,
+                    'coresRfid' : coresRfid,
+                    'nome_usuario_logado' : nome_usuario
+                }
+            return render(request, "pages/corRfid/listarCorRfid.html", context)
+    
+    form = BuscarCorRfidForm()
     coresRfid = CorRFID_Funcao.objects.all()
 
     context = {
         'title' : 'Listagem de Cor-Rfid',
+        'form' : form,
         'usuario_staff_atual':request.user.is_staff,
         'coresRfid' : coresRfid,
         'nome_usuario_logado' : nome_usuario
@@ -102,7 +138,7 @@ def editarCorRfid(request, id):
 
         context = {
             'form' : form,
-            'title' : 'Edicao de Cor-Rfid',
+            'title' : 'Edicão de Cor-Rfid',
             'usuario_staff_atual':request.user.is_staff,
             'nome_usuario_logado' : nome_usuario
         }
@@ -121,9 +157,8 @@ def editarCorRfid(request, id):
     context = {
             'form' : form,
             'corRfid_funcao' : corRfid_funcao,
-            'title' : 'Edicao de Cor-Rfid',
+            'title' : 'Edicão de Cor-Rfid',
             'usuario_staff_atual':request.user.is_staff,
             'nome_usuario_logado' : 'Rangerson'
         }
     return render(request,'pages/corRfid/editarCorRfid.html', context)
-    # IFTO Acess: Uma proposta de Controle de Acesso para o Instituto

@@ -79,3 +79,22 @@ class EditarFuncaoForm(forms.Form):
         
         if funcoao_exist:
             self.add_error('funcao', "Esta funcao já foi cadastrada.")
+            
+class BuscarFuncaoForm(forms.Form):
+    campo = forms.CharField(required=False, label="", max_length=50)
+
+    def __init__(self, *args, **kwargs):
+        super(BuscarFuncaoForm, self).__init__(*args, **kwargs)
+
+        self.fields['campo'].widget.attrs = {
+            'placeholder' : 'Informe a função',
+        }
+
+        self.helper = FormHelper(self)
+        self.helper.form_class = 'form-inline'
+        self.helper.label_class = 'sr-only'
+        self.helper.layout = Layout(
+            'campo',
+
+            Submit('submit', 'Buscar', css_id='botao_buscar', css_class='btn btn-primary mb-2')
+        )

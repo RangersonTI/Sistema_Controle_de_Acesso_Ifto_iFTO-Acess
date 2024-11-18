@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from gerenciar_controle_ifto.models import Rfid,CorRFID_Funcao
 from gerenciar_controle_ifto.formularios.RfidForm import *
+from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 
@@ -61,7 +62,7 @@ def cadastrarRFID(request):
 def editarRFID(request, id):
     
     rfid = get_object_or_404(Rfid, id=id)
-    
+
     if rfid.vinculado:
         return HttpResponseRedirect('/iftoAcess/listar/tagRfid/')
 
@@ -74,8 +75,10 @@ def editarRFID(request, id):
         if form.is_valid():
             rfid.cod_corRFID_funcao = form.cleaned_data['cod_corRFID_funcao']
             rfid.ativo = form.cleaned_data['ativo']
-            rfid.data_desativacao = form.cleaned_data['data_desativacao']
-            rfid.motivo_desativacao = form.cleaned_data['motivo_desativacao']
+            if not(rfid.ativo):
+                rfid.data_desativacao = form.cleaned_data['data_desativacao']
+            if not(rfid.ativo):
+                rfid.motivo_desativacao = form.cleaned_data['motivo_desativacao']
             rfid.save()
             return HttpResponseRedirect('/iftoAcess/listar/tagRfid/')
 
@@ -115,12 +118,64 @@ def listarRFID(request):
 
     if request.user.is_authenticated:
         nome_usuario = request.user.first_name
+        
+    if request.method == "POST":
+        form = BuscarRfidForm(request.POST)
+        
+        if form.is_valid():
+            campo = form.cleaned_data['campo']
+            if (campo == None or campo == ""):
+                rfids = Rfid.objects.all()
+                rfids = converterData(rfids)
+
+                form = BuscarRfidForm()
+
+                context = {
+                    'title' : 'Listagem de Tags-Rfid',
+                    'form' : form,
+                    'usuario_staff_atual':request.user.is_staff,
+                    'tagsRfid' : rfids,
+                    'nome_usuario_logado' : nome_usuario
+                }
+
+                return render(request, 'pages/rfid/listarRfid.html', context)
+
+            # Aqui fazer a filtragem pelo RFID
+
+            rfids = Rfid.objects.filter(tag_rfid_value__icontains=campo.upper())
+
+            if len(rfids) <=0:
+                if campo.upper() == "%S":
+                    rfids = Rfid.objects.filter(ativo=True)
+                if campo.upper() == "%N":
+                    rfids = Rfid.objects.filter(ativo=False)
+
+            if len(rfids) <=0:
+                if campo.lower() == "%disp":
+                    rfids = Rfid.objects.filter(vinculado=False,ativo=True)
+
+
+            rfids = converterData(rfids)
+
+            context = {
+                'title' : 'Listagem de Tags-Rfid',
+                'form' : form,
+                'usuario_staff_atual':request.user.is_staff,
+                'tagsRfid' : rfids,
+                'nome_usuario_logado' : nome_usuario
+            }
+
+            return render(request, 'pages/rfid/listarRfid.html', context)
+
 
     rfids = Rfid.objects.all()
     rfids = converterData(rfids)
-    
+
+    form = BuscarRfidForm()
+
     context = {
         'title' : 'Listagem de Tags-Rfid',
+        'form' : form,
         'usuario_staff_atual':request.user.is_staff,
         'tagsRfid' : rfids,
         'nome_usuario_logado' : nome_usuario

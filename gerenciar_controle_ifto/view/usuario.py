@@ -54,12 +54,59 @@ def listarUsuario(request):
     if request.user.is_authenticated:
         if (request.user.is_staff and request.user.is_active):
             nome_usuario = request.user.first_name
-    
+
+            if request.method == "POST":
+                form = BuscarUsuarioForm(request.POST)
+                
+                if form.is_valid():
+                    campo = form.cleaned_data['campo']
+                    
+                    if campo==None or campo=="":
+                        usuarios = User.objects.all()
+            
+                        context = {
+                            'usuarios':usuarios,
+                            'title' : 'Edição de Usuario',
+                            'form': form,
+                            'usuario_staff_atual':request.user.is_staff,
+                            'nome_usuario_logado' : nome_usuario
+                        }
+                        
+                        return render(request, 'pages/usuario/listarUsuario.html', context)
+                    
+                    usuarios = User.objects.filter(first_name__icontains=campo)
+                    if len(usuarios) <=0:
+                        usuarios = User.objects.filter(last_name__icontains=campo)
+                    
+                    if len(usuarios) <=0:
+                        usuarios = User.objects.filter(email__icontains=campo)
+                        
+                    if len(usuarios) <=0:
+                        usuarios = User.objects.filter(username__icontains=campo)
+                        
+                    if len(usuarios) <=0:
+                        if campo.upper() == "%S":
+                            usuarios = User.objects.filter(is_active=True)
+                        if campo.upper() == "%N":
+                            usuarios = User.objects.filter(is_active=False)
+                            
+                    context = {
+                        'usuarios':usuarios,
+                        'title' : 'Edição de Usuario',
+                        'form': form,
+                        'usuario_staff_atual':request.user.is_staff,
+                        'nome_usuario_logado' : nome_usuario
+                    }
+
+                    return render(request, 'pages/usuario/listarUsuario.html', context)
+            
+            form = BuscarUsuarioForm()
             usuarios = User.objects.all()
             
             context = {
                 'usuarios':usuarios,
-                'title' : 'Editar Usuario',
+                'title' : 'Edição de Usuario',
+                'form': form,
                 'usuario_staff_atual':request.user.is_staff,
                 'nome_usuario_logado' : nome_usuario
             }

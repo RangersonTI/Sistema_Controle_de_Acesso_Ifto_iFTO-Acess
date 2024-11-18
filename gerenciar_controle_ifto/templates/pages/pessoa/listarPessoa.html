@@ -1,8 +1,14 @@
 {% include "base/cabecalho.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 <div id="alinhar_listagens">
     <h1 id="h1_title">Listagem de Pessoas</h1>
+    <hr/>
+    <form method="POST">
+        {% csrf_token %}
+        {% crispy form %}
+    </form>
     <hr/>
     
     <table class="table table-striped">
@@ -34,23 +40,19 @@
                     {% endif %}
 
                     <td id="centralize_info">
-                            <a href="{% url "editar_Pessoa" pessoa.id%}">
-                                <img src="{% static "images/icones/editar.png" %}" width="18px" alt="">
+                        <a href="{% url "editar_Pessoa" pessoa.id%}">
+                            <img src="{% static "images/icones/editar.png" %}" width="18px" alt="">
+                        </a>
+                        {% if pessoa.vinculado == False %}
+                            <a href="{% url "vincular_rfid_pessoa" pessoa.id%}">
+                                <img src="{% static "images/icones/vincular.png" %}" width="18px" alt="">
                             </a>
-                            {% if pessoa.vinculado == False %}
-                                <a href="{% url "vincular_rfid_pessoa" pessoa.id%}">
-                                    <img src="{% static "images/icones/vincular.png" %}" width="18px" alt="">
-                                </a>
-                            {% else %}
-                                <img src="#" width="18px" alt="">
-                            {% endif %}
-                            {% if pessoa.vinculado == True %}
-                                <a href="{% url "desvincular_rfid_pessoa" pessoa.id%}">
-                                    <img src="{% static "images/icones/desvincular.png" %}" width="18px" alt="">
-                                </a>
-                            {% else %}
-                                <img src="#" width="18px" alt="">
-                            {% endif %}
+                        {% endif %}
+                        {% if pessoa.vinculado == True %}
+                            <a href="{% url "desvincular_rfid_pessoa" pessoa.id%}">
+                                <img src="{% static "images/icones/desvincular.png" %}" width="18px" alt="">
+                            </a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

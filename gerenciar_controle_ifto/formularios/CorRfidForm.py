@@ -25,7 +25,7 @@ class CadastrarCorRfidForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.form_class= 'form-horizontal'
         self.helper.label_class = 'col-lg-2'
-        self.helper.field_class = 'col-lg-8'
+        self.helper.field_class = 'zz'
         self.helper.layout = Layout(
             'corRFID',
             'cod_cargo',
@@ -98,3 +98,22 @@ class EditarCorRfidForm(forms.Form):
 
         if corRfid_exist:
             self.add_error('corRFID', "Esta funcão já foi cadastrada.")
+            
+class BuscarCorRfidForm(forms.Form):
+    campo = forms.CharField(required=False, label="", max_length=50)
+
+    def __init__(self, *args, **kwargs):
+        super(BuscarCorRfidForm, self).__init__(*args, **kwargs)
+
+        self.fields['campo'].widget.attrs = {
+            'placeholder' : 'Insira a TagRfid',
+        }
+
+        self.helper = FormHelper(self)
+        self.helper.form_class = 'form-inline'
+        self.helper.label_class = 'sr-only'
+        self.helper.layout = Layout(
+            'campo',
+
+            Submit('submit', 'Buscar', css_id='botao_buscar', css_class='btn btn-primary mb-2')
+        )

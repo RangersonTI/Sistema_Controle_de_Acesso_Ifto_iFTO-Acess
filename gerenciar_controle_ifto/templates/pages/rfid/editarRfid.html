@@ -11,7 +11,7 @@
     </center>
     <br><br>
     <div id="div_form_cad_rfid">
-        <form method="POST">
+        <form method="POST" onload="desativar_campos_edRfid()">
             {% csrf_token %}
             {% crispy form %}
         </form>

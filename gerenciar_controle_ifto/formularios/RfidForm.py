@@ -74,11 +74,10 @@ class EditarRfidForm(forms.Form):
     ativo = forms.BooleanField(required=False, label="Ativo:")
     data_desativacao = forms.DateTimeField(required=False, label="Data de desativação:", 
                                            widget=forms.DateTimeInput(
-                                               attrs={'type': 'date'},
-                                               format='%Y-%m-%d'),
-                                           disabled=True,
+                                               attrs={'type': 'datetime-local'},
+                                               format='%d-%m-%Y %H%M'),
                                            )
-    motivo_desativacao = forms.CharField(required=False, label="Motivo desativação:",max_length=30, disabled=True)
+    motivo_desativacao = forms.CharField(required=False, label="Motivo desativação:",max_length=30)
 
     def __init__(self, *args, corRfidID=None, **kwargs):
         super(EditarRfidForm, self).__init__(*args, **kwargs)
@@ -94,12 +93,14 @@ class EditarRfidForm(forms.Form):
 
         self.fields['data_desativacao'].widget.attrs = {
             'id' : 'data_desativacao',
+            'disabled' : True
         }
 
         self.fields['motivo_desativacao'].widget.attrs = {
             'id' : 'motivo_desativacao',
+            'disabled' : True
         }
-        
+
         self.fields['tag_rfid_value'].widget.attrs = {
             'readonly' : True,
         }
@@ -123,16 +124,37 @@ class EditarRfidForm(forms.Form):
 
     def clean(self):
         ativo = self.cleaned_data['ativo']
-        data_desativacao = self.cleaned_data['data_desativacao']
-        motivo_desativacao = self.cleaned_data['motivo_desativacao']
-
-        print("\n")
-        print(ativo)
-        print(data_desativacao)
-        print(motivo_desativacao)
-        print("\n")
+        if not(ativo):
         
-        if ativo == False and ((data_desativacao == None or data_desativacao == "") or (motivo_desativacao == None or motivo_desativacao == "")):
-            self.add_error('data_desativacao',"")
-            self.add_error('motivo_desativacao',"")
-            raise ValidationError("Os campos 'Data de desativação' e 'Motivo desativação' são obrigatório quanto 'Ativo' for falso")
+            data_desativacao = self.cleaned_data['data_desativacao']
+            motivo_desativacao = self.cleaned_data['motivo_desativacao']
+
+            print("\n")
+            print(ativo)
+            print(data_desativacao)
+            print(motivo_desativacao)
+            print("\n")
+            
+            if ((data_desativacao == None or data_desativacao == "") or (motivo_desativacao == None or motivo_desativacao == "")):
+                self.add_error('data_desativacao',"")
+                self.add_error('motivo_desativacao',"")
+                raise ValidationError("Os campos 'Data de desativação' e 'Motivo desativação' são obrigatório quando 'Ativo' for falso")
+
+class BuscarRfidForm(forms.Form):
+    campo = forms.CharField(required=False, label="", max_length=50)
+
+    def __init__(self, *args, **kwargs):
+        super(BuscarRfidForm, self).__init__(*args, **kwargs)
+
+        self.fields['campo'].widget.attrs = {
+            'placeholder' : 'Insira a TagRfid',
+        }
+
+        self.helper = FormHelper(self)
+        self.helper.form_class = 'form-inline'
+        self.helper.label_class = 'sr-only'
+        self.helper.layout = Layout(
+            'campo',
+
+            Submit('submit', 'Buscar', css_id='botao_buscar', css_class='btn btn-primary mb-2')
+        )

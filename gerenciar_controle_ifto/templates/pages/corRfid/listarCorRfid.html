@@ -1,10 +1,17 @@
 {% include "base/cabecalho.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 <div id="alinhar_listagens">
     <h1 id="h1_title">Listagem de Cor-Rfid
     </h1>
     <hr/>
+    <form method="POST">
+        {% csrf_token %}
+        {% crispy form %}
+    </form>
+    <hr/>
+    
     
 
     <table class="table table-striped">
@@ -26,9 +33,6 @@
                     <td id="centralize_info">
                             <a href="{% url "editar_corRfid" corRfid.id%}">
                                 <img src="{% static "images/icones/editar.png" %}" width="16px" alt="">
-                            </a>
-                            <a href="#">
-                                <img src="{% static "images/icones/excluir.png" %}" width="16px" alt="">
                             </a>
                     </td>
                 </tr>
