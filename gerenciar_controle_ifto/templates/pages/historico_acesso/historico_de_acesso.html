@@ -4,6 +4,11 @@
 <div id="alinhar_listagens">
     <h1 id="h1_title">Histórico de Acesso ao IFTO</h1>
     <hr/>
+    <form method="POST">
+      {% csrf_token %}
+      {% crispy form %}
+    </form>
+    <hr/>
     
 
     <table class="table table-striped">

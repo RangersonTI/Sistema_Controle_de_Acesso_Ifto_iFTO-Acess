@@ -36,11 +36,15 @@
                     {% else %}
                         <td scope="row">Não</td>
                     {% endif %}
+                    {% if usuario.is_active %}
                     <td id="centralize_info">
                         <a href="{% url "editar_usuario" usuario.id%}">
                             <img src="{% static "images/icones/editar.png" %}" width="18px" alt="">
                         </a>
                     </td>
+                    {% else %}
+                    <td id="centralize_info"></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </tbody>

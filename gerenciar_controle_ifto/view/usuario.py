@@ -119,10 +119,14 @@ def listarUsuario(request):
 def editarUsuario(request, id):
     
     if request.user.is_authenticated:
+                
         if (request.user.is_staff and request.user.is_active):
             nome_usuario = request.user.first_name
     
             usuario = get_object_or_404(User,id=id)
+            
+            if not(usuario.is_active):
+                return HttpResponseRedirect('/iftoAcess/listar/usuario/')
             
             if request.method == 'POST':
                 form = UsuarioForm(request.POST)

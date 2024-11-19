@@ -48,6 +48,7 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 MIDDLEWARE = [
+    #'csp.middleware.CSPMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -74,6 +75,13 @@ TEMPLATES = [
         },
     },
 ]
+
+
+#CSP_CONNECT_SRC = (
+#    "'self'",
+#    "http://localhost:8000",
+#    "http:",
+#)
 
 WSGI_APPLICATION = 'controle_acesso.wsgi.application'
 

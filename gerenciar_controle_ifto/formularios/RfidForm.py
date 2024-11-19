@@ -52,7 +52,7 @@ class CadastrarRfidForm(forms.Form):
                         <button type='button' class="btn btn-primary", id="botao_voltar">Voltar</button>
                     </a>
                     <a href="">
-                        <button type='button' class="btn btn-danger", id="botao_ler_rfid">Ler RFID</button>
+                        <button type='button' class="btn btn-danger", onclick="leitura_rfid()", id="botao_ler_rfid">Ler RFID</button>
                     </a>
                     """),
             Submit('submit', 'Salvar', css_id='botao_salvar', css_class='btn btn-success')
