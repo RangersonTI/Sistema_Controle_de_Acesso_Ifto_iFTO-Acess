@@ -98,7 +98,7 @@ class EditarCorRfidForm(forms.Form):
 
         if corRfid_exist:
             self.add_error('corRFID', "Esta funcão já foi cadastrada.")
-            
+
 class BuscarCorRfidForm(forms.Form):
     campo = forms.CharField(required=False, label="", max_length=50)
 
@@ -106,7 +106,7 @@ class BuscarCorRfidForm(forms.Form):
         super(BuscarCorRfidForm, self).__init__(*args, **kwargs)
 
         self.fields['campo'].widget.attrs = {
-            'placeholder' : 'Insira a TagRfid',
+            'placeholder' : 'Informe a Cor ou Cargo',
         }
 
         self.helper = FormHelper(self)

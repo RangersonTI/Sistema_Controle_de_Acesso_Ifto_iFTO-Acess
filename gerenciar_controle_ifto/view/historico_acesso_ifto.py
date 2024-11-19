@@ -13,32 +13,60 @@ def converterDataHistoricoAcesso(acessos):
 
 @login_required(login_url='/iftoAcess/login/')
 def listarHistoricoAcesso_Ifto(request):
-    
+
     if request.user.is_authenticated:
         nome_usuario = request.user.first_name
-        
+
         if request.method == "POST":
             form = BuscarRfidForm(request.POST)
-            
+
             if form.is_valid():
                 campo = form.cleaned_data['campo']
-                
+                busca_data = form.cleaned_data['busca_data']
+
+                print("CAMPO: ",busca_data)
+
                 if campo == None or campo=="":
-                    
                     acessos = Historico_acesso_campus.objects.all()
                     acessos = converterDataHistoricoAcesso(acessos)
-                    form = BuscarRfidForm()
                     context = {
                         'title' : 'Histórico de Acesso',
+                        'form' : form,
                         'usuario_staff_atual':request.user.is_staff,
                         'acessos' : acessos,
                         'nome_usuario_logado' : nome_usuario
                     }
-                    
+                    return render(request, "pages/historico_acesso/historico_de_acesso.html", context)
+
+                if busca_data == "True":
+                    acessos = Historico_acesso_campus.objects.filter(data_acesso__date=datetime.strptime(campo,'%Y-%m-%d'))
+                    acessos = converterDataHistoricoAcesso(acessos)
+                    context = {
+                        'title' : 'Histórico de Acesso',
+                        'form' : form,
+                        'usuario_staff_atual':request.user.is_staff,
+                        'acessos' : acessos,
+                        'nome_usuario_logado' : nome_usuario
+                    }
+
                     return render(request, "pages/historico_acesso/historico_de_acesso.html", context)
                 
+                pessoa=Pessoa.objects.filter(nome__icontains=campo).first()
+                acessos = Historico_acesso_campus.objects.filter(cod_pessoa=pessoa)
+                if len(acessos) <=0:
+                    pessoa=Pessoa.objects.filter(sobrenome__icontains=campo).first()
+                    acessos = Historico_acesso_campus.objects.filter(cod_pessoa=pessoa)
+                    
+                context = {
+                    'title' : 'Histórico de Acesso',
+                    'form' : form,
+                    'usuario_staff_atual':request.user.is_staff,
+                    'acessos' : acessos,
+                    'nome_usuario_logado' : nome_usuario
+                }
+                
+                return render(request, "pages/historico_acesso/historico_de_acesso.html", context)
                 #pessoas = Pessoa.objects.filter(nome=campo)
-                acessos = Historico_acesso_campus.objects.filter(data_acesso="")
                 
                 #if len(pessoas) <=0:
                 #    pessoas = Pessoa.objects.filter(sobrenome=campo)
