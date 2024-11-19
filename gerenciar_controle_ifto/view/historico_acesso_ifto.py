@@ -22,9 +22,9 @@ def listarHistoricoAcesso_Ifto(request):
 
             if form.is_valid():
                 campo = form.cleaned_data['campo']
-                busca_data = form.cleaned_data['busca_data']
+                busca_data = str(form.cleaned_data['busca_data'])
 
-                print("CAMPO: ",busca_data)
+                print("CAMPO: ",type(busca_data))
 
                 if campo == None or campo=="":
                     acessos = Historico_acesso_campus.objects.all()
@@ -39,7 +39,8 @@ def listarHistoricoAcesso_Ifto(request):
                     return render(request, "pages/historico_acesso/historico_de_acesso.html", context)
 
                 if busca_data == "True":
-                    acessos = Historico_acesso_campus.objects.filter(data_acesso__date=datetime.strptime(campo,'%Y-%m-%d'))
+                    print(type(campo))
+                    acessos = Historico_acesso_campus.objects.filter(data_acesso__icontains=campo)
                     acessos = converterDataHistoricoAcesso(acessos)
                     context = {
                         'title' : 'Histórico de Acesso',
@@ -50,7 +51,8 @@ def listarHistoricoAcesso_Ifto(request):
                     }
 
                     return render(request, "pages/historico_acesso/historico_de_acesso.html", context)
-                
+
+                print(campo)
                 pessoa=Pessoa.objects.filter(nome__icontains=campo).first()
                 acessos = Historico_acesso_campus.objects.filter(cod_pessoa=pessoa)
                 if len(acessos) <=0:
