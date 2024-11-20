@@ -55,9 +55,12 @@ def listarHistoricoAcesso_Ifto(request):
                 print(campo)
                 pessoa=Pessoa.objects.filter(nome__icontains=campo).first()
                 acessos = Historico_acesso_campus.objects.filter(cod_pessoa=pessoa)
+                acessos = converterDataHistoricoAcesso(acessos)
+                
                 if len(acessos) <=0:
                     pessoa=Pessoa.objects.filter(sobrenome__icontains=campo).first()
                     acessos = Historico_acesso_campus.objects.filter(cod_pessoa=pessoa)
+                    acessos = converterDataHistoricoAcesso(acessos)
                     
                 context = {
                     'title' : 'Histórico de Acesso',

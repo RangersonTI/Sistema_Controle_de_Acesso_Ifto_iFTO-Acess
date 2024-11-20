@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'gerenciar_controle_ifto',
     'crispy_forms',
     'crispy_bootstrap4',
+    'corsheaders'
 ]
 
 #Crispy
@@ -51,6 +52,7 @@ MIDDLEWARE = [
     #'csp.middleware.CSPMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
