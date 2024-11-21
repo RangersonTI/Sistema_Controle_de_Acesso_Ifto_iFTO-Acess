@@ -13,14 +13,14 @@ def ValidarAcesso(request):
             data = json.loads(request.body)
             value_rfid = data['tag_rfid_value']
             cod_esp32 = data['cod_esp32']
-            print(f"Dados: {value_rfid} e {cod_esp32}")
 
         except json.JSONDecodeError as ex:
-            print(f"Erro: {ex}")
-            return JsonResponse({"Status" : "Nao deu :("})
+            return JsonResponse({"Status" : "Error de decodificacao :("})
 
-        print("Vai tentar validar a senha")
-        if(cod_esp32 == 'control_acess_ifto_permission_true'):
+        #Senha criptografada em SHA-512, depois com esse valor em mão, repetir o processo mais 4 vezes chegando assim ao resultado
+        # Senha é control_acess_ifto_permission_true
+
+        if(cod_esp32 == '3FFB4E290515F69B245D02B36DDBCF186C52A1399D3FA0B4F4B97D386D009FFAE93CDD0A68570CEADE64C6C9E36EA958C23A568A356A18EDDC7084E67F7A140B'):
             cursor,conexao_mysql = conexao()
             command_sql = """ SELECT P.id,P.nome, P.sobrenome, P.cod_Papel_pessoa_id, P.cod_Rfid_id, Rfid.tag_rfid_value FROM gerenciar_controle_ifto_pessoa AS P
                             INNER JOIN gerenciar_controle_ifto_rfid as Rfid ON P.cod_Rfid_id = Rfid.id
@@ -29,7 +29,6 @@ def ValidarAcesso(request):
             values = (value_rfid,)
 
             try:
-                print("Exec bd : |")
                 cursor.execute(command_sql,values)
                 mysql_resultado = cursor.fetchall()
 
@@ -45,10 +44,6 @@ def ValidarAcesso(request):
                 cod_funcao_pessoa = mysql_resultado[0][3]               # Referente à coluna Pessoa.cod_Papel_pessoa_id
                 cod_rfid = mysql_resultado[0][4]                        # Referente à coluna Pessoa.cod_Rfid_id
 
-                print(mysql_resultado[0][0])
-                print(mysql_resultado[0][4])
-                print(mysql_resultado[0][3])
-
                 result = CadastroHistoricoAcesso(cod_pessoa, cod_rfid, cod_funcao_pessoa)
                 return JsonResponse({"Status" : result})
             else:
@@ -56,7 +51,7 @@ def ValidarAcesso(request):
                     return JsonResponse({"Status" : "rfid_unidentified"})
                 else:
                     return JsonResponse({"Status" : "rfid_not_found"})
-                    
+
         return render(request, 'no_acess.html', {'title': 'Acesso Negado', 'mensagem':'Você não possui autorização para acessar esta página'})
     return render(request, 'no_acess.html', {'title': 'Acesso Negado', 'mensagem':'Você não possui autorização para acessar esta página'})
 
@@ -117,7 +112,6 @@ def CadastroHistoricoAcesso(cod_pessoa,cod_rfid,cod_funcao_pessoa):
 def conexao():
 
     dados = lerJSON()
-    print("Tentar Conexao")
     try:
         conexao_mysql = mysql.connect(
             host= dados['host'],
@@ -129,15 +123,12 @@ def conexao():
     except Exception as ex:
         print(ex)
 
-    print("Fez a conexao")
-    print("Fazer o cursor")
     cursor = conexao_mysql.cursor()
-    print("Fazer o cursor e vai retornar a info :)")
     return cursor,conexao_mysql
 
 def lerJSON():
-    print("Tentar ler JSON")
-    with open("controle_ifto/dados_conexao.json",encoding='utf-8') as atributo_conexao:
-        dados = json.load(atributo_conexao)
-    print("Leu JSON")
-    return dados
+    try:
+        with open("controle_ifto/dados_conexao.json",encoding='utf-8') as atributo_conexao:
+            return json.load(atributo_conexao)
+    except:
+        print("O arquivo JSON de configuração não foi encontrado. Por favor verficar se o arquivo existe")

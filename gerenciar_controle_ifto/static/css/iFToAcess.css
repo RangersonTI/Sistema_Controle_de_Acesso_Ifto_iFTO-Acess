@@ -79,9 +79,6 @@ hr{
 
 /*      Botão "Salvar" em Cadastros e Edicao    */
 
-form button{
-    text-align: center !important;
-}
 
 #botao_salvar{
     font-size: 20px !important;
@@ -129,6 +126,16 @@ form button{
 
 #botao_buscar{
     background-color: #3571b6;
+    margin-left: 5px;
+}
+
+#botao_ler_rfid_buscar{
+    background-color: #EB3232;
+    margin-left: 5px;
+}
+
+#div_id_busca_data{
+    margin-right: 15px;
 }
 
 /*      Menu de usuario em NAV-BAR    */

@@ -16,7 +16,8 @@ def vincularRfid(request, id):
         form = VincularPessoaRfid(request.POST)
 
         if form.is_valid():
-            cod_rfid = form.cleaned_data['rfid_a_vincular']
+            a_vincular = form.cleaned_data['rfid_a_vincular']
+            cod_rfid = Rfid.objects.get(tag_rfid_value=a_vincular,vinculado=False)
             pessoa.cod_Rfid = cod_rfid
             pessoa.vinculado = True
             pessoa.save()
@@ -36,9 +37,9 @@ def vincularRfid(request, id):
 
     form = VincularPessoaRfid(
         initial = {
-            'pessoa' : ''+pessoa.nome+' '+pessoa.sobrenome+' '+'('+str(pessoa.id)+')'
-        },
-        codCargoID = pessoa.cod_Papel_pessoa.id
+            'id' : id,
+            'pessoa' : ''+pessoa.nome+' '+pessoa.sobrenome
+        }
     )
     context = {
         'form' : form,

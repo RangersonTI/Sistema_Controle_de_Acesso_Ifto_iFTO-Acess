@@ -25,7 +25,6 @@ class CadastrarCorRfidForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.form_class= 'form-horizontal'
         self.helper.label_class = 'col-lg-2'
-        self.helper.field_class = 'zz'
         self.helper.layout = Layout(
             'corRFID',
             'cod_cargo',
@@ -106,14 +105,14 @@ class BuscarCorRfidForm(forms.Form):
         super(BuscarCorRfidForm, self).__init__(*args, **kwargs)
 
         self.fields['campo'].widget.attrs = {
-            'placeholder' : 'Informe a Cor ou Cargo',
+            'placeholder' : 'Busque por Cor ou Cargo',
         }
 
         self.helper = FormHelper(self)
         self.helper.form_class = 'form-inline'
         self.helper.label_class = 'sr-only'
+        self.helper.field_class = 'form-group mb-2'
         self.helper.layout = Layout(
             'campo',
-
             Submit('submit', 'Buscar', css_id='botao_buscar', css_class='btn btn-primary mb-2')
         )

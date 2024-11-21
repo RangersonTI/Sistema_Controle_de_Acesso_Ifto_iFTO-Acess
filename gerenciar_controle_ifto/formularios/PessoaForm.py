@@ -176,37 +176,65 @@ class EditarPessoaForm(forms.Form):
                     self.add_error('cpf', "CPF informado é invalido")
 
 class VincularPessoaRfid(forms.Form):
-    pessoa= forms.CharField(label="Pessoa:", disabled=True, required=False)
-    rfid_a_vincular = forms.ModelChoiceField(queryset=Rfid.objects.all(),label="RFID:")
+    id = forms.IntegerField(label="ID Pessoa:", required=False)
+    pessoa= forms.CharField(label="Pessoa:", required=False)
+    rfid_a_vincular = forms.CharField(label="RFID:")
 
-    def __init__(self, *args, codCargoID = None ,**kwargs):
+    def __init__(self, *args, **kwargs):
         super(VincularPessoaRfid, self).__init__(*args, **kwargs)
+        
+        self.fields['id'].widget.attrs = {
+            'readonly' : True
+        }
+
+        self.fields['pessoa'].widget.attrs = {
+            'readonly' : 'True',
+        }
+        
+        self.fields['rfid_a_vincular'].widget.attrs = {
+            'id' : 'rfid_a_vincular',
+            'readonly' : 'True',
+            'placeholder' : 'Clique em "Ler Rfid" para ler a Tag'
+        }
 
         self.helper = FormHelper(self)
         self.helper.form_class= 'form-horizontal'
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-8'
         self.helper.layout = Layout(
+            'id',
             'pessoa',
             'rfid_a_vincular',
 
             HTML("""<a href="{% url "visualizar_pessoa" %}">
                         <button type='button' class="btn btn-primary", id="botao_voltar">Voltar</button>
-                    </a>"""),
+                    </a>
+                    <button type='button' class="btn btn-danger", onclick="leitura_rfid_vinculacao()", id="botao_ler_rfid">Ler RFID</button>
+                    """),
             Submit('submit', 'Salvar', css_id='botao_salvar', css_class='btn btn-success'),
         )
 
-        if codCargoID is not None:
-            rfid = Rfid.objects.filter(cod_corRFID_funcao_id=CorRFID_Funcao.objects.get(cod_cargo_id=codCargoID), vinculado=False)
-            self.fields['rfid_a_vincular'].queryset = rfid
-
 
     def clean(self):
+        id_pessoa = self.cleaned_data['id']
         rfid_a_vincular = self.cleaned_data['rfid_a_vincular']
 
-        if rfid_a_vincular == None:
-            self.add_error('rfid_a_vincular',"Selecione um RFID para vincular")
+        if rfid_a_vincular == "" or rfid_a_vincular=="Nenhum card" or rfid_a_vincular=="undefined":
+            self.add_error('rfid_a_vincular', "O leitor não identificou a informação da Tag. Favor, tentar novamente.")
+
+        try:
+            a_vincular = Rfid.objects.filter(tag_rfid_value=rfid_a_vincular).first()
             
+            if a_vincular.vinculado:
+                self.add_error('rfid_a_vincular', "A Tag-Rfid informada já foi vinculado à uma pessoa")
+            else:
+                pessoa = Pessoa.objects.get(id=id_pessoa)
+                
+                if not(a_vincular.cod_corRFID_funcao.cod_cargo.id == pessoa.cod_Papel_pessoa.id):
+                    self.add_error('rfid_a_vincular', "A Tag-Rfid informada não pertence a mesma função da pessoa ")
+        except:
+            self.add_error('rfid_a_vincular', "A Tag-Rfid informada não foi encontrada. Favor, cadastra-la no sistema.")
+
 class BuscarPessoaForm(forms.Form):
     campo = forms.CharField(required=False, label="", max_length=50)
 
@@ -214,14 +242,14 @@ class BuscarPessoaForm(forms.Form):
         super(BuscarPessoaForm, self).__init__(*args, **kwargs)
 
         self.fields['campo'].widget.attrs = {
-            'placeholder' : 'Informe um Nome ou CPF',
+            'placeholder' : 'Busque por Nome ou CPF',
         }
 
         self.helper = FormHelper(self)
         self.helper.form_class = 'form-inline'
         self.helper.label_class = 'sr-only'
+        self.helper.field_class = 'form-group mb-2'
         self.helper.layout = Layout(
             'campo',
-
             Submit('submit', 'Buscar', css_id='botao_buscar', css_class='btn btn-primary mb-2')
         )

@@ -87,14 +87,14 @@ class BuscarFuncaoForm(forms.Form):
         super(BuscarFuncaoForm, self).__init__(*args, **kwargs)
 
         self.fields['campo'].widget.attrs = {
-            'placeholder' : 'Informe a função',
+            'placeholder' : 'Busque por Função',
         }
 
         self.helper = FormHelper(self)
         self.helper.form_class = 'form-inline'
         self.helper.label_class = 'sr-only'
+        self.helper.field_class = 'form-group mb-2'
         self.helper.layout = Layout(
             'campo',
-
             Submit('submit', 'Buscar', css_id='botao_buscar', css_class='btn btn-primary mb-2')
         )

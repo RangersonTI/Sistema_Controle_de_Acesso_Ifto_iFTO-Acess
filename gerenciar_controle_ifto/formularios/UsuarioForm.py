@@ -90,8 +90,8 @@ class BuscarUsuarioForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.form_class = 'form-inline'
         self.helper.label_class = 'sr-only'
+        self.helper.field_class = 'form-group mb-2'
         self.helper.layout = Layout(
             'campo',
-
             Submit('submit', 'Buscar', css_id='botao_buscar', css_class='btn btn-primary mb-2')
         )

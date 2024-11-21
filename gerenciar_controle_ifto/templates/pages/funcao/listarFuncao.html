@@ -5,10 +5,8 @@
 <div id="alinhar_listagens">
     <h1 id="h1_title">Listagem de Funcão</h1>
     <hr/>
-    <form method="POST">
-        {% csrf_token %}
-        {% crispy form %}
-    </form>
+    {% csrf_token %}
+    {% crispy form %}
     <hr/>
     
 
