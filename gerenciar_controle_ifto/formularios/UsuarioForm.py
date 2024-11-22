@@ -84,7 +84,8 @@ class BuscarUsuarioForm(forms.Form):
         super(BuscarUsuarioForm, self).__init__(*args, **kwargs)
 
         self.fields['campo'].widget.attrs = {
-            'placeholder' : 'Insira a TagRfid',
+            'placeholder' : 'Busque por Nome, Sobrenome, email, usuario ou Ativo/N.Ativo',
+            'title' : 'Busque por Nome, Sobrenome, email, usuario ou Ativo(%at)/N.Ativo(%nat)'
         }
 
         self.helper = FormHelper(self)

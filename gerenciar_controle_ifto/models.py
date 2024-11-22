@@ -47,13 +47,6 @@ class Pessoa(models.Model):
     def __str__(self):
         return self.nome, self.sobrenome
 
-class Usuario_sistema(models.Model):
-    cod_pessoa = models.OneToOneField(Pessoa, on_delete=models.PROTECT)
-    nome_de_usuario = models.CharField(max_length=20)
-    usuario = models.CharField(max_length=15)
-    senha = models.CharField(max_length=30)
-    data_criacao = models.DateTimeField(auto_now_add=True,editable=False)
-    
 class Historico_acesso_campus(models.Model):
     cod_rfid = models.ForeignKey(Rfid, on_delete=models.PROTECT)
     cod_pessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT)

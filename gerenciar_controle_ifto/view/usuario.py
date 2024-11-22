@@ -2,7 +2,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from gerenciar_controle_ifto.formularios.UsuarioForm import *
-from gerenciar_controle_ifto.models import Usuario_sistema
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 
@@ -85,9 +84,9 @@ def listarUsuario(request):
                         usuarios = User.objects.filter(username__icontains=campo)
 
                     if len(usuarios) <=0:
-                        if campo.upper() == "%S":
+                        if campo.lower() == "%at":
                             usuarios = User.objects.filter(is_active=True)
-                        if campo.upper() == "%N":
+                        if campo.lower() == "%nat":
                             usuarios = User.objects.filter(is_active=False)
 
                     context = {

@@ -145,14 +145,17 @@ def listarRFID(request):
             rfids = Rfid.objects.filter(tag_rfid_value__icontains=campo.upper())
 
             if len(rfids) <=0:
-                if campo.upper() == "%S":
+                if campo.lower() == "%at":
                     rfids = Rfid.objects.filter(ativo=True)
-                if campo.upper() == "%N":
+
+                if campo.lower() == "%nat":
                     rfids = Rfid.objects.filter(ativo=False)
 
-            if len(rfids) <=0:
                 if campo.lower() == "%disp":
                     rfids = Rfid.objects.filter(vinculado=False,ativo=True)
+
+                if campo.lower() == "%ndisp":
+                    rfids = Rfid.objects.filter(vinculado=True,ativo=True)
 
 
             rfids = converterData(rfids)
