@@ -44,7 +44,7 @@ def cadastrarCorRfid(request):
             'form' : form,
             'title' : 'Cadastro de Cor-Rfid',
             'usuario_staff_atual':request.user.is_staff,
-            'nome_usuario_logado' : 'Rangerson'
+            'nome_usuario_logado' : nome_usuario
         }
     return render(request,'pages/corRfid/editarCorRfid.html', context)
     

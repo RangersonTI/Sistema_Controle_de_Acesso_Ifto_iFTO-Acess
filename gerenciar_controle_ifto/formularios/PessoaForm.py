@@ -233,7 +233,8 @@ class VincularPessoaRfid(forms.Form):
                 if not(a_vincular.cod_corRFID_funcao.cod_cargo.id == pessoa.cod_Papel_pessoa.id):
                     self.add_error('rfid_a_vincular', "A Tag-Rfid informada não pertence a mesma função da pessoa ")
         except:
-            self.add_error('rfid_a_vincular', "A Tag-Rfid informada não foi encontrada. Favor, cadastra-la no sistema.")
+            if not(rfid_a_vincular == "" or rfid_a_vincular=="Nenhum card" or rfid_a_vincular=="undefined"):
+                self.add_error('rfid_a_vincular', "A Tag-Rfid informada não foi encontrada. Favor, cadastra-la no sistema.")
 
 class BuscarPessoaForm(forms.Form):
     campo = forms.CharField(required=False, label="", max_length=50)

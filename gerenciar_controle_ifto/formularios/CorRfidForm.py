@@ -105,7 +105,8 @@ class BuscarCorRfidForm(forms.Form):
         super(BuscarCorRfidForm, self).__init__(*args, **kwargs)
 
         self.fields['campo'].widget.attrs = {
-            'placeholder' : 'Busque por Cor ou Cargo',
+            'placeholder' : 'Busque por Cor ou Função',
+            'title' : 'Busque por Cor ou Função',
         }
 
         self.helper = FormHelper(self)

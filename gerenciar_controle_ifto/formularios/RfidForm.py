@@ -160,8 +160,8 @@ class BuscarRfidForm(forms.Form):
 
         self.fields['campo'].widget.attrs = {
             'id' : 'campo',
-            'placeholder' : 'Busque por TagRfid ou Função',
-            'title' : 'Busque por TagRfid ou Função',
+            'placeholder' : 'Busque por TagRfid, Ativo(%at)/N.Ativo(%nat) ou Disponível(%disp)/N.Disponível(%ndisp)',
+            'title' : 'Busque por TagRfid, Ativo(%at)/N.Ativo(%nat) ou Disponível(%disp)/ N.Disponível(%ndisp)',
         }
 
         self.helper = FormHelper(self)

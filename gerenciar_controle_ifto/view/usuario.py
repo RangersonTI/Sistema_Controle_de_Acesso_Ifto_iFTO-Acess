@@ -65,7 +65,7 @@ def listarUsuario(request):
 
                         context = {
                             'usuarios':usuarios,
-                            'title' : 'Edição de Usuario',
+                            'title' : 'Listagem de Usuario',
                             'form': form,
                             'usuario_staff_atual':request.user.is_staff,
                             'nome_usuario_logado' : nome_usuario
@@ -91,7 +91,7 @@ def listarUsuario(request):
 
                     context = {
                         'usuarios':usuarios,
-                        'title' : 'Edição de Usuario',
+                        'title' : 'Listagem de Usuario',
                         'form': form,
                         'usuario_staff_atual':request.user.is_staff,
                         'nome_usuario_logado' : nome_usuario
@@ -104,7 +104,7 @@ def listarUsuario(request):
 
             context = {
                 'usuarios':usuarios,
-                'title' : 'Edição de Usuario',
+                'title' : 'Listagem de Usuario',
                 'form': form,
                 'usuario_staff_atual':request.user.is_staff,
                 'nome_usuario_logado' : nome_usuario
