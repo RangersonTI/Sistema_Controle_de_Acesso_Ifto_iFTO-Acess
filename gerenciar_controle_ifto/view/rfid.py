@@ -142,7 +142,7 @@ def listarRFID(request):
 
             # Aqui fazer a filtragem pelo RFID, Função, Ativo/Não Ativo ou Disponível/Não disponível
 
-            
+
             rfids = Rfid.objects.filter(tag_rfid_value__icontains=campo.upper())
 
             if len(rfids) <=0:
