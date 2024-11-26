@@ -22,7 +22,7 @@ def cadastrarFuncao(request):
         
         context = {
         'form' : form,
-        'title' : 'Cadastro de Funcao',
+        'title' : 'Cadastro de Função',
         'usuario_staff_atual':request.user.is_staff,
         'nome_usuario_logado' : nome_usuario
         }
@@ -33,7 +33,7 @@ def cadastrarFuncao(request):
 
     context = {
         'form' : form,
-        'title' : 'Cadastro de Funcao',
+        'title' : 'Cadastro de Função',
         'usuario_staff_atual':request.user.is_staff,
         'nome_usuario_logado' : nome_usuario
     }
@@ -60,7 +60,7 @@ def editarFuncao(request, id):
         context = {
         'form' : form,
         'funcao' : funcao,
-        'title' : 'Edicão de Funcao',
+        'title' : 'Edicão de Função',
         'usuario_staff_atual':request.user.is_staff,
         'nome_usuario_logado' : nome_usuario
         }
@@ -77,7 +77,7 @@ def editarFuncao(request, id):
     context = {
         'form' : form,
         'funcao' : funcao,
-        'title' : 'Edicão de Funcao',
+        'title' : 'Edicão de Função',
         'usuario_staff_atual':request.user.is_staff,
         'nome_usuario_logado' : nome_usuario
     }
