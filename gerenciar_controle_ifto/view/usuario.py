@@ -13,7 +13,7 @@ def cadastrarUsuario(request):
             nome_usuario = request.user.first_name
 
             if request.method == 'POST':
-                form = UsuarioForm(request.POST)
+                form = CadastrarUsuarioForm(request.POST)
 
                 if form.is_valid():
                 #cod_pessoa = form.cleaned_data['cod_pessoa']
@@ -33,10 +33,19 @@ def cadastrarUsuario(request):
                                                         )
                     usuario.save()
                     return HttpResponseRedirect('/iftoAcess/listar/usuario/')
-            form = UsuarioForm()
+                
+                context = {
+                    'form':form,
+                    'title' : 'Cadastro de Usuario',
+                    'usuario_staff_atual':request.user.is_staff,
+                    'nome_usuario_logado' : nome_usuario
+                }
+                return render(request, 'pages/usuario/cadastrarUsuario.html', context)
+                
+            form = CadastrarUsuarioForm()
             context = {
                 'form':form,
-                'title' : 'Cadastro de Usuario',
+                'title' : 'Cadastro de Usuário',
                 'usuario_staff_atual':request.user.is_staff,
                 'nome_usuario_logado' : nome_usuario
             }
@@ -118,7 +127,7 @@ def listarUsuario(request):
 def editarUsuario(request, id):
     
     if request.user.is_authenticated:
-                
+
         if (request.user.is_staff and request.user.is_active):
             nome_usuario = request.user.first_name
     
@@ -128,10 +137,9 @@ def editarUsuario(request, id):
                 return HttpResponseRedirect('/iftoAcess/listar/usuario/')
             
             if request.method == 'POST':
-                form = UsuarioForm(request.POST)
+                form = EditarUsuarioForm(request.POST)
 
                 if form.is_valid():
-                #cod_pessoa = form.cleaned_data['cod_pessoa']
                     usuario.first_name= (form.cleaned_data['nome'])
                     usuario.last_name = form.cleaned_data['sobrenome']
                     usuario.email = form.cleaned_data['email']
@@ -141,18 +149,19 @@ def editarUsuario(request, id):
                     usuario.is_active = form.cleaned_data['ativo']
                     usuario.save()
                     return HttpResponseRedirect('/iftoAcess/listar/usuario/')
-                
+
                 context = {
                     'form':form,
-                    'title' : 'Edicao de Usuario',
+                    'title' : 'Edicão de Usuario',
                     'usuario_staff_atual':request.user.is_staff,
                     'nome_usuario_logado' : nome_usuario
                 }
 
                 return render(request, 'pages/usuario/editarUsuario.html', context)
 
-            form = UsuarioForm(
+            form = EditarUsuarioForm(
                 initial = {
+                    'id':usuario.id,
                     'usuario':usuario.username.lower(),
                     'senha':usuario.password,
                     'email':usuario.email,
@@ -165,7 +174,7 @@ def editarUsuario(request, id):
             
             context = {
                 'form':form,
-                'title' : 'Edicao de Usuario',
+                'title' : 'Edicão de Usuario',
                 'usuario_staff_atual':request.user.is_staff,
                 'nome_usuario_logado' : nome_usuario
             }
