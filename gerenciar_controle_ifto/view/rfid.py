@@ -38,7 +38,7 @@ def cadastrarRFID(request):
 
         context = {
             'form' : form,
-            'title' : 'Edição de Tag-Rfid',
+            'title' : 'Cadastro de Tag-Rfid',
             'usuario_staff_atual':request.user.is_staff,
             'nome_usuario_logado' : nome_usuario
         }

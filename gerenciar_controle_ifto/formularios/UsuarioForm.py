@@ -62,7 +62,7 @@ class CadastrarUsuarioForm(forms.Form):
         if usuario_exist:
             self.add_error('usuario',"O usuário informado já foi utilizado em outro usuário")
             
-        if len(senha) <=0:
+        if len(senha) <=0 or len(senha)>=0:
             pass
         else:
             self.add_error('senha',"A 'senha' deverá ter pelo menos 8 caracteres")
