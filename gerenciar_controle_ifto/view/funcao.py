@@ -4,7 +4,7 @@ from gerenciar_controle_ifto.models import Papel_pessoa
 from gerenciar_controle_ifto.formularios.FuncaoForm import *
 from django.contrib.auth.decorators import login_required
 
-@login_required(login_url='/iftoAcess/login/')
+@login_required(login_url='/iftoAccess/login/')
 def cadastrarFuncao(request):
     
     if request.user.is_authenticated:
@@ -18,7 +18,7 @@ def cadastrarFuncao(request):
                               vinculado_corRfid = False
                               )
             funcao.save()
-            return HttpResponseRedirect('/iftoAcess/listar/funcao')
+            return HttpResponseRedirect('/iftoAccess/listar/funcao')
         
         context = {
         'form' : form,
@@ -41,7 +41,7 @@ def cadastrarFuncao(request):
     return render(request, 'pages/funcao/editarFuncao.html', context)
 
 
-@login_required(login_url='/iftoAcess/login/')
+@login_required(login_url='/iftoAccess/login/')
 def editarFuncao(request, id):
     
     if request.user.is_authenticated:
@@ -55,7 +55,7 @@ def editarFuncao(request, id):
         if form.is_valid():
             funcao.descricao = form.cleaned_data['funcao']
             funcao.save()
-            return HttpResponseRedirect('/iftoAcess/listar/funcao')
+            return HttpResponseRedirect('/iftoAccess/listar/funcao')
 
         context = {
         'form' : form,
@@ -84,7 +84,7 @@ def editarFuncao(request, id):
 
     return render(request, 'pages/funcao/editarFuncao.html', context)
 
-@login_required(login_url='/iftoAcess/login/')
+@login_required(login_url='/iftoAccess/login/')
 def listarFuncao(request):
     
     if request.user.is_authenticated:

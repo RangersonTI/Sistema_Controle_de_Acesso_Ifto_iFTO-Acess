@@ -4,7 +4,7 @@ from gerenciar_controle_ifto.models import CorRFID_Funcao, Papel_pessoa
 from gerenciar_controle_ifto.formularios.CorRfidForm import *
 from django.contrib.auth.decorators import login_required
 
-@login_required(login_url='/iftoAcess/login/')
+@login_required(login_url='/iftoAccess/login/')
 def cadastrarCorRfid(request):
     
     if request.user.is_authenticated:
@@ -27,7 +27,7 @@ def cadastrarCorRfid(request):
 
             # Neste trecho de codigo ser'a executado, caso venha ser feito a alteracao de funcao relacionado a cor
             # na qual sera realizado a alteracao do status de 'vinculado_corRfid'
-            return HttpResponseRedirect('/iftoAcess/listar/corRfid/')
+            return HttpResponseRedirect('/iftoAccess/listar/corRfid/')
 
         context = {
             'form' : form,
@@ -50,7 +50,7 @@ def cadastrarCorRfid(request):
     
 
         
-@login_required(login_url='/iftoAcess/login/')
+@login_required(login_url='/iftoAccess/login/')
 def listarCorRfid(request):
 
     if request.user.is_authenticated:
@@ -103,7 +103,7 @@ def listarCorRfid(request):
 
     return render(request, "pages/corRfid/listarCorRfid.html", context)
 
-@login_required(login_url='/iftoAcess/login/')
+@login_required(login_url='/iftoAccess/login/')
 def editarCorRfid(request, id):
 
     if request.user.is_authenticated:
@@ -134,7 +134,7 @@ def editarCorRfid(request, id):
                 edit_funcao_atual.save()
 
             corRfid_funcao.save()
-            return HttpResponseRedirect('/iftoAcess/listar/corRfid/')
+            return HttpResponseRedirect('/iftoAccess/listar/corRfid/')
 
         context = {
             'form' : form,

@@ -20,7 +20,7 @@ from django.urls import path, include
 
 urlpatterns = [
     #path('', include('gerenciar_controle_ifto.urls')),
-    path('iftoAcess/', include('gerenciar_controle_ifto.urls')),
-    path('admin/', admin.site.urls),
+    path('iftoAccess/', include('gerenciar_controle_ifto.urls')),
+    #path('admin/', admin.site.urls),
     path('leitor/', include('controle_ifto.urls')),
 ]

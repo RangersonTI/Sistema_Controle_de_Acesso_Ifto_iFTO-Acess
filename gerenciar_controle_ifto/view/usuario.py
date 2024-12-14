@@ -5,7 +5,7 @@ from gerenciar_controle_ifto.formularios.UsuarioForm import *
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 
-@login_required(login_url='/iftoAcess/login/')
+@login_required(login_url='/iftoAccess/login/')
 def cadastrarUsuario(request):
 
     if request.user.is_authenticated:
@@ -16,7 +16,6 @@ def cadastrarUsuario(request):
                 form = CadastrarUsuarioForm(request.POST)
 
                 if form.is_valid():
-                #cod_pessoa = form.cleaned_data['cod_pessoa']
                     nome = form.cleaned_data['nome']
                     sobrenome = form.cleaned_data['sobrenome']
                     email = form.cleaned_data['email']
@@ -32,7 +31,7 @@ def cadastrarUsuario(request):
                                                     is_active=ativo
                                                         )
                     usuario.save()
-                    return HttpResponseRedirect('/iftoAcess/listar/usuario/')
+                    return HttpResponseRedirect('/iftoAccess/listar/usuario/')
                 
                 context = {
                     'form':form,
@@ -52,11 +51,11 @@ def cadastrarUsuario(request):
 
             return render(request, 'pages/usuario/cadastrarUsuario.html', context)
 
-        return HttpResponseRedirect('/iftoAcess/')
+        return HttpResponseRedirect('/iftoAccess/')
 
     
 
-@login_required(login_url='/iftoAcess/login/')
+@login_required(login_url='/iftoAccess/login/')
 def listarUsuario(request):
 
     if request.user.is_authenticated:
@@ -121,9 +120,9 @@ def listarUsuario(request):
             
             return render(request, 'pages/usuario/listarUsuario.html', context)
         
-        return HttpResponseRedirect('/iftoAcess/')
+        return HttpResponseRedirect('/iftoAccess/')
 
-@login_required(login_url='/iftoAcess/login/')
+@login_required(login_url='/iftoAccess/login/')
 def editarUsuario(request, id):
     
     if request.user.is_authenticated:
@@ -134,7 +133,7 @@ def editarUsuario(request, id):
             usuario = get_object_or_404(User,id=id)
             
             if not(usuario.is_active):
-                return HttpResponseRedirect('/iftoAcess/listar/usuario/')
+                return HttpResponseRedirect('/iftoAccess/listar/usuario/')
             
             if request.method == 'POST':
                 form = EditarUsuarioForm(request.POST)
@@ -148,7 +147,7 @@ def editarUsuario(request, id):
                         usuario.set_password(form.cleaned_data['senha'])
                     usuario.is_active = form.cleaned_data['ativo']
                     usuario.save()
-                    return HttpResponseRedirect('/iftoAcess/listar/usuario/')
+                    return HttpResponseRedirect('/iftoAccess/listar/usuario/')
 
                 context = {
                     'form':form,
@@ -181,4 +180,4 @@ def editarUsuario(request, id):
             
             return render(request, 'pages/usuario/cadastrarUsuario.html', context)
         
-        return HttpResponseRedirect('/iftoAcess/')
+        return HttpResponseRedirect('/iftoAccess/')

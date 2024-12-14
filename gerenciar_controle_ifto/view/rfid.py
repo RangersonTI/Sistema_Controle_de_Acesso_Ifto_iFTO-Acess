@@ -14,7 +14,7 @@ def converterData(rfids):
 
     return rfids
 
-@login_required(login_url='/iftoAcess/login/')
+@login_required(login_url='/iftoAccess/login/')
 def cadastrarRFID(request):
 
     if request.user.is_authenticated:
@@ -34,7 +34,7 @@ def cadastrarRFID(request):
                     )
 
             rfid.save()
-            return HttpResponseRedirect('/iftoAcess/listar/tagRfid/')
+            return HttpResponseRedirect('/iftoAccess/listar/tagRfid/')
 
         context = {
             'form' : form,
@@ -58,13 +58,13 @@ def cadastrarRFID(request):
 
     return render(request, 'pages/rfid/cadastrarRfid.html', context)
 
-@login_required(login_url='/iftoAcess/login/')
+@login_required(login_url='/iftoAccess/login/')
 def editarRFID(request, id):
     
     rfid = get_object_or_404(Rfid, id=id)
 
     if rfid.vinculado:
-        return HttpResponseRedirect('/iftoAcess/listar/tagRfid/')
+        return HttpResponseRedirect('/iftoAccess/listar/tagRfid/')
 
     if request.user.is_authenticated:
         nome_usuario = request.user.first_name
@@ -80,7 +80,7 @@ def editarRFID(request, id):
             if not(rfid.ativo):
                 rfid.motivo_desativacao = form.cleaned_data['motivo_desativacao']
             rfid.save()
-            return HttpResponseRedirect('/iftoAcess/listar/tagRfid/')
+            return HttpResponseRedirect('/iftoAccess/listar/tagRfid/')
 
         context = {
             'form' : form,
@@ -113,7 +113,7 @@ def editarRFID(request, id):
 
     return render(request, 'pages/rfid/editarRfid.html', context)
 
-@login_required(login_url='/iftoAcess/login/')
+@login_required(login_url='/iftoAccess/login/')
 def listarRFID(request):
 
     if request.user.is_authenticated:

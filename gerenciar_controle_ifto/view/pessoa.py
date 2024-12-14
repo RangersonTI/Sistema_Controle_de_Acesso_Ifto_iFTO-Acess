@@ -43,7 +43,7 @@ def calcularIdade(data_nascimento):
         else:
             return idade-1
 
-@login_required(login_url='/iftoAcess/login/')
+@login_required(login_url='/iftoAccess/login/')
 def cadastrarPessoa(request):
     
     if request.user.is_authenticated:
@@ -64,7 +64,7 @@ def cadastrarPessoa(request):
                         )
             pessoa.save()
 
-            return HttpResponseRedirect('/iftoAcess/listar/pessoa/')
+            return HttpResponseRedirect('/iftoAccess/listar/pessoa/')
 
         context = {
             'form' : form,
@@ -85,7 +85,7 @@ def cadastrarPessoa(request):
     return render(request, 'pages/pessoa/cadastrarPessoa.html', context)
 
 
-@login_required(login_url='/iftoAcess/login/')
+@login_required(login_url='/iftoAccess/login/')
 def listarPessoa(request):
 
     if request.user.is_authenticated:
@@ -145,7 +145,7 @@ def listarPessoa(request):
     }
     return render(request, 'pages/pessoa/listarPessoa.html', context)
 
-@login_required(login_url='/iftoAcess/login/')
+@login_required(login_url='/iftoAccess/login/')
 def editarPessoa(request, id):
 
     if request.user.is_authenticated:
@@ -165,7 +165,7 @@ def editarPessoa(request, id):
                 pessoa.cod_Papel_pessoa = form.cleaned_data['cod_Papel_pessoa']
             pessoa.save()
 
-            return HttpResponseRedirect('/iftoAcess/listar/pessoa/')
+            return HttpResponseRedirect('/iftoAccess/listar/pessoa/')
 
         context = {
             'form' : form,

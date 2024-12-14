@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from gerenciar_controle_ifto.models import Historico_acesso_campus
 from django.contrib.auth.decorators import login_required
-from gerenciar_controle_ifto.models import Pessoa, Rfid, Papel_pessoa
+from gerenciar_controle_ifto.models import Pessoa
 from gerenciar_controle_ifto.formularios.HistoricoAcessoIfForm import *
 from datetime import datetime
 
@@ -11,7 +11,7 @@ def converterDataHistoricoAcesso(acessos):
 
     return acessos
 
-@login_required(login_url='/iftoAcess/login/')
+@login_required(login_url='/iftoAccess/login/')
 def listarHistoricoAcesso_Ifto(request):
 
     if request.user.is_authenticated:

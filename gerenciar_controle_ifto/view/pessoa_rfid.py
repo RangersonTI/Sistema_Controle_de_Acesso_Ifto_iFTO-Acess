@@ -4,7 +4,7 @@ from gerenciar_controle_ifto.models import Rfid, Pessoa
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 
-@login_required(login_url='/iftoAcess/login/')
+@login_required(login_url='/iftoAccess/login/')
 def vincularRfid(request, id):
     
     if request.user.is_authenticated:
@@ -25,7 +25,7 @@ def vincularRfid(request, id):
             rfid = get_object_or_404(Rfid,id=cod_rfid.id)
             rfid.vinculado = True
             rfid.save()
-            return HttpResponseRedirect('/iftoAcess/listar/pessoa/')
+            return HttpResponseRedirect('/iftoAccess/listar/pessoa/')
 
         context = {
             'form' : form,
@@ -50,7 +50,7 @@ def vincularRfid(request, id):
     
     return render(request, 'pages/vincular_pessoa_rfid/vincularPessoaRfid.html', context)
 
-@login_required(login_url='/iftoAcess/login/')
+@login_required(login_url='/iftoAccess/login/')
 def desvincularRfid(request, id):
     
     if request.user.is_authenticated:
@@ -67,4 +67,4 @@ def desvincularRfid(request, id):
     rfid.vinculado = False
     rfid.save()
 
-    return HttpResponseRedirect('/iftoAcess/listar/pessoa/')
+    return HttpResponseRedirect('/iftoAccess/listar/pessoa/')

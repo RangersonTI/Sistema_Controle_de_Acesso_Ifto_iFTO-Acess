@@ -22,7 +22,7 @@ def login_user(request):
                 login(request,user_authenticate)
                 usuario = form.cleaned_data['usuario']
 
-                return HttpResponseRedirect('/iftoAcess/')
+                return HttpResponseRedirect('/iftoAccess/')
 
         context = {
             'form':form,
@@ -44,7 +44,7 @@ def login_user(request):
 
     return render(request, 'pages/login/login.html', context)
 
-@login_required(login_url='/iftoAcess/login/')
+@login_required(login_url='/iftoAccess/login/')
 def logout_user(request):
     logout(request)
-    return HttpResponseRedirect('/iftoAcess/login/')
+    return HttpResponseRedirect('/iftoAccess/login/')
